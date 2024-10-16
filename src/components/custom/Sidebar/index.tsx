@@ -84,6 +84,16 @@ const Sidebar = ({sidebarOpen, setSidebarOpen, toggleModal}: SidebarProps) => {
                                         />
                                     </BlurFade>
                                 ))}
+                                {admin_role === 'ROLE_MASTER' && user.map((side, idx) => (
+                                    <BlurFade duration={idx / 10 + .3} delay={idx / 9}>
+                                        <MenuItem
+                                            title={side.title}
+                                            icon={side.icon}
+                                            pathname={location.pathname}
+                                            to={side.path}
+                                        />
+                                    </BlurFade>
+                                ))}
                                 {admin_role === 'ROLE_SECTOR' && user.map((side, idx) => (
                                     <BlurFade duration={idx / 10 + .3} delay={idx / 9}>
                                         <MenuItem
