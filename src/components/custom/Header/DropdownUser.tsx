@@ -6,9 +6,11 @@ const DropdownUser = () => {
     const admin_role = sessionStorage.getItem('admin_roles');
 
     const roles = (role: string) => {
-        if (role === 'ADMIN_EDU') return 'Education admin'
-        else if (role === 'ADMIN_QUIZ') return 'Quiz test admin'
-        else if (role === 'ADMIN_ONLINE') return 'Online platform admin'
+        if (role === 'ROLE_MASTER') return 'user'
+        else if (role === 'ROLE_ADMIN') return 'super admin'
+        else if (role === 'ROLE_THOKIM') return 'tuman hokimi'
+        else if (role === 'ROLE_VHOKIM') return 'viloyat hokimi'
+        else if (role === 'ROLE_SECTOR') return 'sector raxbari'
     }
     return (
         <>

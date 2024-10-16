@@ -13,7 +13,7 @@ function App() {
 
     useEffect(() => {
         setConfig()
-        siteSecurity()
+        // siteSecurity()
         window.scrollTo(0, 0);
         const refresh = sessionStorage.getItem('refreshes');
 
@@ -24,13 +24,11 @@ function App() {
 
         if (pathname === '/') {
             if (!tokens) navigate('/auth/login');
-            else if (tokens && !admin_role) navigate('/admin/site-role');
             else if (tokens && admin_role === 'ADMIN_ONLINE') navigate('/online/dashboard');
             else if (tokens && admin_role === 'ADMIN_QUIZ') navigate('/quiz/dashboard');
             else if (tokens && admin_role === 'ADMIN_EDU') navigate('/edu/dashboard');
         }
 
-        if (tokens && !admin_role) navigate('/admin/site-role');
         if (!tokens && !pathname.startsWith('/auth')) navigate('/auth/login');
         if (!tokens && pathname.startsWith('/auth')) sessionStorage.removeItem('refreshes');
 

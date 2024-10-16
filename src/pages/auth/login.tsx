@@ -21,12 +21,32 @@ function Login() {
     );
 
     useEffect(() => {
-        if (response) {
-            if (response.role === 'ROLE_ADMIN') {
-                sessionStorage.setItem('token', response.token)
-                sessionStorage.setItem('admin_roles', response.role)
+        if (response && response.success) {
+            if (response.body === 'ROLE_ADMIN') {
+                sessionStorage.setItem('token', response.message)
+                sessionStorage.setItem('admin_roles', response.body)
                 toast.success('Tizimga muvaffaqiyatli kirdingiz')
-                navigate('/edu/dashboard')
+                navigate('/super-admin/dashboard')
+            } else if (response.body === 'ROLE_MASTER') {
+                sessionStorage.setItem('token', response.message)
+                sessionStorage.setItem('admin_roles', response.body)
+                toast.success('Tizimga muvaffaqiyatli kirdingiz')
+                navigate('/user/dashboard')
+            } else if (response.body === 'ROLE_THOKIM') {
+                sessionStorage.setItem('token', response.message)
+                sessionStorage.setItem('admin_roles', response.body)
+                toast.success('Tizimga muvaffaqiyatli kirdingiz')
+                navigate('/t-hokim/dashboard')
+            } else if (response.body === 'ROLE_VHOKIM') {
+                sessionStorage.setItem('token', response.message)
+                sessionStorage.setItem('admin_roles', response.body)
+                toast.success('Tizimga muvaffaqiyatli kirdingiz')
+                navigate('/v-hokim/dashboard')
+            } else if (response.body === 'ROLE_SECTOR') {
+                sessionStorage.setItem('token', response.message)
+                sessionStorage.setItem('admin_roles', response.body)
+                toast.success('Tizimga muvaffaqiyatli kirdingiz')
+                navigate('/sector/dashboard')
             } else toast.error('Tizimga kirish uchun sizga ruxsat berilmagan')
             consoleClear()
         }

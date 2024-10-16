@@ -1,45 +1,28 @@
 import {LuLayoutDashboard} from "react-icons/lu";
-import {PiChalkboardTeacherBold, PiStudentFill} from "react-icons/pi";
-import {MdOutlineCategory, MdPlayLesson} from "react-icons/md";
+import {PiStudentFill} from "react-icons/pi";
+import {MdOutlineCategory} from "react-icons/md";
 import {SiCoursera, SiTestcafe} from "react-icons/si";
-import {FaLayerGroup} from "react-icons/fa";
 import {IoNotifications} from "react-icons/io5";
 import {IThead} from "@/components/custom/tables/table.tsx";
-import {TbHeartRateMonitor} from "react-icons/tb";
 import {VscFileSubmodule} from "react-icons/vsc";
 import {FaCompress} from "react-icons/fa6";
 
 // ===============SIDEBAR DATA================
 export const sideData = {
-    quizData: [
-        {title: 'Boshqaruv paneli', icon: <LuLayoutDashboard size={20}/>, path: '/quiz/dashboard'},
-        {title: 'Yo\'nalishlar', icon: <MdOutlineCategory size={20}/>, path: '/quiz/category'},
-        {title: 'Test', icon: <SiTestcafe size={20}/>, path: '/quiz/test'},
-        {title: 'Foydalanuvchilar', icon: <PiStudentFill size={20}/>, path: '/quiz/users'},
-        {title: 'Natijalar', icon: <FaCompress size={20}/>, path: '/quiz/result'},
-        {title: 'Bildirishnoma', icon: <IoNotifications size={20}/>, path: '/quiz/notification'},
+    superAdmin: [
+        {title: 'Boshqaruv paneli', icon: <LuLayoutDashboard size={20}/>, path: '/super-admin/dashboard'},
+        {title: 'Foydalanuvchilar', icon: <PiStudentFill size={20}/>, path: '/super-admin/users'},
+        {title: 'Tumanlar', icon: <MdOutlineCategory size={20}/>, path: '/super-admin/category'},
+        {title: 'Mashinalar', icon: <SiTestcafe size={20}/>, path: '/super-admin/test'},
+        {title: 'Fermalar', icon: <FaCompress size={20}/>, path: '/super-admin/result'},
+        {title: 'Hisobotlar', icon: <IoNotifications size={20}/>, path: '/super-admin/notification'},
+        {title: 'Statistika', icon: <IoNotifications size={20}/>, path: '/super-admin/statistics'},
     ],
-    onlineData: [
-        {title: 'Boshqaruv paneli', icon: <LuLayoutDashboard size={20}/>, path: '/online/dashboard'},
-        {title: 'Kurslar', icon: <SiCoursera size={20}/>, path: '/online/course'},
-        {title: 'Module', icon: <VscFileSubmodule size={20}/>, path: '/online/module'},
-        {title: 'Darslar', icon: <MdPlayLesson size={20}/>, path: '/online/lesson'},
-        {title: 'Test', icon: <SiTestcafe size={20}/>, path: '/online/test'},
-        {title: 'Foydalanuvchilar', icon: <PiStudentFill size={20}/>, path: '/online/users'},
-        {title: 'Bildirishnoma', icon: <IoNotifications size={20}/>, path: '/online/notification'},
-    ],
-    eduData: [
-        {title: 'Boshqaruv paneli', icon: <LuLayoutDashboard size={20}/>, path: '/edu/dashboard'},
-        {title: 'Kurslar', icon: <SiCoursera size={20}/>, path: '/edu/course'},
-        {title: 'Module', icon: <VscFileSubmodule size={20}/>, path: '/edu/module'},
-        {title: 'Darslar', icon: <MdPlayLesson size={20}/>, path: '/edu/lesson'},
-        {title: 'O\'qituvchilar', icon: <PiChalkboardTeacherBold size={20}/>, path: '/edu/teacher'},
-        {title: 'Guruhlar', icon: <FaLayerGroup size={20}/>, path: '/edu/group'},
-        {title: 'Foydalanuvchilar', icon: <PiStudentFill size={20}/>, path: '/edu/users'},
-        {title: 'Tasdiqlanishi kerak bulganlar', icon: <PiStudentFill size={24}/>, path: '/edu/users-confirm'},
-        {title: 'Baholar', icon: <TbHeartRateMonitor size={20}/>, path: '/edu/rate'},
-        {title: 'Bildirishnoma', icon: <IoNotifications size={20}/>, path: '/edu/notification'},
-    ],
+    user: [
+        {title: 'Hisobotlar', icon: <LuLayoutDashboard size={20}/>, path: '/user/dashboard'},
+        {title: 'Hisobot qo\'shish', icon: <SiCoursera size={20}/>, path: '/user/course'},
+        {title: 'Mashinalar holati', icon: <VscFileSubmodule size={20}/>, path: '/user/module'},
+    ]
 };
 
 // ===================THEAD DATA==================

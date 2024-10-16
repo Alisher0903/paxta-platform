@@ -1,8 +1,5 @@
 import {useState} from "react";
 import DropdownUser from './DropdownUser';
-// import {IoNotifications} from "react-icons/io5";
-import {AiFillMessage} from "react-icons/ai";
-import {RxDashboard} from "react-icons/rx";
 import {useNavigate} from "react-router-dom";
 import {MdCastForEducation} from "react-icons/md";
 import {PiGlobeDuotone} from "react-icons/pi";
@@ -10,7 +7,6 @@ import {SiQuizlet} from "react-icons/si";
 import {Dock, DockIcon} from "@/components/magicui/dock.tsx";
 import {Popover} from "antd";
 import {IoNotifications} from "react-icons/io5";
-import globalStore from "@/helpers/state-management/globalStore.tsx";
 
 const Header = (props: {
     sidebarOpen: string | boolean | undefined;
@@ -18,10 +14,10 @@ const Header = (props: {
     toggleNotificationModal: () => void
 }) => {
     const navigate = useNavigate();
-    const {notificationCounts, getMeData} = globalStore()
+    // const {notificationCounts, getMeData} = globalStore()
     const role = sessionStorage.getItem('admin_roles')
     const [isOpen, setIsOpen] = useState(false);
-    const openMenu = () => setIsOpen(true)
+    // const openMenu = () => setIsOpen(true)
     const closeMenu = () => setIsOpen(false)
     // console.log(getMeData)
     // console.log(notificationCounts)
@@ -73,35 +69,37 @@ const Header = (props: {
                     </button>
                 </div>
                 <div className="hidden sm:block"></div>
-                <div className="flex items-center gap-4">
-                    {role && (
-                        <RxDashboard
-                            size={26}
-                            className={`text-whiten hover:opacity-70 duration-300 hover:cursor-pointer ${isOpen && 'opacity-70'}`}
-                            onClick={() => {
-                                if (isOpen) closeMenu()
-                                else openMenu()
-                            }}
-                        />
-                    )}
+                <div className="flex items-center gap-6">
+                    {/*{role && (*/}
+                    {/*    <RxDashboard*/}
+                    {/*        size={26}*/}
+                    {/*        className={`text-whiten hover:opacity-70 duration-300 hover:cursor-pointer ${isOpen && 'opacity-70'}`}*/}
+                    {/*        onClick={() => {*/}
+                    {/*            if (isOpen) closeMenu()*/}
+                    {/*            else openMenu()*/}
+                    {/*        }}*/}
+                    {/*    />*/}
+                    {/*)}*/}
                     <Popover title="Bildirishnomalar" overlayStyle={{textAlign: 'center'}}>
                         <IoNotifications
                             size={26}
                             className={`text-whiten hover:opacity-70 duration-300 hover:cursor-pointer`}
                             onClick={() => {
-                                if (role === 'ADMIN_EDU') navigate('/edu/notification')
-                                else if (role === 'ADMIN_ONLINE') navigate('/online/notification')
-                                else if (role === 'ADMIN_QUIZ') navigate('/quiz/notification')
+                                if (role === 'ROLE_SECTOR') navigate('/sector/notification')
+                                else if (role === 'ROLE_VHOKIM') navigate('/v-hokim/notification')
+                                else if (role === 'ROLE_THOKIM') navigate('/t-hokim/notification')
+                                else if (role === 'ROLE_ADMIN') navigate('/super-admin/notification')
+                                else if (role === 'ROLE_MASTER') navigate('/user/notification')
                             }}
                         />
                     </Popover>
-                    <Popover title="Xabar yuboring" overlayStyle={{textAlign: 'center'}}>
-                        <AiFillMessage
-                            size={26}
-                            className={`text-whiten hover:opacity-70 duration-300 hover:cursor-pointer mr-4`}
-                            onClick={props.toggleNotificationModal}
-                        />
-                    </Popover>
+                    {/*<Popover title="Xabar yuboring" overlayStyle={{textAlign: 'center'}}>*/}
+                    {/*    <AiFillMessage*/}
+                    {/*        size={26}*/}
+                    {/*        className={`text-whiten hover:opacity-70 duration-300 hover:cursor-pointer mr-4`}*/}
+                    {/*        onClick={props.toggleNotificationModal}*/}
+                    {/*    />*/}
+                    {/*</Popover>*/}
 
                     <DropdownUser/>
                 </div>

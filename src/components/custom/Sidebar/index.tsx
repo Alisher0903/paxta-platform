@@ -33,7 +33,7 @@ const Sidebar = ({sidebarOpen, setSidebarOpen, toggleModal}: SidebarProps) => {
     const trigger = useRef<any>(null);
     const sidebar = useRef<any>(null);
     const admin_role = sessionStorage.getItem('admin_roles');
-    const {quizData, onlineData, eduData} = sideData
+    const {superAdmin, user} = sideData
 
     useEffect(() => {
         const clickHandler = ({target}: MouseEvent) => {
@@ -74,7 +74,7 @@ const Sidebar = ({sidebarOpen, setSidebarOpen, toggleModal}: SidebarProps) => {
                     <div className='flex flex-col'>
                         <ul className="mb-6 flex flex-col">
                             <li>
-                                {admin_role === 'ADMIN_QUIZ' && quizData.map((side, idx) => (
+                                {admin_role === 'ROLE_ADMIN' && superAdmin.map((side, idx) => (
                                     <BlurFade duration={idx / 10 + .3} delay={idx / 9}>
                                         <MenuItem
                                             title={side.title}
@@ -84,17 +84,7 @@ const Sidebar = ({sidebarOpen, setSidebarOpen, toggleModal}: SidebarProps) => {
                                         />
                                     </BlurFade>
                                 ))}
-                                {admin_role === 'ADMIN_EDU' && eduData.map((side, idx) => (
-                                    <BlurFade duration={idx / 10 + .3} delay={idx / 9}>
-                                        <MenuItem
-                                            title={side.title}
-                                            icon={side.icon}
-                                            pathname={location.pathname}
-                                            to={side.path}
-                                        />
-                                    </BlurFade>
-                                ))}
-                                {admin_role === 'ADMIN_ONLINE' && onlineData.map((side, idx) => (
+                                {admin_role === 'ROLE_SECTOR' && user.map((side, idx) => (
                                     <BlurFade duration={idx / 10 + .3} delay={idx / 9}>
                                         <MenuItem
                                             title={side.title}
@@ -107,11 +97,9 @@ const Sidebar = ({sidebarOpen, setSidebarOpen, toggleModal}: SidebarProps) => {
                             </li>
                         </ul>
                         <div
-                            className={`${(admin_role === 'ADMIN_ONLINE' || admin_role === 'ADMIN_EDU') ? '' : 'absolute bottom-10 w-60'}`}>
+                            className={`absolute bottom-10 w-60`}>
                             <ShinyButton
-                                onClick={() => {
-                                    toggleModal()
-                                }}
+                                onClick={() => toggleModal()}
                                 icon={<IoIosLogOut size={25}/>}
                                 text='Chiqish'
                                 className='bg-darkGreen w-full'

@@ -40,7 +40,7 @@ export function useGlobalRequest<T>(
                 if (method !== 'GET') toastMessage(res.data.error.code, res.data.error.message);
                 else return ''
             }
-            return res.data.data;
+            return res.data;
         },
         onError: (error: any) => {
             if (+error.status >= 500) toast.error('Serverda xatolik yuz berdi. Error 500')

@@ -13,10 +13,8 @@ export const routes = [
             <Login/>
         </>
     },
-
-    // ======================QUIZ ROUTE==================
     {
-        path: '/quiz/dashboard',
+        path: '/super-admin/dashboard',
         element: <>
             <PageTitle title="Quiz | Dashboard"/>
             <Dashboard/>
@@ -64,8 +62,6 @@ export const routes = [
             <Result/>
         </>
     },
-
-    // ====================ONLINE ROUTE==================
     {
         path: '/online/dashboard',
         element: <>
@@ -115,8 +111,6 @@ export const routes = [
             <Lesson/>
         </>
     },
-
-    // =====================EDU ROUTE==================
     {
         path: '/edu/dashboard',
         element: <>
