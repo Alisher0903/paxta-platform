@@ -4,7 +4,6 @@ import {BorderBeam} from "@/components/magicui/border-beam.tsx";
 import Meteors from "@/components/magicui/meteors.tsx";
 import {useNavigate} from "react-router-dom";
 import {useEffect, useState} from 'react';
-import {formatedNumber, validateText} from "@/helpers/functions/common-functions.tsx";
 import {authLogin} from "@/helpers/api.tsx";
 import toast from "react-hot-toast";
 import {consoleClear} from "@/helpers/functions/toastMessage.tsx";
@@ -12,12 +11,12 @@ import {useGlobalRequest} from "@/helpers/functions/restApi-function.tsx";
 
 function Login() {
     const navigate = useNavigate();
-    const [phoneNumber, setPhoneNumber] = useState('+998 ')
+    const [phoneNumber, setPhoneNumber] = useState('')
     const [password, setPassword] = useState('')
     const {loading, response, globalDataFunc} = useGlobalRequest(
         authLogin,
         'POST',
-        {phoneNumber: formatedNumber(phoneNumber), password: validateText(password)}
+        {phoneNumber: phoneNumber, password: password}
     );
 
     useEffect(() => {
@@ -52,25 +51,8 @@ function Login() {
         }
     }, [response]);
 
-    const formatPhoneNumber = (value: string) => {
-        const numbers = value.replace(/[^\d]/g, '').slice(3);
-        if (!value.startsWith('+998 ')) return '+998 ';
-        if (numbers.length >= 10) return phoneNumber;
-        let formatted = '+998 ';
-        numbers.split('').forEach((digit, index) => {
-            if (index === 2 || index === 5 || index === 7) formatted += `-${digit}`;
-            else formatted += digit;
-        });
-        return formatted;
-    };
-
-    const handlePhoneNumberChange = (event: any) => {
-        const formatted = formatPhoneNumber(event.target.value);
-        setPhoneNumber(formatted);
-    };
-
     const handleSubmit = () => {
-        if (validateText(password) && formatedNumber(phoneNumber)) {
+        if (password && phoneNumber) {
             if (!loading) globalDataFunc()
         } else toast.error('Ma\'lumotlar tuliqligini tekshiring')
     }
@@ -98,16 +80,16 @@ function Login() {
                             </h1>
                             <div className="space-y-4 md:space-y-6">
                                 <div>
-                                    <p className="block mb-2 text-sm font-medium text-gray-900">Telefon raqam</p>
+                                    <p className="block mb-2 text-sm font-medium text-gray-900">Login</p>
                                     <input
                                         type="tel"
                                         value={phoneNumber}
-                                        onChange={handlePhoneNumberChange}
+                                        onChange={e => setPhoneNumber(e.target.value)}
                                         onKeyDown={e => {
                                             if (e.key === 'Enter') handleSubmit()
                                         }}
                                         className="bg-white border border-[#087E43] text-gray-900 rounded-lg focus:ring-[#087E43] focus:border-[#087E43] block w-full p-2.5"
-                                        placeholder="Telefon raqamingizmi kiriting..."
+                                        placeholder="Loginni kiriting..."
                                     />
                                 </div>
                                 <div className='mb-5'>
@@ -127,7 +109,8 @@ function Login() {
                                 <ShinyButton
                                     text={loading ? 'Yuklanmoqda...' : 'Tizimga kirish'}
                                     className={`bg-lighterGreen w-full ${loading && 'cursor-not-allowed opacity-50'}`}
-                                    onClick={() => handleSubmit()}/>
+                                    onClick={() => handleSubmit()}
+                                />
                             </div>
                         </div>
                     </div>
