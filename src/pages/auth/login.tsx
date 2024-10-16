@@ -30,7 +30,7 @@ function Login() {
                 sessionStorage.setItem('token', response.message)
                 sessionStorage.setItem('admin_roles', response.body)
                 toast.success('Tizimga muvaffaqiyatli kirdingiz')
-                navigate('/user/dashboard')
+                navigate('/user/report')
             } else if (response.body === 'ROLE_THOKIM') {
                 sessionStorage.setItem('token', response.message)
                 sessionStorage.setItem('admin_roles', response.body)

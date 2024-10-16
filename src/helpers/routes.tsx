@@ -188,4 +188,25 @@ export const routes = [
             <UsersEdu/>
         </>
     },
+    {
+        path: '/user/report',
+        element: <>
+            <PageTitle title="Education | Confirm Users"/>
+            <UsersEdu/>
+        </>
+    },
+    {
+        path: 'user/course',
+        element: <>
+            <PageTitle title="Education | Module"/>
+            <Task/>
+        </>
+    },
+    {
+        path: 'user/module',
+        element: <>
+            <PageTitle title="Education | Module"/>
+            <Task/>
+        </>
+    },
 ]
