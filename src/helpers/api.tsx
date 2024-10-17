@@ -87,3 +87,7 @@ export const districtEditOrDelete: string = `${baseURL}district/`
 
 // =============SECTOR===============
 export const sectorByDistrict: string = `${baseURL}sector/by/district`
+
+
+// =============Master report ===============
+export const reportMaster: string = `${baseURL}break-report/list/today`

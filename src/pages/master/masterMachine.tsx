@@ -2,21 +2,17 @@ import Breadcrumb from "@/components/custom/breadcrumb/Breadcrumb.tsx";
 import { Input, Pagination, Popover, Select } from "antd";
 import Skeleton from "@/components/custom/skeleton/skeleton-cards.tsx";
 import Tables from "@/components/custom/tables/table.tsx";
-import { lessonPageThead } from "@/helpers/constanta.tsx";
+import { lessonPageThead, machineReportList } from "@/helpers/constanta.tsx";
 import { useGlobalRequest } from "@/helpers/functions/restApi-function.tsx";
 import { useEffect, useState } from "react";
-import { categoryList, lessonCrud, lessonPageList, moduleCategoryId } from "@/helpers/api.tsx";
+import { categoryList, lessonCrud, lessonPageList, moduleCategoryId, reportMaster } from "@/helpers/api.tsx";
 import ShinyButton from "@/components/magicui/shiny-button.tsx";
-import { MdNextPlan, MdOutlineAddCircle } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
-import Checkbox from "@/components/custom/checkbox/checkbox.tsx";
 import { FaEdit } from "react-icons/fa";
 import { AiFillDelete } from "react-icons/ai";
 import Modal from "@/components/custom/modal/modal.tsx";
 import toast from "react-hot-toast";
 import courseStore from "@/helpers/state-management/coursesStore.tsx";
 import { consoleClear } from "@/helpers/functions/toastMessage.tsx";
-import ImgUpload from "@/components/custom/imagesData/img-upload.tsx";
 import globalStore from "@/helpers/state-management/globalStore.tsx";
 import VideoPlayer from "@/components/custom/video/video.tsx";
 
@@ -30,10 +26,6 @@ const defVal = {
 }
 
 const MasterMachine = () => {
-    const navigate = useNavigate()
-    const [page, setPage] = useState<number>(0);
-    const [name, setName] = useState<string>('');
-    const [moduleId, setModuleId] = useState<string | null>(null);
     const [categoryId, setCategoryId] = useState<string>('');
     const [isModal, setIsModal] = useState(false);
     const [crudLesson, setCrudLesson] = useState<any>(defVal);
@@ -48,31 +40,19 @@ const MasterMachine = () => {
         moduleId: crudLesson.moduleId,
         fileId: imgUpload ? imgUpload : crudLesson.fileId ? crudLesson.fileId : 0
     }
-
-    const getTestUrl = () => {
-        const queryParams: string = [
-            name ? `name=${name}` : '',
-            moduleId ? `moduleId=${moduleId}` : '',
-            categoryId ? `categoryId=${categoryId}` : ''
-        ].filter(Boolean).join('&');
-
-        return `${lessonPageList}?${queryParams ? `${queryParams}&` : ''}categoryEnum=${admin_role === 'ADMIN_EDU' ? 'EDUCATION' : 'ONLINE'}&page=${page}&size=10`;
-    }
-    const { loading, response, globalDataFunc } = useGlobalRequest(getTestUrl(), 'GET')
     const categoryLists = useGlobalRequest(`${categoryList}${admin_role === 'ADMIN_EDU' ? 'EDUCATION' : 'ONLINE'}`, 'GET')
     const moduleLessonGet = useGlobalRequest(`${moduleCategoryId}${categoryId}`, 'GET')
     const lessonAdd = useGlobalRequest(lessonCrud, 'POST', requestData)
     const lessonEdit = useGlobalRequest(`${lessonCrud}/${crudLesson.id}`, 'PUT', requestData)
     const lessonDelete = useGlobalRequest(`${lessonCrud}/${crudLesson.id}`, 'DELETE')
+    const machineReportGet = useGlobalRequest(`${reportMaster}/1`, 'GET')
 
     useEffect(() => {
-        globalDataFunc()
-        categoryLists.globalDataFunc()
+        machineReportGet.globalDataFunc()
     }, []);
 
-    useEffect(() => {
-        if (!editOrDeleteStatus) globalDataFunc()
-    }, [page, name, moduleId, categoryId]);
+    console.log(machineReportGet?.response?.body, 12345);
+
 
     useEffect(() => {
         if (categoryId) moduleLessonGet.globalDataFunc()
@@ -84,15 +64,12 @@ const MasterMachine = () => {
 
     useEffect(() => {
         if (lessonAdd.response) {
-            globalDataFunc()
             toast.success('Dars muvaffaqiyatli qushildi')
             closeModal()
         } else if (lessonEdit.response) {
-            globalDataFunc()
             toast.success('Dars muvaffaqiyatli taxrirlandi')
             closeModal()
         } else if (lessonDelete.response) {
-            globalDataFunc()
             toast.success('Dars muvaffaqiyatli uchirildi')
             closeModal()
         }
@@ -119,7 +96,6 @@ const MasterMachine = () => {
             <div className={`w-full flex justify-between items-center flex-wrap xl:flex-nowrap gap-5 mt-10`}>
                 <ShinyButton
                     text={`Mashina holatini kiritish`}
-                    icon={<MdOutlineAddCircle size={30} />}
                     className={`bg-darkGreen`}
                     onClick={() => {
                         openModal()
@@ -129,7 +105,7 @@ const MasterMachine = () => {
                 <div
                     className={`w-full lg:max-w-[60%] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5`}
                 >
-                    <Select
+                    {/* <Select
                         placeholder={`Kurs buyicha qidirish`}
                         className={`w-full bg-transparent h-11 custom-select`}
                         onChange={(value) => setCategoryId(value)}
@@ -138,127 +114,97 @@ const MasterMachine = () => {
                         {categoryLists.response && categoryLists.response.map((item: any) => (
                             <Select.Option value={item.id} key={item.id}>{item.name}</Select.Option>
                         ))}
-                    </Select>
-                    <Select
-                        // value={moduleId}
+                    </Select> */}
+                    {/* <Select
                         placeholder={`Modul buyicha qidirish`}
                         className={`w-full bg-transparent h-11 custom-select`}
-                        onChange={(value) => setModuleId(value)}
                         allowClear
                     >
                         {moduleLessonGet.response && moduleLessonGet.response.map((item: any) => (
                             <Select.Option value={item.moduleId} key={item.moduleId}>{item.name}</Select.Option>
                         ))}
-                    </Select>
+                    </Select> */}
                 </div>
             </div>
 
             {/*======================BODY TABLE======================*/}
             <div className={`mt-6`}>
-                {loading ? <div className={`w-full grid grid-cols-1 gap-3`}>
+                {machineReportGet?.loading ? <div className={`w-full grid grid-cols-1 gap-3`}>
                     <Skeleton />
                     <Skeleton />
                 </div> : (
-                    <Tables thead={lessonPageThead}>
-                        {(response && response.body.length > 0) ? response.body.map((lesson: any, idx: number) => (
-                            <tr key={idx} className={`hover:bg-whiteGreen duration-100`}>
-                                <td className="border-b border-[#eee] p-5">
-                                    <p className="text-black">
-                                        {(page * 10) + idx + 1}
-                                    </p>
-                                </td>
-                                <td className="border-b border-[#eee] p-5">
-                                    <p className="text-black">
-                                        {lesson.name}
-                                    </p>
-                                </td>
-                                <td className="border-b border-[#eee] p-5">
-                                    <p className="text-black">
-                                        {lesson.moduleName}
-                                    </p>
-                                </td>
-                                <td className="border-b border-[#eee] p-5">
-                                    <p className="text-black">
-                                        {lesson.moduleName}
-                                    </p>
-                                </td>
-                                <td className="border-b border-[#eee] p-5 min-w-[250px]">
-                                    <p className="text-black">
-                                        {lesson.description.length > 20 ?
-                                            <Popover title={lesson.description}
-                                                overlayStyle={{ textAlign: 'center', maxWidth: '400px' }}>
-                                                {lesson.description.slice(0, 20)}...
-                                            </Popover> : lesson.description}
-                                    </p>
-                                </td>
-                                <td className="border-b border-[#eee] p-5">
-                                    <p className="text-black hover:cursor-pointer hover:text-lighterGreen duration-300" onClick={() => {
-                                        openModal()
-                                        setEditOrDeleteStatus('OPEN_VIDEO')
-                                        setCrudLesson(lesson)
-                                    }}>
-                                        vedioni ko'rish
-                                    </p>
-                                </td>
-                                <td className="border-b border-[#eee] p-5">
-                                    <p className="text-black">
-                                        {lesson.videoTime ? lesson.videoTime : '-'}
-                                    </p>
-                                </td>
-                                <td className="border-b border-[#eee] p-5">
-                                    <Checkbox
-                                        setIsChecked={() => !lesson.userActive}
-                                        isChecked={lesson.userActive}
-                                        id={idx}
-                                    />
-                                </td>
-                                <td className="border-b border-[#eee] p-5 flex items-center justify-start gap-3">
-                                    <FaEdit
-                                        className={`text-xl hover:cursor-pointer hover:text-yellow-500 duration-300`}
-                                        onClick={() => {
-                                            openModal()
-                                            setEditOrDeleteStatus('EDIT')
-                                            setCrudLesson(lesson)
-                                        }}
-                                    />
-                                    <AiFillDelete
-                                        className={`text-xl hover:cursor-pointer hover:text-red-500 duration-300`}
-                                        onClick={() => {
-                                            openModal()
-                                            setEditOrDeleteStatus('DELETE')
-                                            setCrudLesson(lesson)
-                                        }}
-                                    />
-                                    {admin_role === 'ADMIN_EDU' && (
-                                        <Popover title="Darsga task qushish" overlayStyle={{ textAlign: 'center' }}>
-                                            <MdNextPlan
-                                                className={`text-2xl hover:cursor-pointer hover:text-darkGreen duration-300`}
-                                                onClick={() => navigate(`/edu/task/${lesson.id}`)}
-                                            />
-                                        </Popover>
-                                    )}
+                    <Tables thead={machineReportList}>
+                        {machineReportGet?.response && machineReportGet?.response?.body?.length > 0 ? (
+                            machineReportGet?.response?.body.map((lesson: any, idx: number) => (
+                                <tr key={lesson.id} className={`hover:bg-whiteGreen duration-100`}>
+                                    <td className="border-b border-[#eee] p-5">
+                                        <p className="text-black">
+                                            {idx + 1}
+                                        </p>
+                                    </td>
+                                    <td className="border-b border-[#eee] p-5">
+                                        <p className="text-black">
+                                            {lesson.farmIdName ? (
+                                                lesson.farmIdName.length > 20 ? (
+                                                    <Popover title={lesson.farmIdName} overlayStyle={{ textAlign: 'center', maxWidth: '400px' }}>
+                                                        {lesson.farmIdName.slice(0, 20)}...
+                                                    </Popover>
+                                                ) : (
+                                                    lesson.farmIdName
+                                                )
+                                            ) : (
+                                                "Ma'lumot mavjud emas"
+                                            )}
+                                        </p>
+                                    </td>
+                                    <td className="border-b border-[#eee] p-5">
+                                        <p className="text-black">
+                                            {lesson.machineStatus}
+                                        </p>
+                                    </td>
+                                    <td className="border-b border-[#eee] p-5">
+                                        <p className="text-black">
+                                            {lesson.time}
+                                        </p>
+                                    </td>
+                                    <td className="border-b border-[#eee] p-5">
+                                        <p className="text-black">
+                                            {lesson.endTime !== 'null' ? lesson.endTime : '0'} {/* 'null' bo'lsa N/A ko'rsatadi */}
+                                        </p>
+                                    </td>
+                                    <td className="border-b border-[#eee] p-5 flex items-center justify-start gap-3">
+                                        <FaEdit
+                                            className={`text-xl hover:cursor-pointer hover:text-yellow-500 duration-300`}
+                                            onClick={() => {
+                                                openModal();
+                                                setEditOrDeleteStatus('EDIT');
+                                                setCrudLesson(lesson);
+                                            }}
+                                        />
+                                        <AiFillDelete
+                                            className={`text-xl hover:cursor-pointer hover:text-red-500 duration-300`}
+                                            onClick={() => {
+                                                openModal();
+                                                setEditOrDeleteStatus('DELETE');
+                                                setCrudLesson(lesson);
+                                            }}
+                                        />
+                                    </td>
+                                </tr>
+                            ))
+                        ) : (
+                            <tr className={`hover:bg-whiteGreen duration-100`}>
+                                <td
+                                    className="border-b border-[#eee] p-5 text-black text-center"
+                                    colSpan={lessonPageThead.length}
+                                >
+                                    Ma'lumot topilmadi
                                 </td>
                             </tr>
-                        )) : <tr className={`hover:bg-whiteGreen duration-100`}>
-                            <td
-                                className="border-b border-[#eee] p-5 text-black text-center"
-                                colSpan={lessonPageThead.length}
-                            >
-                                Ma'lumot topilmadi
-                            </td>
-                        </tr>}
+                        )}
                     </Tables>
                 )}
-                <Pagination
-                    showSizeChanger={false}
-                    responsive={true}
-                    defaultCurrent={1}
-                    total={response ? response.totalElements : 0}
-                    onChange={(page: number) => setPage(page - 1)}
-                    rootClassName={`mt-8 mb-5`}
-                />
             </div>
-
             <Modal onClose={closeModal} isOpen={isModal}>
                 <div className={`min-w-54 sm:w-64 md:w-96 lg:w-[40rem]`}>
                     {editOrDeleteStatus === 'DELETE' ? (

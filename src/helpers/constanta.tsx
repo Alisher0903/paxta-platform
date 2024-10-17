@@ -1,7 +1,7 @@
 import {LuLayoutDashboard} from "react-icons/lu";
 import {PiStudentFill} from "react-icons/pi";
 import {MdOutlineCategory} from "react-icons/md";
-import {SiTestcafe} from "react-icons/si";
+import {SiCoursera, SiTestcafe} from "react-icons/si";
 import {IoNotifications} from "react-icons/io5";
 import {IThead} from "@/components/custom/tables/table.tsx";
 import {VscFileSubmodule} from "react-icons/vsc";
@@ -12,7 +12,7 @@ export const sideData = {
     superAdmin: [
         {title: 'Boshqaruv paneli', icon: <LuLayoutDashboard size={20}/>, path: '/super-admin/dashboard'},
         {title: 'Foydalanuvchilar', icon: <PiStudentFill size={20}/>, path: '/super-admin/users'},
-        {title: 'Tumanlar', icon: <MdOutlineCategory size={20}/>, path: '/super-admin/district'},
+        {title: 'Tumanlar', icon: <MdOutlineCategory size={20}/>, path: '/super-admin/category'},
         {title: 'Mashinalar', icon: <SiTestcafe size={20}/>, path: '/super-admin/test'},
         {title: 'Fermalar', icon: <FaCompress size={20}/>, path: '/super-admin/result'},
         {title: 'Hisobotlar', icon: <IoNotifications size={20}/>, path: '/super-admin/notification'},
@@ -32,7 +32,14 @@ export const topGroupEdu: IThead[] = [
     {id: 2, name: 'O\'quvchilar soni'},
     {id: 3, name: 'Guruh umumiy bali'},
 ];
-
+export const machineReportList: IThead[] = [
+    {id: 1, name: 'T/r'},
+    {id: 2, name: 'Ferma nomi '},
+    {id: 3, name: 'Mashinani ishlamaslik sababi'},
+    {id: 4, name: 'Mashinani ishlamay qolgan vaqti'},
+    {id: 5, name: 'Mashina tuzilgan vaqt'},
+    {id: 5, name: "Mashinani holatini o'zgartirish"},
+];
 export const topTeacherEdu: IThead[] = [
     {id: 5, name: 'ID'},
     {id: 1, name: 'Guruh nomi'},
@@ -48,15 +55,13 @@ export const topStudentEdu: IThead[] = [
 ];
 
 export const userTableHead: IThead[] = [
-    {id: 1, name: 'T/r'},
+    {id: 1, name: 'ID'},
+    {id: 7, name: 'Rasm'},
     {id: 2, name: 'Ismi'},
     {id: 3, name: 'Familiyasi'},
-    {id: 4, name: 'Logini'},
-    {id: 5, name: 'Lavozimi'},
-    {id: 6, name: 'Activligi'},
-    {id: 7, name: 'Sector nomi'},
-    {id: 8, name: 'Sector raqami'},
-    {id: 9, name: 'Xarakat'},
+    {id: 5, name: 'Telefon raqami'},
+    {id: 7, name: 'Roli'},
+    {id: 6, name: 'Xarakat'},
 ]
 
 export const confirmUserTHead: IThead[] = [
@@ -103,6 +108,17 @@ export const lessonThead: IThead[] = [
     {id: 4, name: 'Foydalanuvchi aktivligi'},
 ];
 
+export const districtThead: IThead[] = [
+    {id: 5, name: 'ID'},
+    {id: 1, name: 'Dars nomi'},
+    {id: 7, name: 'Yunalish nomi'},
+    {id: 8, name: 'Modul nomi'},
+    {id: 6, name: 'Tavsifi'},
+    {id: 2, name: 'Vedio linki'},
+    {id: 3, name: 'Vedio davomiyligi'},
+    {id: 4, name: 'Foydalanuvchi aktivligi'},
+];
+
 export const lessonPageThead: IThead[] = [
     {id: 5, name: 'ID'},
     {id: 1, name: 'Dars nomi'},
@@ -115,10 +131,13 @@ export const lessonPageThead: IThead[] = [
     {id: 7, name: 'Harakat'},
 ];
 
-export const districtThead: IThead[] = [
+export const teacherThead: IThead[] = [
     {id: 5, name: 'ID'},
-    {id: 1, name: 'Tuman nomi'},
-    {id: 4, name: 'Harakatlar'},
+    {id: 1, name: 'Rasmi'},
+    {id: 6, name: 'Ismi'},
+    {id: 2, name: 'Familiyasi'},
+    {id: 3, name: 'Telefon raqami'},
+    {id: 4, name: 'Guruhlari soni'},
 ];
 
 export const resultThead: IThead[] = [
