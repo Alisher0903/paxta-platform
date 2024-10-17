@@ -79,4 +79,6 @@ export const lessonModuleID: string = `${baseURL}lesson/list/edu/`
 
 // ==============TASK CONTROLLER====================
 export const taskCrud: string = `${baseURL}report`
+export const getDistrict: string = `${baseURL}district/list`
+export const getHudud: string = `${baseURL}cottonPicked/list`
 export const taskLessonId: string = `${baseURL}task/getTaskByLesson/` //lessonga tegishli hamma module ni get qilish

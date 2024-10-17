@@ -4,6 +4,7 @@ import {
     Teacher, Result, UsersEdu
 } from "@/pages";
 import MasterAddReport from "@/pages/master/MasterAddReport";
+import MasterMachine from "@/pages/master/masterMachine";
 
 export const routes = [
     // ====================GLOBAL ROUTE===================
@@ -207,7 +208,7 @@ export const routes = [
         path: '/user/machine',
         element: <>
             <PageTitle title="Mashinalar holati"/>
-            <Task/>
+            <MasterMachine/>
         </>
     },
 ]
