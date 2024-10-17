@@ -204,7 +204,7 @@ export const routes = [
     //     </>
     // },
     {
-        path: 'user/module',
+        path: '/user/machine',
         element: <>
             <PageTitle title="Mashinalar holati"/>
             <Task/>

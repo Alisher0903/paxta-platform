@@ -2,7 +2,7 @@ import Breadcrumb from "@/components/custom/breadcrumb/Breadcrumb.tsx";
 import Skeleton from "@/components/custom/skeleton/skeleton-cards.tsx";
 import {useGlobalRequest} from "@/helpers/functions/restApi-function.tsx";
 import {useEffect, useState} from "react";
-import {imgGet, taskCrud, taskLessonId} from "@/helpers/api.tsx";
+import {imgGet, taskCrud} from "@/helpers/api.tsx";
 import ShinyButton from "@/components/magicui/shiny-button.tsx";
 import {MdOutlineAddCircle} from "react-icons/md";
 import {useParams} from "react-router-dom";
@@ -14,62 +14,82 @@ import {Card, CardDescription, CardTitle} from "@/components/ui/card-hover-effec
 import {FaEdit} from "react-icons/fa";
 import {AiFillDelete} from "react-icons/ai";
 import {Image} from "antd";
-import images from '@/assets/images/img.avif'
+import images from '@/assets/images/img.avif';
 
 const defVal = {
-    name: '',
-    description: '',
-    fileId: 0
-}
+    maydoni:0,
+    paxtaHajmi:0,
+    mashinaHolati:true,
+    hisobotVaqti: ''
+};
 
 const MasterAddReport = () => {
     const {id} = useParams();
     const [isModal, setIsModal] = useState(false);
     const [imageError, setImageError] = useState('');
     const [crudTask, setCrudTask] = useState<any>(defVal);
-    const {editOrDeleteStatus, setEditOrDeleteStatus} = courseStore()
+    const {editOrDeleteStatus, setEditOrDeleteStatus} = courseStore();
+    const [timeOptions, setTimeOptions] = useState<any>([]); // Time options from API
+
     const requestData = {
         maydoni: crudTask.maydoni,
         paxtaHajmi: crudTask.paxtaHajmi,
-        mashinaHolati:crudTask.mashinaHolati,
-        buzilganSoat:crudTask.buzilganSoat || 0,
-        buzilganTime:crudTask.buzilganTime || 0,
-        machineStatus:crudTask.machineStatus || null,
-        hisobotVaqti:crudTask.hisobotVaqti,
-        historyTime:crudTask.historyTime,
-    }
+        mashinaHolati: crudTask.mashinaHolati,
+        buzilganSoat: crudTask.buzilganSoat || 0,
+        buzilganTime: crudTask.buzilganTime || 0,
+        machineStatus: crudTask.machineStatus || null,
+        hisobotVaqti: crudTask.hisobotVaqti,
+        historyTime: crudTask.historyTime,
+    };
 
-    const {loading, response, globalDataFunc} = useGlobalRequest(`${taskCrud}`, 'GET')
-    const taskAdd = useGlobalRequest(`${taskCrud}/create`, 'POST', requestData)
-    const taskEdit = useGlobalRequest(`${taskCrud}${crudTask.id}`, 'PUT', requestData)
-    const taskDelete = useGlobalRequest(`${taskCrud}${crudTask.id}`, 'DELETE')
-    const getTime = useGlobalRequest(`${taskCrud}/time-list`,'GET')
+    const {loading, response, globalDataFunc} = useGlobalRequest(`${taskCrud}`, 'GET');
+    const taskAdd = useGlobalRequest(`${taskCrud}/create`, 'POST', requestData);
+    const taskEdit = useGlobalRequest(`${taskCrud}${crudTask.id}`, 'PUT', requestData);
+    const taskDelete = useGlobalRequest(`${taskCrud}${crudTask.id}`, 'DELETE');
+    const getTime = useGlobalRequest(`${taskCrud}/time-list`, 'GET'); // Fetch available time slots
 
     useEffect(() => {
-        globalDataFunc()
-        getTime.globalDataFunc()
+        globalDataFunc();
+        getTime.globalDataFunc();
     }, []);
 
-    console.log(getTime.response);
-    
+    useEffect(() => {
+        if (getTime.response) {
+            console.log("Response body:", getTime.response.body); // Ma'lumotni ko'rish uchun
+            if (typeof getTime.response.body === 'string') {
+                const timeArray = getTime.response.body.split(','); // Agar bu string bo'lsa, split qilamiz
+                setTimeOptions(timeArray);
+            } else if (Array.isArray(getTime.response.body)) {
+                setTimeOptions(getTime.response.body); // Agar massiv bo'lsa, to'g'ridan-to'g'ri o'rnatamiz
+            }
+        }
+    }, [getTime.response]);
+
     useEffect(() => {
         if (taskAdd.response) {
-            globalDataFunc()
-            toast.success('Task muvaffaqiyatli qushildi')
-            closeModal()
+            globalDataFunc();
+            toast.success('Task muvaffaqiyatli qushildi');
+            closeModal();
         } else if (taskEdit.response) {
-            globalDataFunc()
-            toast.success('Task muvaffaqiyatli taxrirlandi')
-            closeModal()
+            globalDataFunc();
+            toast.success('Task muvaffaqiyatli taxrirlandi');
+            closeModal();
         } else if (taskDelete.response) {
-            globalDataFunc()
-            toast.success('Task muvaffaqiyatli uchirildi')
-            closeModal()
+            globalDataFunc();
+            toast.success('Task muvaffaqiyatli uchirildi');
+            closeModal();
         }
-        consoleClear()
+        consoleClear();
     }, [taskAdd.response, taskEdit.response, taskDelete.response]);
 
-    const handleChange = (name: string, value: string) => setCrudTask({...crudTask, [name]: value});
+    const handleChange = (name: string, value: string) => {
+        // If the changed field is "hisobotVaqti", extract hours and minutes
+        if (name === 'hisobotVaqti') {
+            const [hours, minutes] = value.split(':');
+            console.log('Soat:', hours, 'Daqiqalar:', minutes);
+        }
+        setCrudTask({...crudTask, [name]: value});
+    };
 
     const openModal = () => setIsModal(true);
     const closeModal = () => {
@@ -77,7 +97,7 @@ const MasterAddReport = () => {
         setTimeout(() => {
             setCrudTask(defVal);
             setEditOrDeleteStatus('');
-        }, 500)
+        }, 500);
     };
 
     return (
@@ -91,8 +111,8 @@ const MasterAddReport = () => {
                     icon={<MdOutlineAddCircle size={30}/>}
                     className={`bg-darkGreen`}
                     onClick={() => {
-                        openModal()
-                        setEditOrDeleteStatus('POST')
+                        openModal();
+                        setEditOrDeleteStatus('POST');
                     }}
                 />
             </div>
@@ -120,24 +140,22 @@ const MasterAddReport = () => {
                                         <a href={task.fileId ? imgGet + task.fileId : images} download>Yuklab olish</a>
                                     </CardTitle>
                                     <CardDescription className={`flex justify-between items-center gap-10`}>
-                                        <p><span
-                                            className={`font-semibold text-black`}>Task tavsifi:</span> {`${task.description}`}
-                                        </p>
+                                        <p><span className={`font-semibold text-black`}>Task tavsifi:</span> {`${task.description}`}</p>
                                         <p className={`flex items-center gap-5`}>
                                             <FaEdit
                                                 className={`text-xl hover:text-yellow-500 cursor-pointer duration-300`}
                                                 onClick={() => {
-                                                    openModal()
-                                                    setEditOrDeleteStatus('EDIT')
-                                                    setCrudTask(task)
+                                                    openModal();
+                                                    setEditOrDeleteStatus('EDIT');
+                                                    setCrudTask(task);
                                                 }}
                                             />
                                             <AiFillDelete
                                                 className={`text-xl hover:text-red-500 cursor-pointer duration-300`}
                                                 onClick={() => {
-                                                    openModal()
-                                                    setEditOrDeleteStatus('DELETE')
-                                                    setCrudTask(task)
+                                                    openModal();
+                                                    setEditOrDeleteStatus('DELETE');
+                                                    setCrudTask(task);
                                                 }}
                                             />
                                         </p>
@@ -158,75 +176,45 @@ const MasterAddReport = () => {
                         </p>
                     ) : (
                         <div>
-                             <h2 className="font-bold text-2xl">Hisobot qo'shish</h2>
-                           <div className={`mt-7`}>
-                            <input
-                                value={crudTask.maydoni}
-                                onChange={(e) => handleChange('name', e.target.value)}
-                                placeholder="Paxta maydoni (GK)"
-                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5 mt-7"
-                            />
-                            <input
-                                value={crudTask.paxtaHajmi}
-                                onChange={(e) => handleChange('description', e.target.value)}
-                                placeholder="Paxta hajmi ( TN )"
-                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5 mt-7"
-                            />
-                             <input
-                                value={crudTask.mashinaHolati}
-                                onChange={(e) => handleChange('description', e.target.value)}
-                                placeholder="Paxta hajmi ( TN )"
-                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5 mt-7"
-                            />
-                             <input
-                                value={crudTask.buzilganSoat}
-                                onChange={(e) => handleChange('description', e.target.value)}
-                                placeholder="Paxta hajmi ( TN )"
-                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5 mt-7"
-                            />
+                            <h2 className="font-bold text-2xl">Hisobot qo'shish</h2>
+                            <div className={`mt-7`}>
+                                <input
+                                    value={crudTask.maydoni}
+                                    onChange={(e) => handleChange('name', e.target.value)}
+                                    placeholder="Paxta maydoni (GK)"
+                                    className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5 mt-7"
+                                />
+                                <input
+                                    value={crudTask.paxtaHajmi}
+                                    onChange={(e) => handleChange('description', e.target.value)}
+                                    placeholder="Paxta hajmi ( TN )"
+                                    className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5 mt-7"
+                                />
+                                {/* New time select input */}
+                                <select
+                                    value={crudTask.hisobotVaqti}
+                                    onChange={(e) => handleChange('hisobotVaqti', e.target.value)}
+                                    className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5 mt-7"
+                                >
+                                    <option value="" disabled>Vaqtni tanlang</option>
+                                    {timeOptions.map((time:any, index:any) => (
+                                        <option key={index} value={time}>{time}</option>
+                                    ))}
+                                </select>
+                            </div>
                         </div>
-                        </div>
-                       
                     )}
-                    <div className={`flex justify-end items-center gap-5 mt-5`}>
-                        <ShinyButton
-                            text={`Orqaga`}
-                            className={`bg-darkGreen`}
-                            onClick={closeModal}
-                        />
-                        {editOrDeleteStatus === 'POST' && (
-                            <ShinyButton
-                                text={taskAdd.loading ? 'Saqlanmoqda...' : 'Saqlash'}
-                                className={`bg-darkGreen ${taskAdd.loading && 'cursor-not-allowed opacity-60'}`}
-                                onClick={() => {
-                                    if (!taskAdd.loading) {
-                                        if (crudTask.name && crudTask.description) taskAdd.globalDataFunc()
-                                        else toast.error('Ma\'lumotlar tuliqligini tekshirib kuring')
-                                    }
-                                }}
-                            />
-                        )}
-                        {editOrDeleteStatus === 'EDIT' && (
-                            <ShinyButton
-                                text={taskEdit.loading ? 'Yuklanmoqda...' : 'Taxrirlash'}
-                                className={`bg-darkGreen ${taskEdit.loading && 'cursor-not-allowed opacity-60'}`}
-                                onClick={() => {
-                                    if (!taskEdit.loading) {
-                                        if (crudTask.name && crudTask.description) taskEdit.globalDataFunc()
-                                        else toast.error('Ma\'lumotlar tuliqligini tekshirib kuring')
-                                    }
-                                }}
-                            />
-                        )}
-                        {editOrDeleteStatus === 'DELETE' && (
-                            <ShinyButton
-                                text={taskDelete.loading ? 'O\'chirilmoqda...' : 'Xa'}
-                                className={`bg-darkGreen ${taskDelete.loading && 'cursor-not-allowed opacity-60'}`}
-                                onClick={() => {
-                                    if (!taskDelete.loading) taskDelete.globalDataFunc()
-                                }}
-                            />
-                        )}
+
+                    <div className={`flex justify-between items-center mt-5`}>
+                        <button className="bg-darkGreen text-white py-2 px-4 rounded" onClick={closeModal}>
+                            Bekor qilish
+                        </button>
+                        <button
+                            className="bg-darkGreen text-white py-2 px-4 rounded"
+                            onClick={editOrDeleteStatus === 'POST' ? taskAdd.globalDataFunc : editOrDeleteStatus === 'EDIT' ? taskEdit.globalDataFunc : taskDelete.globalDataFunc}
+                        >
+                            {editOrDeleteStatus === 'DELETE' ? 'O‘chirish' : 'Saqlash'}
+                        </button>
                     </div>
                 </div>
             </Modal>

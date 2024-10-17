@@ -21,7 +21,7 @@ export const sideData = {
     user: [
         {title: 'Hisobotlar', icon: <LuLayoutDashboard size={20}/>, path: '/user/report'},
         // {title: 'Hisobot qo\'shish', icon: <SiCoursera size={20}/>, path: '/user/course'},
-        {title: 'Mashinalar holati', icon: <VscFileSubmodule size={20}/>, path: '/user/module'},
+        {title: 'Mashinalar holati', icon: <VscFileSubmodule size={20}/>, path: '/user/machine'},
     ]
 };
 
