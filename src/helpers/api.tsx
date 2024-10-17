@@ -82,3 +82,6 @@ export const deleteUser: string = `${baseURL}user/`
 export const districtList: string = `${baseURL}district/list`
 export const districtCreate: string = `${baseURL}district/create`
 export const districtEditOrDelete: string = `${baseURL}district/`
+
+// =============SECTOR===============
+export const sectorByDistrict: string = `${baseURL}sector/by/district`

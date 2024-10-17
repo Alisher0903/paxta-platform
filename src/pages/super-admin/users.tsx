@@ -7,7 +7,7 @@ import React, {useEffect, useState} from "react";
 import {FaEdit} from "react-icons/fa";
 import Skeleton from "@/components/custom/skeleton/skeleton-cards.tsx";
 import ShinyButton from "@/components/magicui/shiny-button.tsx";
-import {createUser, deleteUser, districtList, editUser, getUserList} from "@/helpers/api.tsx";
+import {createUser, deleteUser, districtList, editUser, getUserList, sectorByDistrict} from "@/helpers/api.tsx";
 import {Dropdown, Menu, MenuProps, Pagination, Select, Space} from "antd";
 import {CiMenuKebab} from "react-icons/ci";
 import Modal from "@/components/custom/modal/modal.tsx";
@@ -39,7 +39,7 @@ const Users = () => {
         password: crudValue.password,
         lavozimi: crudValue.lavozimi,
         role: crudValue.role,
-        districtId: (crudValue.role === 'ROLE_VHOKIM' || crudValue.role === 'ROLE_THOKIM') ? 0 : crudValue.districtId,
+        districtId: (crudValue.role === 'ROLE_VHOKIM' || crudValue.role === 'ROLE_THOKIM' || crudValue.role === 'ROLE_SECTOR') ? 0 : crudValue.districtId,
         sectorId: (crudValue.role === 'ROLE_VHOKIM' || crudValue.role === 'ROLE_THOKIM') ? 0 : crudValue.sectorId
     }
 
@@ -56,11 +56,17 @@ const Users = () => {
     const userAdd = useGlobalRequest(`${createUser}`, 'POST', requestData);
     const userEdit = useGlobalRequest(`${editUser}${crudValue.id}`, 'PUT', requestData);
     const userDelete = useGlobalRequest(`${deleteUser}${crudValue.id}`, 'DELETE');
+    const getSectorList = useGlobalRequest(`${sectorByDistrict}?districtId=${crudValue.districtId}`, 'GET')
 
     useEffect(() => {
         users.globalDataFunc()
         districtLists.globalDataFunc()
     }, []);
+
+    useEffect(() => {
+        crudValue.sectorId = 0
+        if (crudValue.districtId) getSectorList.globalDataFunc()
+    }, [crudValue.districtId]);
 
     useEffect(() => {
         users.globalDataFunc()
@@ -141,7 +147,7 @@ const Users = () => {
     const handleInputChange = (name: string, value: string) => setCrudValue({...crudValue, [name]: value})
 
     const isRegexVal = () => {
-        if (crudValue.role === 'ROLE_VHOKIM' || crudValue.role === 'ROLE_THOKIM') {
+        if (crudValue.role === 'ROLE_VHOKIM' || crudValue.role === 'ROLE_THOKIM' || crudValue.role === 'ROLE_SECTOR') {
             if (crudValue.firstName && crudValue.lastName && crudValue.phoneNumber && crudValue.password && crudValue.lavozimi && crudValue.role) return true
         } else {
             if (crudValue.firstName && crudValue.lastName && crudValue.phoneNumber && crudValue.password && crudValue.lavozimi && crudValue.role && crudValue.districtId && crudValue.sectorId) return true
@@ -341,7 +347,9 @@ const Users = () => {
                                             <option disabled selected value={0}>
                                                 Sectorni tanlang
                                             </option>
-                                            <option value={'ROLE_MASTER'}>{userRole('ROLE_MASTER')}</option>
+                                            {getSectorList.response && getSectorList.response.body?.map((item: any) => (
+                                                <option value={item.sectorId}>{item.sectorName}</option>
+                                            ))}
                                         </select>
                                     </div>
                                 </>}
