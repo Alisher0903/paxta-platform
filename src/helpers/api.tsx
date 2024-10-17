@@ -69,8 +69,6 @@ export const lessonModuleID: string = `${baseURL}lesson/list/edu/`
 
 // ==============TASK CONTROLLER====================
 export const taskCrud: string = `${baseURL}report`
-export const getDistrict: string = `${baseURL}district/list`
-export const getHudud: string = `${baseURL}cottonPicked/list`
 export const taskLessonId: string = `${baseURL}task/getTaskByLesson/` //lessonga tegishli hamma module ni get qilish
 
 
@@ -87,3 +85,7 @@ export const districtEditOrDelete: string = `${baseURL}district/`
 
 // =============SECTOR===============
 export const sectorByDistrict: string = `${baseURL}sector/by/district`
+export const sectorGetAll: string = `${baseURL}sector/all`
+export const sectorCreate: string = `${baseURL}sector/create`
+export const sectorEdit: string = `${baseURL}sector/edit/`
+export const sectorDelete: string = `${baseURL}sector/`
