@@ -3,6 +3,7 @@ import {
     Courses, Dashboard, Login, Users, Groups, Notifications, Tests, Rate, Module, CategoryDetails, Lesson, Task,
     Teacher, Result, UsersEdu
 } from "@/pages";
+import MasterAddReport from "@/pages/master/MasterAddReport";
 
 export const routes = [
     // ====================GLOBAL ROUTE===================
@@ -191,21 +192,21 @@ export const routes = [
     {
         path: '/user/report',
         element: <>
-            <PageTitle title="Education | Confirm Users"/>
-            <UsersEdu/>
+            <PageTitle title="Hisobotlar"/>
+            <MasterAddReport/>
         </>
     },
-    {
-        path: 'user/course',
-        element: <>
-            <PageTitle title="Education | Module"/>
-            <Task/>
-        </>
-    },
+    // {
+    //     path: 'user/course',
+    //     element: <>
+    //         <PageTitle title="Education | Module"/>
+    //         <Task/>
+    //     </>
+    // },
     {
         path: 'user/module',
         element: <>
-            <PageTitle title="Education | Module"/>
+            <PageTitle title="Mashinalar holati"/>
             <Task/>
         </>
     },
