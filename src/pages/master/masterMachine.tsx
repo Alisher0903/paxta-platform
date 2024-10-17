@@ -45,7 +45,7 @@ const MasterMachine = () => {
     const lessonAdd = useGlobalRequest(lessonCrud, 'POST', requestData)
     const lessonEdit = useGlobalRequest(`${lessonCrud}/${crudLesson.id}`, 'PUT', requestData)
     const lessonDelete = useGlobalRequest(`${lessonCrud}/${crudLesson.id}`, 'DELETE')
-    const machineReportGet = useGlobalRequest(`${reportMaster}/1`, 'GET')
+    const machineReportGet = useGlobalRequest(`${reportMaster}`, 'GET')
 
     useEffect(() => {
         machineReportGet.globalDataFunc()
@@ -90,7 +90,7 @@ const MasterMachine = () => {
 
     return (
         <>
-            <Breadcrumb pageName={`Darslar`} />
+            <Breadcrumb pageName={`Mashinalar holati`} />
 
             {/*=================SEARCH================*/}
             <div className={`w-full flex justify-between items-center flex-wrap xl:flex-nowrap gap-5 mt-10`}>
@@ -105,25 +105,6 @@ const MasterMachine = () => {
                 <div
                     className={`w-full lg:max-w-[60%] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5`}
                 >
-                    {/* <Select
-                        placeholder={`Kurs buyicha qidirish`}
-                        className={`w-full bg-transparent h-11 custom-select`}
-                        onChange={(value) => setCategoryId(value)}
-                        allowClear
-                    >
-                        {categoryLists.response && categoryLists.response.map((item: any) => (
-                            <Select.Option value={item.id} key={item.id}>{item.name}</Select.Option>
-                        ))}
-                    </Select> */}
-                    {/* <Select
-                        placeholder={`Modul buyicha qidirish`}
-                        className={`w-full bg-transparent h-11 custom-select`}
-                        allowClear
-                    >
-                        {moduleLessonGet.response && moduleLessonGet.response.map((item: any) => (
-                            <Select.Option value={item.moduleId} key={item.moduleId}>{item.name}</Select.Option>
-                        ))}
-                    </Select> */}
                 </div>
             </div>
 
@@ -144,17 +125,7 @@ const MasterMachine = () => {
                                     </td>
                                     <td className="border-b border-[#eee] p-5">
                                         <p className="text-black">
-                                            {lesson.farmIdName ? (
-                                                lesson.farmIdName.length > 20 ? (
-                                                    <Popover title={lesson.farmIdName} overlayStyle={{ textAlign: 'center', maxWidth: '400px' }}>
-                                                        {lesson.farmIdName.slice(0, 20)}...
-                                                    </Popover>
-                                                ) : (
-                                                    lesson.farmIdName
-                                                )
-                                            ) : (
-                                                "Ma'lumot mavjud emas"
-                                            )}
+                                            {lesson.farmName} 
                                         </p>
                                     </td>
                                     <td className="border-b border-[#eee] p-5">
@@ -181,14 +152,14 @@ const MasterMachine = () => {
                                                 setCrudLesson(lesson);
                                             }}
                                         />
-                                        <AiFillDelete
+                                        {/* <AiFillDelete
                                             className={`text-xl hover:cursor-pointer hover:text-red-500 duration-300`}
                                             onClick={() => {
                                                 openModal();
                                                 setEditOrDeleteStatus('DELETE');
                                                 setCrudLesson(lesson);
                                             }}
-                                        />
+                                        /> */}
                                     </td>
                                 </tr>
                             ))
@@ -302,7 +273,7 @@ const MasterMachine = () => {
                                 }}
                             />
                         )}
-                        {editOrDeleteStatus === 'DELETE' && (
+                        {/* {editOrDeleteStatus === 'DELETE' && (
                             <ShinyButton
                                 text={lessonDelete.loading ? 'O\'chirilmoqda...' : 'Xa'}
                                 className={`bg-darkGreen ${lessonDelete.loading && 'cursor-not-allowed opacity-60'}`}
@@ -310,7 +281,7 @@ const MasterMachine = () => {
                                     if (!lessonDelete.loading) lessonDelete.globalDataFunc()
                                 }}
                             />
-                        )}
+                        )} */}
                     </div>
                 </div>
             </Modal>
