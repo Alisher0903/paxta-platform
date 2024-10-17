@@ -1,7 +1,7 @@
 import PageTitle from "@/components/custom/Header/PageTitle.tsx";
 import {
-    Courses, Dashboard, Login, Users, Groups, Notifications, Tests, Rate, Module, CategoryDetails, Lesson, Task,
-    Teacher, Result, UsersEdu
+    Courses, Dashboard, Login, Users, Groups, Notifications, Rate, Module, Lesson, Task,
+    District, UsersEdu
 } from "@/pages";
 import MasterAddReport from "@/pages/master/MasterAddReport";
 import MasterMachine from "@/pages/master/masterMachine";
@@ -18,71 +18,22 @@ export const routes = [
     {
         path: '/super-admin/dashboard',
         element: <>
-            <PageTitle title="Quiz | Dashboard"/>
+            <PageTitle title="Super Admin | Dashboard"/>
             <Dashboard/>
         </>
     },
     {
-        path: '/quiz/category',
+        path: '/super-admin/users',
         element: <>
-            <PageTitle title="Quiz | Courses"/>
-            <Courses/>
-        </>
-    },
-    {
-        path: '/quiz/category/:id',
-        element: <>
-            <PageTitle title="Quiz | Courses details"/>
-            <CategoryDetails/>
-        </>
-    },
-    {
-        path: '/quiz/test',
-        element: <>
-            <PageTitle title="Quiz | Test"/>
-            <Tests/>
-        </>
-    },
-    {
-        path: '/quiz/users',
-        element: <>
-            <PageTitle title="Quiz | Users"/>
+            <PageTitle title="Super Admin | Users"/>
             <Users/>
         </>
     },
     {
-        path: '/quiz/notification',
+        path: '/super-admin/district',
         element: <>
-            <PageTitle title="Quiz | Notification"/>
-            <Notifications/>
-        </>
-    },
-    {
-        path: '/quiz/result',
-        element: <>
-            <PageTitle title="Quiz | Result"/>
-            <Result/>
-        </>
-    },
-    {
-        path: '/online/dashboard',
-        element: <>
-            <PageTitle title="Online platform | Dashboard"/>
-            <Dashboard/>
-        </>
-    },
-    {
-        path: '/online/test',
-        element: <>
-            <PageTitle title="Online platform | Test"/>
-            <Tests/>
-        </>
-    },
-    {
-        path: '/online/users',
-        element: <>
-            <PageTitle title="Online platform | Users"/>
-            <Users/>
+            <PageTitle title="Super admin | District"/>
+            <District/>
         </>
     },
     {
@@ -174,13 +125,6 @@ export const routes = [
         element: <>
             <PageTitle title="Education | Task"/>
             <Task/>
-        </>
-    },
-    {
-        path: '/edu/teacher',
-        element: <>
-            <PageTitle title="Education | Teacher"/>
-            <Teacher/>
         </>
     },
     {
