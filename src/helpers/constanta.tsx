@@ -11,6 +11,7 @@ import {FaCompress} from "react-icons/fa6";
 export const sideData = {
     superAdmin: [
         {title: 'Boshqaruv paneli', icon: <LuLayoutDashboard size={20}/>, path: '/super-admin/dashboard'},
+        {title: 'Sectorlar', icon: <MdOutlineCategory size={20}/>, path: '/super-admin/sector'},
         {title: 'Foydalanuvchilar', icon: <PiStudentFill size={20}/>, path: '/super-admin/users'},
         {title: 'Tumanlar', icon: <MdOutlineCategory size={20}/>, path: '/super-admin/category'},
         {title: 'Mashinalar', icon: <SiTestcafe size={20}/>, path: '/super-admin/test'},
@@ -128,6 +129,13 @@ export const lessonPageThead: IThead[] = [
     {id: 2, name: 'Vedio linki'},
     {id: 3, name: 'Vedio davomiyligi'},
     {id: 4, name: 'Foydalanuvchi aktivligi'},
+]
+
+export const sectorThead: IThead[] = [
+    {id: 5, name: 'T/r'},
+    {id: 1, name: 'Sector nomi'},
+    {id: 8, name: 'Tuman nomi'},
+    {id: 9, name: 'Sector raqami'},
     {id: 7, name: 'Harakat'},
 ];
 
