@@ -12,7 +12,7 @@ export const sideData = {
     superAdmin: [
         {title: 'Boshqaruv paneli', icon: <LuLayoutDashboard size={20}/>, path: '/super-admin/dashboard'},
         {title: 'Foydalanuvchilar', icon: <PiStudentFill size={20}/>, path: '/super-admin/users'},
-        {title: 'Tumanlar', icon: <MdOutlineCategory size={20}/>, path: '/super-admin/category'},
+        {title: 'Tumanlar', icon: <MdOutlineCategory size={20}/>, path: '/super-admin/district'},
         {title: 'Mashinalar', icon: <SiTestcafe size={20}/>, path: '/super-admin/test'},
         {title: 'Fermalar', icon: <FaCompress size={20}/>, path: '/super-admin/result'},
         {title: 'Hisobotlar', icon: <IoNotifications size={20}/>, path: '/super-admin/notification'},
@@ -115,13 +115,10 @@ export const lessonPageThead: IThead[] = [
     {id: 7, name: 'Harakat'},
 ];
 
-export const teacherThead: IThead[] = [
+export const districtThead: IThead[] = [
     {id: 5, name: 'ID'},
-    {id: 1, name: 'Rasmi'},
-    {id: 6, name: 'Ismi'},
-    {id: 2, name: 'Familiyasi'},
-    {id: 3, name: 'Telefon raqami'},
-    {id: 4, name: 'Guruhlari soni'},
+    {id: 1, name: 'Tuman nomi'},
+    {id: 4, name: 'Harakatlar'},
 ];
 
 export const resultThead: IThead[] = [

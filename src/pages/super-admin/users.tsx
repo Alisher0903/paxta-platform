@@ -7,7 +7,7 @@ import React, {useEffect, useState} from "react";
 import {FaEdit} from "react-icons/fa";
 import Skeleton from "@/components/custom/skeleton/skeleton-cards.tsx";
 import ShinyButton from "@/components/magicui/shiny-button.tsx";
-import {getUserList, userCreate,} from "@/helpers/api.tsx";
+import {createUser, deleteUser, districtList, editUser, getUserList} from "@/helpers/api.tsx";
 import {Dropdown, Menu, MenuProps, Pagination, Select, Space} from "antd";
 import {CiMenuKebab} from "react-icons/ci";
 import Modal from "@/components/custom/modal/modal.tsx";
@@ -39,8 +39,8 @@ const Users = () => {
         password: crudValue.password,
         lavozimi: crudValue.lavozimi,
         role: crudValue.role,
-        districtId: crudValue.districtId,
-        sectorId: crudValue.sectorId
+        districtId: (crudValue.role === 'ROLE_VHOKIM' || crudValue.role === 'ROLE_THOKIM') ? 0 : crudValue.districtId,
+        sectorId: (crudValue.role === 'ROLE_VHOKIM' || crudValue.role === 'ROLE_THOKIM') ? 0 : crudValue.sectorId
     }
 
     // ===========================REQUEST FUNCTION================================
@@ -52,21 +52,23 @@ const Users = () => {
         return `${getUserList}?${queryParams ? `${queryParams}&` : ''}page=${page}&size=10`;
     }
     const users = useGlobalRequest(getTestUrl(), 'GET');
-    const userAdd = useGlobalRequest(`${userCreate}?groupId=${crudValue.groupId}`, 'POST', requestData);
-    const userEdit = useGlobalRequest(`${crudValue.userId}`, 'PUT', requestData);
-    const userDelete = useGlobalRequest(`${crudValue.userId}`, 'DELETE');
+    const districtLists = useGlobalRequest(districtList, 'GET');
+    const userAdd = useGlobalRequest(`${createUser}`, 'POST', requestData);
+    const userEdit = useGlobalRequest(`${editUser}${crudValue.id}`, 'PUT', requestData);
+    const userDelete = useGlobalRequest(`${deleteUser}${crudValue.id}`, 'DELETE');
 
     useEffect(() => {
         users.globalDataFunc()
+        districtLists.globalDataFunc()
     }, []);
 
     useEffect(() => {
         users.globalDataFunc()
-        if (users.response && users.response.totalElements < 10) setPage(0)
+        if (users.response && users.response.body?.totalElements < 10) setPage(0)
     }, [page, userRoles]);
 
     useEffect(() => {
-        if (userAdd.response) {
+        if (userAdd.response && userAdd.response.success) {
             users.globalDataFunc()
             closeModal()
             toast.success('Foydalanuvchi muvaffaqiyatli qo\'shildi')
@@ -75,7 +77,7 @@ const Users = () => {
     }, [userAdd.response]);
 
     useEffect(() => {
-        if (userEdit.response) {
+        if (userEdit.response && userEdit.response.success) {
             users.globalDataFunc()
             closeModal()
             toast.success('Foydalanuvchi muvaffaqiyatli taxrirlandi')
@@ -84,7 +86,7 @@ const Users = () => {
     }, [userEdit.response]);
 
     useEffect(() => {
-        if (userDelete.response) {
+        if (userDelete.response && userDelete.response.success) {
             users.globalDataFunc()
             closeModal()
             toast.success('Foydalanuvchi muvaffaqiyatli o\'chirildi')
@@ -93,7 +95,7 @@ const Users = () => {
     }, [userDelete.response]);
 
     const userRole = (role: string) => {
-        if (role === 'ROLE_MASTER') return 'Briktirilgan xodim';
+        if (role === 'ROLE_MASTER') return 'Biriktirilgan xodim';
         else if (role === 'ROLE_THOKIM') return 'Tuman hokimi';
         else if (role === 'ROLE_VHOKIM') return 'Villoyat hokimi';
         else if (role === 'ROLE_SECTOR') return 'Sector raxbari';
@@ -139,7 +141,11 @@ const Users = () => {
     const handleInputChange = (name: string, value: string) => setCrudValue({...crudValue, [name]: value})
 
     const isRegexVal = () => {
-        if (crudValue.firstName && crudValue.lastName && crudValue.phoneNumber && crudValue.password && crudValue.lavozimi && crudValue.role && crudValue.districtId && crudValue.sectorId) return true
+        if (crudValue.role === 'ROLE_VHOKIM' || crudValue.role === 'ROLE_THOKIM') {
+            if (crudValue.firstName && crudValue.lastName && crudValue.phoneNumber && crudValue.password && crudValue.lavozimi && crudValue.role) return true
+        } else {
+            if (crudValue.firstName && crudValue.lastName && crudValue.phoneNumber && crudValue.password && crudValue.lavozimi && crudValue.role && crudValue.districtId && crudValue.sectorId) return true
+        }
     }
 
     return (
@@ -158,7 +164,6 @@ const Users = () => {
                     <Select.Option value={'ROLE_THOKIM'}>{userRole('ROLE_THOKIM')}</Select.Option>
                     <Select.Option value={'ROLE_VHOKIM'}>{userRole('ROLE_VHOKIM')}</Select.Option>
                     <Select.Option value={'ROLE_SECTOR'}>{userRole('ROLE_SECTOR')}</Select.Option>
-                    <Select.Option value={'ROLE_ADMIN'}>{userRole('ROLE_ADMIN')}</Select.Option>
                 </Select>
                 <ShinyButton
                     text={`Qo'shish`}
@@ -294,7 +299,7 @@ const Users = () => {
                                         placeholder={`Foydalanuvchi roliginini kiriting...`}
                                     />
                                 </div>
-                                <div className="mb-4">
+                                <div>
                                     <label>Foydalanuvchi roli</label>
                                     <select
                                         value={crudValue.role}
@@ -308,35 +313,38 @@ const Users = () => {
                                         <option value={'ROLE_THOKIM'}>{userRole('ROLE_THOKIM')}</option>
                                         <option value={'ROLE_VHOKIM'}>{userRole('ROLE_VHOKIM')}</option>
                                         <option value={'ROLE_SECTOR'}>{userRole('ROLE_SECTOR')}</option>
-                                        <option value={'ROLE_ADMIN'}>{userRole('ROLE_ADMIN')}</option>
                                     </select>
                                 </div>
-                                <div className="mb-4">
-                                    <label>Tuman</label>
-                                    <select
-                                        value={crudValue.districtId}
-                                        onChange={(e) => handleInputChange(`districtId`, e.target.value)}
-                                        className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5 mb-4"
-                                    >
-                                        <option disabled selected value={0}>
-                                            Tumanni tanlang
-                                        </option>
-                                        <option value={'ROLE_MASTER'}>{userRole('ROLE_MASTER')}</option>
-                                    </select>
-                                </div>
-                                <div className="mb-4">
-                                    <label>Sector</label>
-                                    <select
-                                        value={crudValue.sectorId}
-                                        onChange={(e) => handleInputChange(`sectorId`, e.target.value)}
-                                        className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5 mb-6"
-                                    >
-                                        <option disabled selected value={0}>
-                                            Sectorni tanlang
-                                        </option>
-                                        <option value={'ROLE_MASTER'}>{userRole('ROLE_MASTER')}</option>
-                                    </select>
-                                </div>
+                                {!(crudValue.role === 'ROLE_VHOKIM' || crudValue.role === 'ROLE_THOKIM') && <>
+                                    <div className="mb-4">
+                                        <label>Tuman</label>
+                                        <select
+                                            value={crudValue.districtId}
+                                            onChange={(e) => handleInputChange(`districtId`, e.target.value)}
+                                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5 mb-4"
+                                        >
+                                            <option disabled selected value={0}>
+                                                Tumanni tanlang
+                                            </option>
+                                            {districtLists.response?.body && districtLists.response?.body.map((item: any) => (
+                                                <option value={item.id} key={item.id}>{item.name}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className="mb-4">
+                                        <label>Sector</label>
+                                        <select
+                                            value={crudValue.sectorId}
+                                            onChange={(e) => handleInputChange(`sectorId`, e.target.value)}
+                                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5 mb-6"
+                                        >
+                                            <option disabled selected value={0}>
+                                                Sectorni tanlang
+                                            </option>
+                                            <option value={'ROLE_MASTER'}>{userRole('ROLE_MASTER')}</option>
+                                        </select>
+                                    </div>
+                                </>}
                                 <div className="mb-4">
                                     <input
                                         required

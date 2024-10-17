@@ -2,7 +2,6 @@ export const baseURL = import.meta.env.VITE_BASE_URL;
 
 // =============LOGIN=============
 export const authLogin: string = `${baseURL}auth/login`
-export const teacherPost: string = `${baseURL}auth/admin/save-teacher`
 
 // =============STATISTIC DASHBOARD==============
 export const eduAdminSts: string = `${baseURL}statistic`
@@ -22,7 +21,6 @@ export const imgUpdate: string = `${baseURL}file/update/`;
 export const imgGet: string = `${baseURL}file/files/`;
 
 // ==================USERS====================
-export const userCreate: string = `${baseURL}auth/admin/save-user`
 export const userGroupEditUser: string = `${baseURL}user/addStudentGroup/`
 export const userTeacherGet: string = `${baseURL}user/teachers`
 export const userConfirms: string = `${baseURL}user/searchUserAdmin`
@@ -76,6 +74,11 @@ export const taskLessonId: string = `${baseURL}task/getTaskByLesson/` //lessonga
 
 //==============PAXTA==============
 export const getUserList: string = `${baseURL}user/list`
+export const createUser: string = `${baseURL}user/create`
+export const editUser: string = `${baseURL}user/edit/`
+export const deleteUser: string = `${baseURL}user/`
 
 //==============DISTRICT============
 export const districtList: string = `${baseURL}district/list`
+export const districtCreate: string = `${baseURL}district/create`
+export const districtEditOrDelete: string = `${baseURL}district/`
