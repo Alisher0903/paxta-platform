@@ -1,25 +1,25 @@
 import { Card } from '@/components/ui/card-hover-effect';
-import { district_getOne } from '@/helpers/api';
+import { district_getOne, district_getOne_invalid } from '@/helpers/api';
 import { useGlobalRequest } from '@/helpers/functions/restApi-function';
-import { Input } from 'antd';
+import { Input, Pagination } from 'antd';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function V_hokim_getOne() {
     const location = useLocation();
     const districtId = location.pathname.split('/').pop();
+    const status = location.pathname.split('/')[3]
     const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split('T')[0])
-
-    const { response, globalDataFunc } = useGlobalRequest(`${district_getOne}?page=0&size=10&districtId=${districtId}&date=${selectedDate}`, 'GET');
-
-    const navigate = useNavigate()
-
+    const [page, setPage] = useState<number>(0)
+    const { response, globalDataFunc } = useGlobalRequest(`${district_getOne}?page=${page}&size=10&districtId=${districtId}&date=${selectedDate}`, 'GET');
+    const { response: responseInvalid, globalDataFunc: globalDataFuncInvalid } = useGlobalRequest(`${district_getOne_invalid}?page=${page}&size=10&districtId=${districtId}&date=${selectedDate}&status=${status}`, 'GET');
     useEffect(() => {
         globalDataFunc()
+        globalDataFuncInvalid()
     }, [selectedDate])
+    const navigate = useNavigate()
     return (
         <div className=''>
-            <h1 className='text-2xl font-semibold pb-10'>Machine Details</h1>
             <Input
                 className={'custom-input w-40 my-2'}
                 type="date"
@@ -29,32 +29,85 @@ export default function V_hokim_getOne() {
             <div className="flex justify-center py-16">
                 {response && response.body !== null && <h1 className='text-3xl font-semibold uppercase'>{response.message} tumaniga tegishli barcha mashinalar hisoboti</h1>}
             </div>
-            <div className=" flex flex-wrap gap-4 justify-between">
-                {response && response?.body?.object?.length > 0 ? (
-                    response?.body?.object?.map((machine: {
-                        machineModel: string,
-                        machineId: string,
-                        cottonSize: string,
-                    }) => (
-                        <div key={machine.machineId} className='md:w-[400px] text-white bg-[#6a9c89] rounded-md'>
-                            <Card
-                                onClick={() => {
-                                    navigate(`/v-hokim/v-hokim_getOne/${machine.machineId}`)
-                                }}
-                            >
-                                <h1 className='text-2xl font-semibold uppercase'>
-                                    {machine.machineId || '0'}
-                                </h1>
-                                <p className='text-sm md:text-lg flex justify-between uppercase'><span className='font-semibold'>Mashina Modeli: </span><span>{machine.machineModel || 'Yuqoridagi'}</span></p>
-                                <p className='text-sm md:text-lg flex justify-between uppercase'><span className='font-semibold'>Mashina Raqami: </span><span>{machine.machineId || '0'}</span></p>
-                                <p className='text-sm md:text-lg flex justify-between uppercase'><span className='font-semibold'>Yig'ilgan Paxta: </span><span>{machine.cottonSize || '0'}</span></p>
-                            </Card>
-                        </div>
-                    ))
+            {
+                status === 'active' ? (
+                    <div className=" flex flex-wrap gap-4 justify-between">
+                        {response && response?.body?.object?.length > 0 ? (
+                            response?.body?.object?.map((machine: {
+                                machineModel: string,
+                                machineId: string,
+                                cottonSize: string,
+                            }) => (
+                                <div key={machine.machineId} className='md:w-[400px] text-white bg-[#6a9c89] rounded-md'>
+                                    <Card
+                                    // onClick={() => {
+                                    //     navigate(`/v-hokim/v-hokim_getOne/${machine.machineId}`)
+                                    // }}
+                                    >
+                                        <h1 className='text-2xl font-semibold uppercase'>
+                                            {machine.machineId || '0'}
+                                        </h1>
+                                        <p className='text-sm md:text-lg flex justify-between uppercase'><span className='font-semibold'>Mashina Modeli: </span><span>{machine.machineModel || 'Yuqoridagi'}</span></p>
+                                        <p className='text-sm md:text-lg flex justify-between uppercase'><span className='font-semibold'>Mashina Raqami: </span><span>{machine.machineId || '0'}</span></p>
+                                        <p className='text-sm md:text-lg flex justify-between uppercase'><span className='font-semibold'>Yig'ilgan Paxta: </span><span>{machine.cottonSize || '0'}</span></p>
+                                    </Card>
+                                </div>
+                            ))
+                        ) : (
+                            <div>Bu san'ada hech qanday mashina ishlamayapti</div>
+                        )}
+                        <Pagination
+                            showSizeChanger={false}
+                            responsive={true}
+                            defaultCurrent={1}
+                            total={response ? response.body?.totalElements : 0}
+                            onChange={(page: number) => setPage(page - 1)}
+                            rootClassName={`mt-8 mb-5`}
+                        />
+                    </div>
                 ) : (
-                    <div>Bu san'ada hech qanday mashina ishlamayapti</div>
-                )}
-            </div>
+                    <div className=" flex flex-wrap gap-4 justify-between">
+                        {responseInvalid && responseInvalid?.body?.length > 0 ? (
+                            responseInvalid?.body?.map((machine: {
+                                machineModel: string,
+                                machineId: string,
+                                cottonSize: string,
+                            }) => (
+                                <div key={machine.machineId} className='md:w-[400px] flex flex-col gap-4 text-black bg-[#ffeaea] rounded-md'>
+                                    <Card
+                                    // onClick={() => {
+                                    //     navigate(`/v-hokim/v-hokim_getOne/${machine.machineId}`)
+                                    // }}
+                                    >
+                                        <h1 className='text-2xl pb-5 font-semibold uppercase'>
+                                            {machine.machineId || '0'}
+                                        </h1>
+                                        <p className='text-sm md:text-sm  flex justify-between uppercase'><span className='font-semibold'>Mashina Modeli: </span><span>{machine.machineModel || 'Yuqoridagi'}</span></p>
+                                        <p className='text-sm md:text-sm flex justify-between uppercase'><span className='font-semibold'>Yig'ilgan Paxta: </span><span>{machine.cottonSize || '0'}</span></p>
+                                        <div className='text-red-900 py-2 font-semibold rounded-md underline cursor-pointer select-none'
+                                            onClick={() => {
+                                                navigate(`/v-hokim/hisobot/${machine.id}`)
+                                            }}
+                                        >
+                                            information kurish
+                                        </div>
+                                    </Card>
+                                </div>
+                            ))
+                        ) : (
+                            <div>Bu san'ada hech qanday mashina ishlamayapti</div>
+                        )}
+                        {status === 'invalid' && <Pagination
+                            showSizeChanger={false}
+                            responsive={true}
+                            defaultCurrent={1}
+                            total={response ? response.body?.totalElements : 0}
+                            onChange={(page: number) => setPage(page - 1)}
+                            rootClassName={`mt-8 mb-5`}
+                        />}
+                    </div>
+                )
+            }
         </div>
     );
 }

@@ -7,6 +7,7 @@ import MasterAddReport from "@/pages/master/MasterAddReport";
 import MasterMachine from "@/pages/master/masterMachine";
 import V_hokim_getOne from "@/pages/v-hokim/v-hokim_getOne";
 import V_hokim_dashboard from "@/pages/v-hokim/v_hokim_dashboard";
+import V_hokim_hisobot from "@/pages/v-hokim/v_hokim_hisobot";
 
 export const routes = [
     // ====================GLOBAL ROUTE===================
@@ -172,10 +173,17 @@ export const routes = [
         </>
     },
     {
-        path: '/v-hokim/getOne/:id',
+        path: '/v-hokim/getOne/:status/:id',
         element: <>
             <PageTitle title="V-Hokim | Dashboard" />
             <V_hokim_getOne />
+        </>
+    },
+    {
+        path: '/v-hokim/hisobot/:id',
+        element: <>
+            <PageTitle title="V-Hokim | Hisobot" />
+            <V_hokim_hisobot />
         </>
     },
 ]

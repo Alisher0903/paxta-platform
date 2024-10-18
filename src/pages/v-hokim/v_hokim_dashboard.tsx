@@ -14,7 +14,6 @@ export default function V_hokim_dashboard() {
         `${statistic_H_page}${active}?date=${selectedDate}`,
         'GET'
     )
-
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -43,7 +42,9 @@ export default function V_hokim_dashboard() {
                     </div>
                     /
                     <div
-                        onClick={() => setActive('deActive')}
+                        onClick={() => {
+                            setActive('deActive')
+                        }}
                         className={active === 'deActive' ? 'text-[#9a1e1e] cursor-pointer select-none underline' : 'text-[#9a1e1e]  cursor-pointer select-none'}
                     >
                         Ishlamayotgan
@@ -81,7 +82,7 @@ export default function V_hokim_dashboard() {
                             cottonCount: number | null,
                         }) => (
                             <div className='shadow-3 rounded-3xl' key={item.districtId}
-                                onClick={() => navigate(`/v-hokim/getOne/${item.districtId}`)} >
+                                onClick={() => navigate(`/v-hokim/getOne/${active}/${item.districtId}`)} >
                                 <Card
                                     className={active === 'active' ? 'md:w-[400px] text-[#fff] bg-[#6A9C89] hover:bg-[#6A9C89cf] cursor-pointer' : 'w-[400px] bg-[#ffeaea] hover:bg-[#fffafa] cursor-pointer'}
                                 >
