@@ -1,5 +1,5 @@
 import Breadcrumb from "@/components/custom/breadcrumb/Breadcrumb.tsx";
-import {Input, Pagination} from "antd";
+import {Pagination} from "antd";
 import {useGlobalRequest} from "@/helpers/functions/restApi-function.tsx";
 import {reportAdminGet} from "@/helpers/api.tsx";
 import {useEffect, useState} from "react";
@@ -11,18 +11,17 @@ import moment from "moment";
 const Reports = () => {
     const [date, setDate] = useState<string>('');
     const [hour, setHour] = useState<string>('');
-    const [minute, setMinute] = useState<string>('');
     const [page, setPage] = useState<number>(0);
 
     // =====================REQUESTS======================
     const getModuleUrl = () => {
         const queryParams: string = [
             date ? `date=${date}` : '',
-            hour ? `hour=${hour}` : '',
-            minute ? `minute=${minute}` : ''
+            hour ? `hour=${hour.slice(0, 2)}` : '',
+            hour ? `minute=${hour.slice(3, 5)}` : ''
         ].filter(Boolean).join('&');
 
-        return `${reportAdminGet}?page=${page}&size=10${queryParams ? `${queryParams}&` : ''}`;
+        return `${reportAdminGet}?page=${page}&size=10${queryParams ? `&${queryParams}` : ''}`;
     }
     const {response, loading, globalDataFunc} = useGlobalRequest(getModuleUrl(), 'GET')
 
@@ -33,36 +32,24 @@ const Reports = () => {
     useEffect(() => {
         globalDataFunc()
         if (response?.body?.totalElements < 10) setPage(0)
-    }, [date, hour, minute, page]);
+    }, [date, hour, page]);
 
     return (
         <>
             <Breadcrumb pageName={`Hisobotlar`}/>
 
             {/*=================SEARCH================*/}
-            <div className={`w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-10`}>
-                <Input
-                    className={`w-full bg-transparent h-11 custom-input`}
-                    placeholder="Sana bo'yicha qidirish..."
-                    value={date}
+            <div className={`w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-end gap-5 mt-10`}>
+                <input
+                    type="date"
                     onChange={(e) => setDate(e.target.value)}
-                    allowClear
+                    className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5 mb-5"
                 />
-                <Input
-                    className={`w-full bg-transparent h-11 custom-input`}
-                    placeholder="Sana bo'yicha qidirish..."
-                    value={hour}
+                <input
+                    type="time"
                     onChange={(e) => setHour(e.target.value)}
-                    allowClear
+                    className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5 mb-5"
                 />
-                <Input
-                    className={`w-full bg-transparent h-11 custom-input`}
-                    placeholder="Sana bo'yicha qidirish..."
-                    value={minute}
-                    onChange={(e) => setMinute(e.target.value)}
-                    allowClear
-                />
-
             </div>
 
             {/*==================BODY===============*/}
