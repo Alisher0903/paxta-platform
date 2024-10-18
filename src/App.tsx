@@ -8,6 +8,7 @@ import {consoleClear, siteSecurity} from "@/helpers/functions/toastMessage.tsx";
 function App() {
     const navigate = useNavigate();
     const {pathname} = useLocation()
+    const location = useLocation();
     const tokens = sessionStorage.getItem('token');
     const admin_role = sessionStorage.getItem('admin_roles');
 
@@ -23,10 +24,12 @@ function App() {
         } else if (!refresh) sessionStorage.setItem('refreshes', 'true');
 
         if (pathname === '/') {
-            if (!tokens) navigate('/auth/login');
-            else if (tokens && admin_role === 'ADMIN_ONLINE') navigate('/online/dashboard');
-            else if (tokens && admin_role === 'ADMIN_QUIZ') navigate('/quiz/dashboard');
-            else if (tokens && admin_role === 'ADMIN_EDU') navigate('/edu/dashboard');
+            if (!tokens || !admin_role) navigate('/auth/login');
+            else if (tokens && admin_role === 'ROLE_ADMIN') navigate('/super-admin/dashboard')
+            else if (tokens && admin_role === 'ROLE_MASTER') navigate('/user/report')
+            else if (tokens && admin_role === 'ROLE_THOKIM') navigate('/t-hokim/dashboard')
+            else if (tokens && admin_role === 'ROLE_VHOKIM') navigate('/v-hokim/dashboard')
+            else if (tokens && admin_role === 'ROLE_SECTOR') navigate('/sector/dashboard')
         }
 
         if (!tokens && !pathname.startsWith('/auth')) navigate('/auth/login');
@@ -37,11 +40,22 @@ function App() {
         }, 10000)
     }, [tokens, pathname, navigate]);
 
+    useEffect(() => {
+        if (location.pathname) {
+            const isMatched = routes.some(item => item.path === location.pathname);
+            if (!isMatched) {
+                navigate('/auth/login')
+                sessionStorage.clear()
+            }
+        }
+    }, [location, routes]);
+
     return (
         <DefaultLayout>
             <Routes>
                 {routes.map(route => (
                     <Route
+                        key={route.path}
                         index={route.path === '/auth/login'}
                         path={route.path}
                         element={route.element}

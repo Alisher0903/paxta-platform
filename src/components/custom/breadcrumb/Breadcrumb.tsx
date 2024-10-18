@@ -6,15 +6,7 @@ interface BreadcrumbProps {
 }
 
 const Breadcrumb = ({pageName, subPage}: BreadcrumbProps) => {
-    const role = sessionStorage.getItem('admin_roles');
     const navigate = useNavigate()
-
-    const roles = (role: string | null) => {
-        if (role === 'ADMIN_EDU') return '/edu/dashboard'
-        else if (role === 'ADMIN_ONLINE') return '/online/dashboard'
-        else if (role === 'ADMIN_QUIZ') return '/quiz/dashboard'
-        else return '#'
-    }
 
     return (
         <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -24,7 +16,7 @@ const Breadcrumb = ({pageName, subPage}: BreadcrumbProps) => {
             <nav>
                 <ol className="flex items-center gap-2">
                     <li>
-                        <Link className="font-medium text-darkGreen" to={roles(role)}>
+                        <Link className="font-medium text-darkGreen" to={'/'}>
                             Boshqaruv paneli /
                         </Link>
                     </li>

@@ -143,7 +143,7 @@ export const routes = [
             <V_hokim_getOne />
         </>
     },
-    
+
 
     {
         path: '/edu/module',

@@ -72,7 +72,7 @@ const Sidebar = ({sidebarOpen, setSidebarOpen, toggleModal}: SidebarProps) => {
             <div className="no-scrollbar flex flex-col overflow-y-auto duration-300 ease-linear">
                 <nav className="mt-20 py-4 px-4 lg:mt-8 lg:px-6">
                     <div className='flex flex-col'>
-                        <ul className="mb-6 flex flex-col">
+                        <ul className="flex flex-col">
                             <li>
                                 {admin_role === 'ROLE_ADMIN' && superAdmin.map((side, idx) => (
                                     <BlurFade duration={idx / 10 + .3} delay={idx / 9}>
@@ -106,13 +106,12 @@ const Sidebar = ({sidebarOpen, setSidebarOpen, toggleModal}: SidebarProps) => {
                                 ))}
                             </li>
                         </ul>
-                        <div
-                            className={`absolute bottom-10 w-60`}>
+                        <div className={`w-60`}>
                             <ShinyButton
                                 onClick={() => toggleModal()}
                                 icon={<IoIosLogOut size={25}/>}
                                 text='Chiqish'
-                                className='bg-darkGreen w-full'
+                                className='bg-red-500 w-full'
                             />
                         </div>
                     </div>
