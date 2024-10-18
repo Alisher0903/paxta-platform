@@ -98,3 +98,9 @@ export const machineDeletes: string = `${baseURL}machines/delete/`
 // Report 
 export const reportMaster: string = `${baseURL}break-report/list/today`
 export const reportPostMaster: string = `${baseURL}break-report/create`
+
+// ==========FARM=========
+export const farmList: string = `${baseURL}farm/list`
+export const farmCreate: string = `${baseURL}farm/create`
+export const farmEditOrDelete: string = `${baseURL}farm/`
+export const farmCotton: string = `${baseURL}cottonPicked/list/`
