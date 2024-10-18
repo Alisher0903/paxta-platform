@@ -40,15 +40,15 @@ function App() {
         }, 10000)
     }, [tokens, pathname, navigate]);
 
-    useEffect(() => {
-        if (location.pathname) {
-            const isMatched = routes.some(item => item.path === location.pathname);
-            if (!isMatched) {
-                navigate('/auth/login')
-                sessionStorage.clear()
-            }
-        }
-    }, [location, routes]);
+    // useEffect(() => {
+    //     if (location.pathname) {
+    //         const isMatched = routes.some(item => item.path === location.pathname);
+    //         if (!isMatched) {
+    //             navigate('/auth/login')
+    //             sessionStorage.clear()
+    //         }
+    //     }
+    // }, [location, routes]);
 
     return (
         <DefaultLayout>

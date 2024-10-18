@@ -73,6 +73,7 @@ export const taskLessonId: string = `${baseURL}task/getTaskByLesson/` //lessonga
 // Hokim Buva Apilari
 export const statistic_H_page: string = `${baseURL}statistic/dashboard/`
 export const district_getOne: string = `${baseURL}machines/machines/by/district`
+
 //==============PAXTA==============
 export const getUserList: string = `${baseURL}user/list`
 export const createUser: string = `${baseURL}user/create`
