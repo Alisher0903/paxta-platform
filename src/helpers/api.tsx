@@ -100,6 +100,7 @@ export const machineEdits: string = `${baseURL}machines/edit-machine/`
 export const machineEditUsers: string = `${baseURL}machines/edit-user/`
 export const machineCreate: string = `${baseURL}machines/create`
 export const machineDeletes: string = `${baseURL}machines/delete/`
+export const machineCount: string = `${baseURL}machines/count-machine`
 
 // Report 
 export const reportMaster: string = `${baseURL}break-report/list/today`
