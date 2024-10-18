@@ -16,7 +16,7 @@ export const sideData = {
         {title: 'Tumanlar', icon: <MdOutlineCategory size={20}/>, path: '/super-admin/district'},
         {title: 'Mashinalar', icon: <SiTestcafe size={20}/>, path: '/super-admin/machine'},
         {title: 'Fermalar', icon: <FaCompress size={20}/>, path: '/super-admin/farm'},
-        {title: 'Hisobotlar', icon: <IoNotifications size={20}/>, path: '/super-admin/notification'},
+        {title: 'Hisobotlar', icon: <IoNotifications size={20}/>, path: '/super-admin/report'},
         {title: 'Statistika', icon: <IoNotifications size={20}/>, path: '/super-admin/statistics'},
     ],
     user: [
@@ -48,16 +48,6 @@ export const topStudentEdu: IThead[] = [
     {id: 3, name: 'Umumiy bali'},
 ];
 
-export const userTableHead: IThead[] = [
-    {id: 1, name: 'ID'},
-    {id: 7, name: 'Rasm'},
-    {id: 2, name: 'Ismi'},
-    {id: 3, name: 'Familiyasi'},
-    {id: 5, name: 'Telefon raqami'},
-    {id: 7, name: 'Roli'},
-    {id: 6, name: 'Xarakat'},
-]
-
 export const confirmUserTHead: IThead[] = [
     {id: 1, name: 'ID'},
     {id: 2, name: 'Ismi'},
@@ -80,17 +70,6 @@ export const rateThead: IThead[] = [
     {id: 2, name: 'Kurs nomi'},
     {id: 3, name: 'To\'plagan bali'},
     {id: 4, name: 'Reytingi'},
-];
-
-export const lessonThead: IThead[] = [
-    {id: 5, name: 'ID'},
-    {id: 1, name: 'Dars nomi'},
-    {id: 7, name: 'Yunalish nomi'},
-    {id: 8, name: 'Modul nomi'},
-    {id: 6, name: 'Tavsifi'},
-    {id: 2, name: 'Vedio linki'},
-    {id: 3, name: 'Vedio davomiyligi'},
-    {id: 4, name: 'Foydalanuvchi aktivligi'},
 ];
 
 export const lessonPageThead: IThead[] = [
@@ -159,4 +138,34 @@ export const machineThead: IThead[] = [
     {id: 8, name: 'Tuman'},
     {id: 9, name: 'Yil'},
     {id: 10, name: 'Harakatlar'},
+];
+
+export const userTableHead: IThead[] = [
+    {id: 1, name: 'T/r'},
+    {id: 2, name: 'Ismi'},
+    {id: 3, name: 'Familiyasi'},
+    {id: 5, name: 'Telefon raqami'},
+    {id: 7, name: 'Lavozimi'},
+    {id: 8, name: 'Statusi'},
+    {id: 9, name: 'Sector nomi'},
+    {id: 10, name: 'Sector raqami'},
+    {id: 6, name: 'Xarakat'},
+]
+
+export const reportThead: IThead[] = [
+    {id: 1, name: 'T/r'},
+    {id: 2, name: 'F.I.O'},
+    {id: 3, name: 'Firma nomi'},
+    {id: 4, name: 'Area nomi'},
+    {id: 5, name: 'Mashina modeli'},
+    {id: 6, name: 'Mashina holati'},
+    {id: 9, name: 'Mashina activligi'},
+    {id: 7, name: 'Tuman'},
+    {id: 8, name: 'Paxta hajmi (tonna)'},
+    {id: 10, name: 'Sector raqami'},
+    {id: 11, name: 'Terim maydoni (gektar)'},
+    {id: 12, name: 'Sana'},
+    {id: 13, name: 'Tugagan sanasi'},
+    {id: 14, name: 'Vaqt'},
+    {id: 15, name: 'Tugagan vaqti'},
 ];

@@ -16,6 +16,7 @@ export interface GroupLists {
 export interface GroupCreate {
     id?: number
     district?: number
+    districtName?: string
     districtId: number,
     farmName: string,
     ownerFullName: string,

@@ -55,9 +55,7 @@ export const notificationDelete: string = `${baseURL}notification/del-registrant
 export const resultSearch: string = `${baseURL}result/search`
 
 // ==============MODULE CONTROLLER====================
-export const moduleCrud: string = `${baseURL}module`
-export const moduleCategoryId: string = `${baseURL}module/byCategory/` //categoryga tegishli hamma module ni get qilish
-export const moduleEdu: string = `${baseURL}module/searchModuleEducation`
+export const moduleCategoryId: string = `${baseURL}module/byCategory/`
 export const moduleOnline: string = `${baseURL}module/searchModuleOnline`
 
 // ==============LESSON CONTROLLER====================
@@ -98,6 +96,7 @@ export const machineDeletes: string = `${baseURL}machines/delete/`
 // Report 
 export const reportMaster: string = `${baseURL}break-report/list/today`
 export const reportPostMaster: string = `${baseURL}break-report/create`
+export const reportAdminGet: string = `${baseURL}report/admin`
 
 // ==========FARM=========
 export const farmList: string = `${baseURL}farm/list`
