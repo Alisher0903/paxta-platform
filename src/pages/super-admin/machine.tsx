@@ -172,7 +172,7 @@ const Machine = () => {
                                     </td>
                                     <td className="border-b border-[#eee] p-5">
                                         <p className="text-black">
-                                            {sts.firstName} {sts.lastName}
+                                            {sts.districtName}
                                         </p>
                                     </td>
                                     <td className="border-b border-[#eee] p-5">
@@ -190,11 +190,11 @@ const Machine = () => {
                                             {sts.ownerPhoneNumber}
                                         </p>
                                     </td>
-                                    {/*<td className="border-b border-[#eee] p-5">*/}
-                                    {/*    <p className="text-black">*/}
-                                    {/*        {sts.phoneNumber}*/}
-                                    {/*    </p>*/}
-                                    {/*</td>*/}
+                                    <td className="border-b border-[#eee] p-5">
+                                        <p className="text-black">
+                                            {sts.machineId}
+                                        </p>
+                                    </td>
                                     <td className="border-b border-[#eee] p-5">
                                         <p className="text-black">
                                             {sts.machineModel}
@@ -202,22 +202,22 @@ const Machine = () => {
                                     </td>
                                     <td className="border-b border-[#eee] p-5">
                                         <p className="text-black">
-                                            {sts.machineId}
-                                        </p>
-                                    </td>
-                                    {/*<td className="border-b border-[#eee] p-5">*/}
-                                    {/*    <p className="text-black">*/}
-                                    {/*        {sts.lavozimi}*/}
-                                    {/*    </p>*/}
-                                    {/*</td>*/}
-                                    <td className="border-b border-[#eee] p-5">
-                                        <p className="text-black">
-                                            {sts.districtName}
-                                        </p>
-                                    </td>
-                                    <td className="border-b border-[#eee] p-5">
-                                        <p className="text-black">
                                             {sts.year}
+                                        </p>
+                                    </td>
+                                    <td className="border-b border-[#eee] p-5">
+                                        <p className="text-black">
+                                            {sts.firstName} {sts.lastName}
+                                        </p>
+                                    </td>
+                                    <td className="border-b border-[#eee] p-5">
+                                        <p className="text-black">
+                                            {sts.lavozimi}
+                                        </p>
+                                    </td>
+                                    <td className="border-b border-[#eee] p-5">
+                                        <p className="text-black">
+                                            {sts.phoneNumber}
                                         </p>
                                     </td>
                                     <td className="border-b border-[#eee] p-5">
@@ -244,7 +244,7 @@ const Machine = () => {
                             )) : (
                                 <tr className={`hover:bg-whiteGreen duration-100`}>
                                     <td className="border-b border-[#eee] p-5" colSpan={machineThead.length}>
-                                        <p className="text-black text-center">
+                                    <p className="text-black text-center">
                                             Mashinalar topilmadi
                                         </p>
                                     </td>

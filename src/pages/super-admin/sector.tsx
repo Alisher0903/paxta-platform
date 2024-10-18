@@ -35,8 +35,8 @@ const Sectors = () => {
     const {loading, response, globalDataFunc} = useGlobalRequest(`${sectorGetAll}?page=${page}&size=10`, 'GET')
     const districtLists = useGlobalRequest(districtList, 'GET')
     const sectorAdd = useGlobalRequest(sectorCreate, 'POST', requestData)
-    const sectorEdits = useGlobalRequest(`${sectorEdit}${crudSector.sectorId}`, 'PUT', requestData)
-    const sectorDeletes = useGlobalRequest(`${sectorDelete}${crudSector.sectorId}`, 'DELETE')
+    const sectorEdits = useGlobalRequest(`${sectorEdit}${crudSector.id}`, 'PUT', requestData)
+    const sectorDeletes = useGlobalRequest(`${sectorDelete}${crudSector.id}`, 'DELETE')
 
     useEffect(() => {
         globalDataFunc()

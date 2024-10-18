@@ -103,3 +103,6 @@ export const farmList: string = `${baseURL}farm/list`
 export const farmCreate: string = `${baseURL}farm/create`
 export const farmEditOrDelete: string = `${baseURL}farm/`
 export const farmCotton: string = `${baseURL}cottonPicked/list/`
+
+// ==============sts=============
+export const stsReport: string = `${baseURL}statistic/report`

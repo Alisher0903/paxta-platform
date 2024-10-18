@@ -207,7 +207,7 @@ const Users = () => {
                                 </td>
                                 <td className="border-b border-[#eee] p-5">
                                     <p className="text-black">
-                                        {sts.phoneNumber ? sts.phoneNumber : ''}
+                                        {sts.phoneNumber ? sts.phoneNumber : '-'}
                                     </p>
                                 </td>
                                 <td className="border-b border-[#eee] p-5">
@@ -218,6 +218,11 @@ const Users = () => {
                                 <td className="border-b border-[#eee] p-5">
                                     <p className={`${sts.active ? 'bg-green-300' : 'bg-red-300'} text-black rounded-xl border-none px-3 py-1 font-semibold text-center`}>
                                         {sts.active ? 'Aktiv' : 'Aktiv emas'}
+                                    </p>
+                                </td>
+                                <td className="border-b border-[#eee] p-5">
+                                    <p className="text-black">
+                                        {sts.district ? sts.district : '-'}
                                     </p>
                                 </td>
                                 <td className="border-b border-[#eee] p-5">
