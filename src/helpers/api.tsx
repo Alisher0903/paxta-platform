@@ -114,3 +114,6 @@ export const farmCotton: string = `${baseURL}cottonPicked/list/`
 
 // ==============sts=============
 export const stsReport: string = `${baseURL}statistic/report`
+
+// ============down file=======
+export const excelDownload: string = `${baseURL}attachment/download`

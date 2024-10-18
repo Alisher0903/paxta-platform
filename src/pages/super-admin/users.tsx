@@ -307,7 +307,7 @@ const Users = () => {
                                         value={crudValue?.phoneNumber}
                                         onChange={e => handleInputChange('phoneNumber', e.target.value)}
                                         className={`bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5`}
-                                        placeholder={`Foydalanuvchi roliginini kiriting...`}
+                                        placeholder={`Foydalanuvchi telefon raqamini kiriting...`}
                                     />
                                 </div>
                                 <div>
