@@ -118,17 +118,17 @@ const Sectors = () => {
                                 </td>
                                 <td className="border-b border-[#eee] p-5">
                                     <p className="text-black">
-                                        {sector.sectorName}
+                                        {sector.name}
                                     </p>
                                 </td>
                                 <td className="border-b border-[#eee] p-5">
                                     <p className="text-black">
-                                        {sector.district}
+                                        {sector.districtName}
                                     </p>
                                 </td>
                                 <td className="border-b border-[#eee] p-5">
                                     <p className="text-black">
-                                        {sector.sectorNumber}
+                                        {sector.number}
                                     </p>
                                 </td>
                                 <td className="border-b border-[#eee] p-5 flex items-center justify-start gap-3">

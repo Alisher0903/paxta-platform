@@ -1,6 +1,6 @@
 import PageTitle from "@/components/custom/Header/PageTitle.tsx";
 import {
-    Courses, Dashboard, Login, Users, Groups, Notifications, Rate, Module, Task,
+    Courses, Dashboard, Login, Users, Machine, Notifications, Rate, Module, Task,
     District, UsersEdu, Sectors
 } from "@/pages";
 import MasterAddReport from "@/pages/master/MasterAddReport";
@@ -44,6 +44,13 @@ export const routes = [
         </>
     },
     {
+        path: '/super-admin/machine',
+        element: <>
+            <PageTitle title="Super admin | Machine"/>
+            <Machine/>
+        </>
+    },
+    {
         path: '/online/notification',
         element: <>
             <PageTitle title="Online platform | Notification"/>
@@ -76,13 +83,6 @@ export const routes = [
         element: <>
             <PageTitle title="Education | Users"/>
             <Users/>
-        </>
-    },
-    {
-        path: '/edu/group',
-        element: <>
-            <PageTitle title="Education | Groups"/>
-            <Groups/>
         </>
     },
     {

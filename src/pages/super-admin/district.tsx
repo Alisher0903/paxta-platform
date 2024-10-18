@@ -3,7 +3,7 @@ import ShinyButton from "@/components/magicui/shiny-button.tsx";
 import {MdDelete, MdOutlineAddCircle} from "react-icons/md";
 import Skeleton from "@/components/custom/skeleton/skeleton-cards.tsx";
 import Tables from "@/components/custom/tables/table.tsx";
-import {districtThead} from "@/helpers/constanta.tsx";
+import {districtsThead} from "@/helpers/constanta.tsx";
 import toast from "react-hot-toast";
 import Modal from "@/components/custom/modal/modal.tsx";
 import {Input} from "antd";
@@ -88,7 +88,7 @@ const District = () => {
                     <Skeleton/>
                     <Skeleton/>
                 </div> : (
-                    <Tables thead={districtThead}>
+                    <Tables thead={districtsThead}>
                         {(response && response.body?.length > 0) ? response.body.map((D: any, idx: number) => (
                             <tr key={idx} className={`hover:bg-whiteGreen duration-100`}>
                                 <td className="border-b border-[#eee] p-5">
@@ -123,7 +123,7 @@ const District = () => {
                         )) : <tr className={`hover:bg-whiteGreen duration-100`}>
                             <td
                                 className="border-b border-[#eee] p-5 text-black text-center"
-                                colSpan={districtThead.length}
+                                colSpan={districtsThead.length}
                             >Tumanlar topilmadi
                             </td>
                         </tr>}

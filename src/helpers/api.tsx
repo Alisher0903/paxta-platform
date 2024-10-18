@@ -22,9 +22,8 @@ export const imgGet: string = `${baseURL}file/files/`;
 
 // ==================USERS====================
 export const userGroupEditUser: string = `${baseURL}user/addStudentGroup/`
-export const userTeacherGet: string = `${baseURL}user/teachers`
 export const userConfirms: string = `${baseURL}user/searchUserAdmin`
-export const userGetMe: string = `${baseURL}user/get/me`
+export const userGetMe: string = `${baseURL}user/getMe`
 
 //================CATEGORY CONTROLLER==================
 export const categoryList: string = `${baseURL}category/list?categoryEnum=`
@@ -42,7 +41,6 @@ export const questionCrud: string = `${baseURL}question`
 
 // ==============GROUP CONTROLLER====================
 export const groupList: string = `${baseURL}group/list`
-export const groupCrud: string = `${baseURL}group` // edit, delete, add, oneGet
 
 // ==============RATE CONTROLLER====================
 export const rateList: string = `${baseURL}rate/studentsRate`
@@ -89,6 +87,13 @@ export const sectorGetAll: string = `${baseURL}sector/all`
 export const sectorCreate: string = `${baseURL}sector/create`
 export const sectorEdit: string = `${baseURL}sector/edit/`
 export const sectorDelete: string = `${baseURL}sector/`
+
+// ===========MACHINE==========
+export const machineList: string = `${baseURL}machines/list`
+export const machineEdits: string = `${baseURL}machines/edit-machine/`
+export const machineEditUsers: string = `${baseURL}machines/edit-user/`
+export const machineCreate: string = `${baseURL}machines/create`
+export const machineDeletes: string = `${baseURL}machines/delete/`
 
 // Report 
 export const reportMaster: string = `${baseURL}break-report/list/today`
