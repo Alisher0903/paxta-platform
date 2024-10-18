@@ -80,3 +80,10 @@ export const lessonModuleID: string = `${baseURL}lesson/list/edu/`
 // ==============TASK CONTROLLER====================
 export const taskCrud: string = `${baseURL}task/`
 export const taskLessonId: string = `${baseURL}task/getTaskByLesson/` //lessonga tegishli hamma module ni get qilish
+
+
+
+
+// Hokim Buva Apilari
+export const statistic_H_page: string = `${baseURL}statistic/dashboard/`
+export const district_getOne: string = `${baseURL}machines/machines/by/district`
