@@ -181,3 +181,29 @@ select:focus {
     height: 20px;
     pointer-events: none;
 }
+
+.custom-time-input {
+    position: relative;
+}
+
+.custom-time-input input[type="time"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    border: 1px solid #91c788;
+    border-radius: 8px;
+    width: 100%;
+}
+
+.custom-time-input::before {
+    content: '';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: url('./assets/svg/hourIcon.svg') no-repeat center;
+    background-size: 20px 20px;
+    width: 20px;
+    height: 20px;
+    pointer-events: none;
+}

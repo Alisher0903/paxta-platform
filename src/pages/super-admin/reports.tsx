@@ -1,5 +1,5 @@
 import Breadcrumb from "@/components/custom/breadcrumb/Breadcrumb.tsx";
-import {Pagination} from "antd";
+import {Pagination, Select} from "antd";
 import {useGlobalRequest} from "@/helpers/functions/restApi-function.tsx";
 import {reportAdminGet} from "@/helpers/api.tsx";
 import {useEffect, useState} from "react";
@@ -18,7 +18,7 @@ const Reports = () => {
         const queryParams: string = [
             date ? `date=${date}` : '',
             hour ? `hour=${hour.slice(0, 2)}` : '',
-            hour ? `minute=${hour.slice(3, 5)}` : ''
+            hour ? `minute=0` : ''
         ].filter(Boolean).join('&');
 
         return `${reportAdminGet}?page=${page}&size=10${queryParams ? `&${queryParams}` : ''}`;
@@ -40,16 +40,26 @@ const Reports = () => {
 
             {/*=================SEARCH================*/}
             <div className={`w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-end gap-5 mt-10`}>
-                <input
-                    type="date"
-                    onChange={(e) => setDate(e.target.value)}
-                    className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5 mb-5"
-                />
-                <input
-                    type="time"
-                    onChange={(e) => setHour(e.target.value)}
-                    className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5 mb-5"
-                />
+                <div className="custom-date-input">
+                    <input
+                        type="date"
+                        onChange={(e) => setDate(e.target.value)}
+                        className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
+                    />
+                </div>
+                <div>
+                    <Select
+                        placeholder={`Soatni tanlang`}
+                        className={`w-full bg-transparent h-11 custom-select`}
+                        onChange={(e) => setHour(e)}
+                        allowClear
+                    >
+                        <Select.Option value={'09:00'}>09:00</Select.Option>
+                        <Select.Option value={'13:00'}>13:00</Select.Option>
+                        <Select.Option value={'19:00'}>19:00</Select.Option>
+                        <Select.Option value={'23:00'}>23:00</Select.Option>
+                    </Select>
+                </div>
             </div>
 
             {/*==================BODY===============*/}

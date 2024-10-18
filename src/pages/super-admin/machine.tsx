@@ -308,7 +308,7 @@ const Machine = () => {
                             <input
                                 value={crudMachine.phoneNumber}
                                 onChange={(e) => handleChange('phoneNumber', e.target.value)}
-                                placeholder="Loginni kiriting"
+                                placeholder="Telefon raqamni kiriting"
                                 className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
                             />
                             <input
@@ -333,19 +333,19 @@ const Machine = () => {
                             <input
                                 value={crudMachine.farmName}
                                 onChange={(e) => handleChange('farmName', e.target.value)}
-                                placeholder="Farm nomini kiriting"
+                                placeholder="Fermer xujaligi nomini kiriting"
                                 className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
                             />
                             <input
                                 value={crudMachine.ownerFullName}
                                 onChange={(e) => handleChange('ownerFullName', e.target.value)}
-                                placeholder="Owner tuliq ismini kiriting"
+                                placeholder="Operator tuliq ismini kiriting"
                                 className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
                             />
                             <input
                                 value={crudMachine.ownerPhoneNumber}
                                 onChange={(e) => handleChange('ownerPhoneNumber', e.target.value)}
-                                placeholder="Owner raqamini kiriting"
+                                placeholder="Operator raqamini kiriting"
                                 className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
                             />
                             <input
@@ -354,12 +354,20 @@ const Machine = () => {
                                 placeholder="Mashina idsini kiriting"
                                 className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
                             />
-                            <input
+                            <select
                                 value={crudMachine.machineModel}
-                                onChange={(e) => handleChange('machineModel', e.target.value)}
-                                placeholder="Mashina modelini kiriting"
-                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
-                            />
+                                onChange={(e) => handleChange(`machineModel`, e.target.value)}
+                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5"
+                            >
+                                <option disabled selected value={''}>
+                                    Mashina modelini kiriting
+                                </option>
+                                    <option value={'CE_220'}>CE_220</option>
+                                    <option value={'JOHN_DEERE'}>JOHN_DEERE</option>
+                                    <option value={'BOSHIRAN'}>BOSHIRAN</option>
+                                    <option value={'FM_WORLD'}>FM_WORLD</option>
+                                    <option value={'DONG_FENG'}>DONG_FENG</option>
+                            </select>
                             <input
                                 value={crudMachine.password}
                                 onChange={(e) => handleChange('password', e.target.value)}
