@@ -1,8 +1,10 @@
 import PageTitle from "@/components/custom/Header/PageTitle.tsx";
 import {
-    Courses, Dashboard, Login, Users, Notifications, Tests, Rate, Module, CategoryDetails, Lesson, Task,
-    Teacher, Result, UsersEdu
+    Courses, Dashboard, Login, Users, Machine, Notifications, Rate, Reports, Task,
+    District, UsersEdu, Sectors, Farms, Statistics
 } from "@/pages";
+import MasterAddReport from "@/pages/master/MasterAddReport";
+import MasterMachine from "@/pages/master/masterMachine";
 import V_hokim_getOne from "@/pages/v-hokim/v-hokim_getOne";
 import V_hokim_dashboard from "@/pages/v-hokim/v_hokim_dashboard";
 
@@ -11,124 +13,157 @@ export const routes = [
     {
         path: '/auth/login',
         element: <>
-            <PageTitle title="Login" />
-            <Login />
+            <PageTitle title="Login"/>
+            <Login/>
         </>
     },
     {
         path: '/super-admin/dashboard',
         element: <>
-            <PageTitle title="Quiz | Dashboard" />
-            <Dashboard />
+            <PageTitle title="Super Admin | Dashboard"/>
+            <Dashboard/>
         </>
     },
     {
-        path: '/quiz/category',
+        path: '/super-admin/users',
         element: <>
-            <PageTitle title="Quiz | Courses" />
-            <Courses />
+            <PageTitle title="Super Admin | Users"/>
+            <Users/>
         </>
     },
     {
-        path: '/quiz/category/:id',
+        path: '/super-admin/district',
         element: <>
-            <PageTitle title="Quiz | Courses details" />
-            <CategoryDetails />
+            <PageTitle title="Super admin | District"/>
+            <District/>
         </>
     },
     {
-        path: '/quiz/test',
+        path: '/super-admin/sector',
         element: <>
-            <PageTitle title="Quiz | Test" />
-            <Tests />
+            <PageTitle title="Super admin | Sectors"/>
+            <Sectors/>
         </>
     },
     {
-        path: '/quiz/users',
+        path: '/super-admin/machine',
         element: <>
-            <PageTitle title="Quiz | Users" />
-            <Users />
+            <PageTitle title="Super admin | Machine"/>
+            <Machine/>
         </>
     },
     {
-        path: '/quiz/notification',
+        path: '/super-admin/farm',
         element: <>
-            <PageTitle title="Quiz | Notification" />
-            <Notifications />
+            <PageTitle title="Super admin | Ferma"/>
+            <Farms/>
         </>
     },
     {
-        path: '/quiz/result',
+        path: '/super-admin/report',
         element: <>
-            <PageTitle title="Quiz | Result" />
-            <Result />
+            <PageTitle title="Super admin | Reports"/>
+            <Reports/>
         </>
     },
     {
-        path: '/online/dashboard',
+        path: '/super-admin/statistics',
         element: <>
-            <PageTitle title="Online platform | Dashboard" />
-            <Dashboard />
-        </>
-    },
-    {
-        path: '/online/test',
-        element: <>
-            <PageTitle title="Online platform | Test" />
-            <Tests />
-        </>
-    },
-    {
-        path: '/online/users',
-        element: <>
-            <PageTitle title="Online platform | Users" />
-            <Users />
+            <PageTitle title="Super admin | Statistics"/>
+            <Statistics/>
         </>
     },
     {
         path: '/online/notification',
         element: <>
-            <PageTitle title="Online platform | Notification" />
-            <Notifications />
+            <PageTitle title="Online platform | Notification"/>
+            <Notifications/>
         </>
     },
     {
         path: '/online/course',
         element: <>
-            <PageTitle title="Online platform | Courses" />
-            <Courses />
-        </>
-    },
-    {
-        path: '/online/module',
-        element: <>
-            <PageTitle title="Online platform | Module" />
-            <Module />
-        </>
-    },
-    {
-        path: '/online/lesson',
-        element: <>
-            <PageTitle title="Online platform | Lesson" />
-            <Lesson />
+            <PageTitle title="Online platform | Courses"/>
+            <Courses/>
         </>
     },
     {
         path: '/edu/dashboard',
         element: <>
-            <PageTitle title="Education | Dashboard" />
-            <Dashboard />
+            <PageTitle title="Education | Dashboard"/>
+            <Dashboard/>
         </>
     },
     {
         path: '/edu/users',
         element: <>
-            <PageTitle title="Education | Users" />
-            <Users />
+            <PageTitle title="Education | Users"/>
+            <Users/>
         </>
     },
-
-    // v-hokim routes
+    {
+        path: '/edu/notification',
+        element: <>
+            <PageTitle title="Education | Notification"/>
+            <Notifications/>
+        </>
+    },
+    {
+        path: '/edu/course',
+        element: <>
+            <PageTitle title="Education | Courses"/>
+            <Courses/>
+        </>
+    },
+    {
+        path: '/edu/module',
+        element: <>
+            <PageTitle title="Education | Reports"/>
+            <Reports/>
+        </>
+    },
+    {
+        path: '/edu/rate',
+        element: <>
+            <PageTitle title="Education | Rate"/>
+            <Rate/>
+        </>
+    },
+    {
+        path: '/edu/task/:id',
+        element: <>
+            <PageTitle title="Education | Task"/>
+            <Task/>
+        </>
+    },
+    {
+        path: '/edu/users-confirm',
+        element: <>
+            <PageTitle title="Education | Confirm Users"/>
+            <UsersEdu/>
+        </>
+    },
+    {
+        path: '/user/report',
+        element: <>
+            <PageTitle title="Hisobotlar"/>
+            <MasterAddReport/>
+        </>
+    },
+    // {
+    //     path: 'user/course',
+    //     element: <>
+    //         <PageTitle title="Education | Reports"/>
+    //         <Task/>
+    //     </>
+    // },
+    {
+        path: '/user/machine',
+        element: <>
+            <PageTitle title="Mashinalar holati"/>
+            <MasterMachine/>
+        </>
+    },
     {
         path: '/v-hokim/dashboard',
         element: <>
@@ -141,71 +176,6 @@ export const routes = [
         element: <>
             <PageTitle title="V-Hokim | Dashboard" />
             <V_hokim_getOne />
-        </>
-    },
-
-
-    {
-        path: '/edu/module',
-        element: <>
-            <PageTitle title="Education | Module" />
-            <Module />
-        </>
-    },
-    {
-        path: '/edu/rate',
-        element: <>
-            <PageTitle title="Education | Rate" />
-            <Rate />
-        </>
-    },
-    {
-        path: '/edu/lesson',
-        element: <>
-            <PageTitle title="Education | Lesson" />
-            <Lesson />
-        </>
-    },
-    {
-        path: '/edu/task/:id',
-        element: <>
-            <PageTitle title="Education | Task" />
-            <Task />
-        </>
-    },
-    {
-        path: '/edu/teacher',
-        element: <>
-            <PageTitle title="Education | Teacher" />
-            <Teacher />
-        </>
-    },
-    {
-        path: '/edu/users-confirm',
-        element: <>
-            <PageTitle title="Education | Confirm Users" />
-            <UsersEdu />
-        </>
-    },
-    {
-        path: '/user/report',
-        element: <>
-            <PageTitle title="Education | Confirm Users" />
-            <UsersEdu />
-        </>
-    },
-    {
-        path: 'user/course',
-        element: <>
-            <PageTitle title="Education | Module" />
-            <Task />
-        </>
-    },
-    {
-        path: 'user/module',
-        element: <>
-            <PageTitle title="Education | Module" />
-            <Task />
         </>
     },
 ]
