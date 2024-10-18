@@ -1,7 +1,7 @@
 import PageTitle from "@/components/custom/Header/PageTitle.tsx";
 import {
     Courses, Dashboard, Login, Users, Machine, Notifications, Rate, Reports, Task,
-    District, UsersEdu, Sectors, Farms, Statistics
+    District, UsersEdu, Sectors, Farms, Statistics, Cotton
 } from "@/pages";
 import MasterAddReport from "@/pages/master/MasterAddReport";
 import MasterMachine from "@/pages/master/masterMachine";
@@ -56,8 +56,15 @@ export const routes = [
     {
         path: '/super-admin/farm',
         element: <>
-            <PageTitle title="Super admin | Ferma"/>
+            <PageTitle title="Super admin | Fermer xo'jaligi"/>
             <Farms/>
+        </>
+    },
+    {
+        path: '/super-admin/cotton',
+        element: <>
+            <PageTitle title="Super admin | Hududlar"/>
+            <Cotton/>
         </>
     },
     {
