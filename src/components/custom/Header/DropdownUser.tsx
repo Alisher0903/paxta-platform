@@ -1,17 +1,20 @@
 import AnimatedShinyText from "@/components/magicui/animated-shiny-text.tsx";
 import avatar from '@/assets/images/avatar.png'
 import BlurFade from "@/components/magicui/blur-fade.tsx";
+import globalStore from "@/helpers/state-management/globalStore.tsx";
 
 const DropdownUser = () => {
     const admin_role = sessionStorage.getItem('admin_roles');
+    const {meData} = globalStore()
 
-    const roles = (role: string) => {
-        if (role === 'ROLE_MASTER') return 'user'
-        else if (role === 'ROLE_ADMIN') return 'super admin'
-        else if (role === 'ROLE_THOKIM') return 'tuman hokimi'
-        else if (role === 'ROLE_VHOKIM') return 'viloyat hokimi'
-        else if (role === 'ROLE_SECTOR') return 'sector raxbari'
+    const roles = (role: string | null) => {
+        if (role === 'ROLE_MASTER') return 'operator'
+        else if (role === 'ROLE_ADMIN') return 'Super admin'
+        else if (role === 'ROLE_THOKIM') return 'Tuman hokimi'
+        else if (role === 'ROLE_VHOKIM') return 'Viloyat hokimi'
+        else if (role === 'ROLE_SECTOR') return 'Sector raxbari'
     }
+
     return (
         <>
             <div className="flex items-center gap-4">
@@ -19,13 +22,14 @@ const DropdownUser = () => {
                     <span className="text-xl font-semibold text-white">
                         <AnimatedShinyText
                             className={`inline-flex items-center justify-center transition ease-out hover:text-whiten-600 hover:duration-300`}>
-                            <span>Sodiqov Alisher</span>
+                            <span>{meData?.firstName} {meData?.lastName} {!meData && `${roles(admin_role)}`}</span>
                         </AnimatedShinyText>
                     </span>
                     <span className="text-sm font-normal text-white">
-                        <AnimatedShinyText className={`inline-flex items-center justify-center transition ease-out hover:text-whiten-600 hover:duration-300`}>
+                        <AnimatedShinyText
+                            className={`inline-flex items-center justify-center transition ease-out hover:text-whiten-600 hover:duration-300`}>
                             <BlurFade className={`mt-1`}>
-                                <span>{admin_role ? roles(admin_role) : 'admin'}</span>
+                                <span>{meData?.phoneNumber} {!meData && `${roles(admin_role)}`}</span>
                             </BlurFade>
                         </AnimatedShinyText>
                     </span>

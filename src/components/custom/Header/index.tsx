@@ -1,30 +1,19 @@
-import {useState} from "react";
 import DropdownUser from './DropdownUser';
 import {useNavigate} from "react-router-dom";
-import {MdCastForEducation} from "react-icons/md";
-import {PiGlobeDuotone} from "react-icons/pi";
-import {SiQuizlet} from "react-icons/si";
-import {Dock, DockIcon} from "@/components/magicui/dock.tsx";
 import {Popover} from "antd";
 import {IoNotifications} from "react-icons/io5";
+import globalStore from "@/helpers/state-management/globalStore.tsx";
 
 const Header = (props: {
     sidebarOpen: string | boolean | undefined;
     setSidebarOpen: (arg0: boolean) => void;
-    toggleNotificationModal: () => void
 }) => {
     const navigate = useNavigate();
-    // const {notificationCounts, getMeData} = globalStore()
+    const {notificationCounts} = globalStore()
     const role = sessionStorage.getItem('admin_roles')
-    const [isOpen, setIsOpen] = useState(false);
-    // const openMenu = () => setIsOpen(true)
-    const closeMenu = () => setIsOpen(false)
-    // console.log(getMeData)
-    // console.log(notificationCounts)
+
     return (
-        <header className="sticky top-0 z-999 flex w-full bg-lighterGreen drop-shadow-1" onClick={() => {
-            if (isOpen) closeMenu()
-        }}>
+        <header className="sticky top-0 z-999 flex w-full bg-lighterGreen drop-shadow-1">
             <div className="flex flex-grow items-center justify-between px-4 py-4 shadow-2 md:px-6 2xl:px-11">
                 <div className="flex items-center gap-2 sm:gap-4 lg:hidden">
                     <button
@@ -70,82 +59,26 @@ const Header = (props: {
                 </div>
                 <div className="hidden sm:block"></div>
                 <div className="flex items-center gap-6">
-                    {/*{role && (*/}
-                    {/*    <RxDashboard*/}
-                    {/*        size={26}*/}
-                    {/*        className={`text-whiten hover:opacity-70 duration-300 hover:cursor-pointer ${isOpen && 'opacity-70'}`}*/}
-                    {/*        onClick={() => {*/}
-                    {/*            if (isOpen) closeMenu()*/}
-                    {/*            else openMenu()*/}
-                    {/*        }}*/}
-                    {/*    />*/}
-                    {/*)}*/}
-                    <Popover title="Bildirishnomalar" overlayStyle={{textAlign: 'center'}}>
-                        <IoNotifications
-                            size={26}
-                            className={`text-whiten hover:opacity-70 duration-300 hover:cursor-pointer`}
-                            onClick={() => {
-                                if (role === 'ROLE_SECTOR') navigate('/sector/notification')
-                                else if (role === 'ROLE_VHOKIM') navigate('/v-hokim/notification')
-                                else if (role === 'ROLE_THOKIM') navigate('/t-hokim/notification')
-                                else if (role === 'ROLE_ADMIN') navigate('/super-admin/notification')
-                                else if (role === 'ROLE_MASTER') navigate('/user/notification')
-                            }}
-                        />
-                    </Popover>
-                    {/*<Popover title="Xabar yuboring" overlayStyle={{textAlign: 'center'}}>*/}
-                    {/*    <AiFillMessage*/}
-                    {/*        size={26}*/}
-                    {/*        className={`text-whiten hover:opacity-70 duration-300 hover:cursor-pointer mr-4`}*/}
-                    {/*        onClick={props.toggleNotificationModal}*/}
-                    {/*    />*/}
-                    {/*</Popover>*/}
-
+                    <div className={'relative'}>
+                        <Popover title="Bildirishnomalar" overlayStyle={{textAlign: 'center'}}>
+                            <IoNotifications
+                                size={26}
+                                className={`text-whiten hover:opacity-70 duration-300 hover:cursor-pointer`}
+                                onClick={() => {
+                                    if (role === 'ROLE_SECTOR') navigate('/sector/notification')
+                                    else if (role === 'ROLE_VHOKIM') navigate('/v-hokim/notification')
+                                    else if (role === 'ROLE_THOKIM') navigate('/t-hokim/notification')
+                                    else if (role === 'ROLE_ADMIN') navigate('/super-admin/notification')
+                                    else if (role === 'ROLE_MASTER') navigate('/user/notification')
+                                }}
+                            />
+                        </Popover>
+                        {notificationCounts && (
+                            <p className={'absolute -top-[1px] right-[2px] w-2.5 h-2.5 rounded-full border-none bg-rose-600'}></p>
+                        )}
+                    </div>
                     <DropdownUser/>
                 </div>
-
-                {isOpen && (
-                    <div className="absolute right-20 xsm:right-60 sm:right-90 top-8">
-                        <Dock magnification={60} distance={50} className={`bg-black/20`}>
-                            <DockIcon className="bg-black/40">
-                                <Popover title="Education" overlayStyle={{textAlign: 'center'}}>
-                                    <MdCastForEducation
-                                        onClick={() => {
-                                            sessionStorage.setItem('admin_roles', 'ADMIN_EDU')
-                                            navigate('/edu/dashboard')
-                                            closeMenu()
-                                        }}
-                                        className="h-6 w-6 text-whiten"
-                                    />
-                                </Popover>
-                            </DockIcon>
-                            <DockIcon className="bg-black/40">
-                                <Popover title="Online platforma" overlayStyle={{textAlign: 'center'}}>
-                                    <PiGlobeDuotone
-                                        className="h-6 w-6 text-whiten"
-                                        onClick={() => {
-                                            sessionStorage.setItem('admin_roles', 'ADMIN_ONLINE')
-                                            navigate('/online/dashboard')
-                                            closeMenu()
-                                        }}
-                                    />
-                                </Popover>
-                            </DockIcon>
-                            <DockIcon className="bg-black/40">
-                                <Popover title="Quiz panel" overlayStyle={{textAlign: 'center'}}>
-                                    <SiQuizlet
-                                        className="h-6 w-6 text-whiten"
-                                        onClick={() => {
-                                            sessionStorage.setItem('admin_roles', 'ADMIN_QUIZ')
-                                            navigate('/quiz/dashboard')
-                                            closeMenu()
-                                        }}
-                                    />
-                                </Popover>
-                            </DockIcon>
-                        </Dock>
-                    </div>
-                )}
             </div>
         </header>
     );

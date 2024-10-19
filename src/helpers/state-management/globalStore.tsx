@@ -6,8 +6,6 @@ const globalStore = create<Global>((set) => ({
     setRegion: (val: RegionOrDistricts[] | null) => set({region: val}),
     district: null,
     setDistrict: (val: RegionOrDistricts[] | null) => set({district: val}),
-    getMeData: null,
-    setGetMeData: (val: any | null) => set({getMeData: val}),
     imgUpload: null,
     setImgUpload: (val: any) => set({imgUpload: val}),
     notificationCounts: null,

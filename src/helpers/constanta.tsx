@@ -1,29 +1,29 @@
 import {LuLayoutDashboard} from "react-icons/lu";
-import {PiStudentFill} from "react-icons/pi";
-import {MdOutlineCategory} from "react-icons/md";
-import {SiTestcafe} from "react-icons/si";
-import {IoNotifications} from "react-icons/io5";
 import {IThead} from "@/components/custom/tables/table.tsx";
-import {VscFileSubmodule} from "react-icons/vsc";
-import {FaCompress} from "react-icons/fa6";
+import {FaLocationCrosshairs, FaLocationDot, FaTractor} from "react-icons/fa6";
+import {BsIntersect} from "react-icons/bs";
+import {FaUsers} from "react-icons/fa";
+import {PiFarmFill} from "react-icons/pi";
+import {TbReportSearch} from "react-icons/tb";
+import {FcStatistics} from "react-icons/fc";
 
 // ===============SIDEBAR DATA================
 export const sideData = {
     superAdmin: [
         {title: 'Boshqaruv paneli', icon: <LuLayoutDashboard size={20}/>, path: '/super-admin/dashboard'},
-        {title: 'Sectorlar', icon: <MdOutlineCategory size={20}/>, path: '/super-admin/sector'},
-        {title: 'Foydalanuvchilar', icon: <PiStudentFill size={20}/>, path: '/super-admin/users'},
-        {title: 'Tumanlar', icon: <MdOutlineCategory size={20}/>, path: '/super-admin/district'},
-        {title: 'Mashinalar', icon: <SiTestcafe size={20}/>, path: '/super-admin/machine'},
-        {title: 'Paxta teriladigan hududlar', icon: <SiTestcafe size={20}/>, path: '/super-admin/cotton'},
-        {title: 'Fermer xo\'jaligi', icon: <FaCompress size={20}/>, path: '/super-admin/farm'},
-        {title: 'Hisobotlar', icon: <IoNotifications size={20}/>, path: '/super-admin/report'},
-        {title: 'Statistika', icon: <IoNotifications size={20}/>, path: '/super-admin/statistics'},
+        {title: 'Sectorlar', icon: <BsIntersect size={20}/>, path: '/super-admin/sector'},
+        {title: 'Foydalanuvchilar', icon: <FaUsers size={20}/>, path: '/super-admin/users'},
+        {title: 'Tumanlar', icon: <FaLocationDot size={20}/>, path: '/super-admin/district'},
+        {title: 'Mashinalar', icon: <FaTractor size={20}/>, path: '/super-admin/machine'},
+        {title: 'Paxta teriladigan hududlar', icon: <FaLocationCrosshairs size={20}/>, path: '/super-admin/cotton'},
+        {title: 'Fermer xo\'jaligi', icon: <PiFarmFill size={20}/>, path: '/super-admin/farm'},
+        {title: 'Hisobotlar', icon: <TbReportSearch size={20}/>, path: '/super-admin/report'},
+        {title: 'Statistika', icon: <FcStatistics size={20}/>, path: '/super-admin/statistics'},
     ],
     user: [
-        {title: 'Hisobotlar', icon: <LuLayoutDashboard size={20}/>, path: '/user/report'},
+        {title: 'Hisobotlar', icon: <TbReportSearch size={20}/>, path: '/user/report'},
         // {title: 'Hisobot qo\'shish', icon: <SiCoursera size={20}/>, path: '/user/course'},
-        {title: 'Mashinalar holati', icon: <VscFileSubmodule size={20}/>, path: '/user/machine'},
+        {title: 'Mashinalar holati', icon: <FaTractor size={20}/>, path: '/user/machine'},
     ]
 };
 
