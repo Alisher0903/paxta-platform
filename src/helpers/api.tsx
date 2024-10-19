@@ -101,6 +101,7 @@ export const machineEdits: string = `${baseURL}machines/edit-machine/`
 export const machineEditUsers: string = `${baseURL}machines/edit-user/`
 export const machineCreate: string = `${baseURL}machines/create`
 export const machineDeletes: string = `${baseURL}machines/delete/`
+export const machineCount: string = `${baseURL}machines/count-machine`
 
 // Report 
 export const reportMaster: string = `${baseURL}break-report/list/today`
@@ -112,6 +113,11 @@ export const farmList: string = `${baseURL}farm/list`
 export const farmCreate: string = `${baseURL}farm/create`
 export const farmEditOrDelete: string = `${baseURL}farm/`
 export const farmCotton: string = `${baseURL}cottonPicked/list/`
+
+// ==========COTTON=========
+export const cottonGet: string = `${baseURL}cottonPicked/list`
+export const cottonPost: string = `${baseURL}cottonPicked/create`
+export const cottonEditOrDelete: string = `${baseURL}cottonPicked/`
 
 // ==============sts=============
 export const stsReport: string = `${baseURL}statistic/report`

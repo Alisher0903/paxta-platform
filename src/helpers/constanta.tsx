@@ -15,7 +15,8 @@ export const sideData = {
         {title: 'Foydalanuvchilar', icon: <PiStudentFill size={20}/>, path: '/super-admin/users'},
         {title: 'Tumanlar', icon: <MdOutlineCategory size={20}/>, path: '/super-admin/district'},
         {title: 'Mashinalar', icon: <SiTestcafe size={20}/>, path: '/super-admin/machine'},
-        {title: 'Fermalar', icon: <FaCompress size={20}/>, path: '/super-admin/farm'},
+        {title: 'Paxta teriladigan hududlar', icon: <SiTestcafe size={20}/>, path: '/super-admin/cotton'},
+        {title: 'Fermer xo\'jaligi', icon: <FaCompress size={20}/>, path: '/super-admin/farm'},
         {title: 'Hisobotlar', icon: <IoNotifications size={20}/>, path: '/super-admin/report'},
         {title: 'Statistika', icon: <IoNotifications size={20}/>, path: '/super-admin/statistics'},
     ],
@@ -123,6 +124,14 @@ export const farmThead: IThead[] = [
     {id: 1, name: 'Ferma nomi'},
     {id: 8, name: 'Inn'},
     {id: 9, name: 'Area nomi'},
+    {id: 10, name: 'Sector raqami'},
+    {id: 7, name: 'Harakat'},
+];
+
+export const cottonThead: IThead[] = [
+    {id: 5, name: 'T/r'},
+    {id: 1, name: 'Area nomi'},
+    {id: 8, name: 'Tuman'},
     {id: 10, name: 'Sector raqami'},
     {id: 7, name: 'Harakat'},
 ];
