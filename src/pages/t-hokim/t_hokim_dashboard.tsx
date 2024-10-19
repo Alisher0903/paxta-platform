@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 export default function T_hokim_dashboard() {
     const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split('T')[0])
     const [active, setActive] = useState<string>('active')
-    const { error, globalDataFunc, response, loading } = useGlobalRequest(
+    const { globalDataFunc, response, loading } = useGlobalRequest(
         `${statistic_H_page}${active}?date=${selectedDate}`,
         'GET'
     )
@@ -24,7 +24,7 @@ export default function T_hokim_dashboard() {
     return (
         <div className='container mx-auto font-semibold'>
             <h1 className={active === 'active' ? 'text-lg mb-2 select-none text-[#6A9C89]' : 'text-lg mb-2 select-none text-[#9a1e1e]'}>Statistika uchun sanani tanlang:</h1>
-            <div className="flex justify-between select-none">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6  select-none">
                 <Input
                     className={'custom-input w-[200px]'}
                     type="date"
@@ -32,7 +32,7 @@ export default function T_hokim_dashboard() {
                     onChange={(e) => setSelectedDate(e.target.value)}
                 />
 
-                <div className={active === 'active' ? "flex gap-5 border-2 px-2 rounded-md border-[#6A9C89]" : "flex gap-5 border-2 px-2 rounded-md border-[#9a1e1eb7]"} >
+                <div className={active === 'active' ? "flex gap-5 md:border-2 px-2 rounded-md border-[#6A9C89]" : "flex gap-5 md:border-2 px-2 rounded-md border-[#9a1e1eb7]"} >
                     <div
                         onClick={() => setActive('active')}
                         className={active === 'active' ? 'text-[#6A9C89]  cursor-pointer select-none underline' : 'text-[#6A9C89]  cursor-pointer select-none'}
@@ -52,8 +52,8 @@ export default function T_hokim_dashboard() {
             </div>
 
             <div className=" w-full flex justify-center py-16">
-                <h1 className=' lg:text-2xl text-lg font-semibold uppercase align-middle'>
-                    barcha tumanlarning
+                <h1 className=' lg:text-2xl text-[20px] font-semibold  align-middle'>
+                    Barcha tumanlarning
                     <span className='font-semibold mr-1'>
                         ({response && response?.body?.length || '0'})
                     </span>
@@ -72,7 +72,7 @@ export default function T_hokim_dashboard() {
                     <Spin tip="Yuklanmoqda..." />
                 </div>
             ) : (
-                <div className="flex lg:flex-wrap lg:justify-between flex-col gap-10 ">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6  ">
                     {response && response?.body?.length > 0 ? (
                         response?.body.map((item: {
                             districtId: number,
@@ -83,7 +83,7 @@ export default function T_hokim_dashboard() {
                             <div className='shadow-3 rounded-3xl' key={item.districtId}
                                 onClick={() => navigate(`/t-hokim/getOne/${active}/${selectedDate}/${item.districtId}`)} >
                                 <Card
-                                    className={active === 'active' ? 'lg:w-[400px] w-[100%] text-[#fff] bg-[#6A9C89] hover:bg-[#6A9C89cf] cursor-pointer' : 'lg:w-[400px] w-[100%] bg-[#ffeaea] hover:bg-[#fffafa] cursor-pointer'}
+                                    className={active === 'active' ? ' text-[#fff] bg-[#6A9C89] hover:bg-[#6A9C89cf] cursor-pointer' : 'lg:w-[400px] w-[100%] bg-[#ffeaea] hover:bg-[#fffafa] cursor-pointer'}
                                 >
                                     <div className='text-2xl font-semibold py-3 pb-10'>{item.districtName}</div>
                                     <div className='flex justify-between uppercase border-b'>
@@ -106,7 +106,7 @@ export default function T_hokim_dashboard() {
                             </div>
                         ))
                     ) : (
-                        <div>{error || 'Tumanlar mavjud emas'}</div>
+                        <div>Tumanlar mavjud emas</div>
                     )}
                 </div>
             )}

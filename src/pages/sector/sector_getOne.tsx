@@ -5,7 +5,7 @@ import { Input, Pagination } from 'antd';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export default function T_hokim_getOne() {
+export default function Sector_getOne() {
     const location = useLocation();
     const districtId = location.pathname.split('/').pop();
     const status = location.pathname.split('/')[3]
@@ -32,7 +32,7 @@ export default function T_hokim_getOne() {
             </div>
             {
                 status === 'active' ? (
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 ">
+                    <div className=" flex lg:flex-wrap gap-4 lg:justify-between flex-col">
                         {response && response?.body?.object?.length > 0 ? (
                             response?.body?.object?.map((machine: {
                                 machineModel: string,
@@ -49,7 +49,7 @@ export default function T_hokim_getOne() {
                                         <p className='text-sm md:text-lg flex justify-between uppercase'><span className='font-semibold'>Yig'ilgan Paxta: </span><span>{machine.cottonSize || '0'}</span></p>
                                         <div className='text-gray-800  py-2 font-semibold rounded-md underline cursor-pointer select-none'
                                             onClick={() => {
-                                                navigate(`/t-hokim/hisobot/${status}/${selectedDate}/${machine.id}`)
+                                                navigate(`/sector/hisobot/${status}/${selectedDate}/${machine.id}`)
                                             }}
                                         >
                                             information kurish
@@ -62,7 +62,7 @@ export default function T_hokim_getOne() {
                         )}
                     </div>
                 ) : (
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className=" flex lg:flex-wrap gap-4 lg:justify-between flex-col">
                         {responseInvalid && responseInvalid?.body?.length > 0 ? (
                             responseInvalid?.body?.map((machine: {
                                 machineModel: string,
@@ -79,7 +79,7 @@ export default function T_hokim_getOne() {
                                         <p className='text-sm md:text-sm flex justify-between uppercase'><span className='font-semibold'>Yig'ilgan Paxta: </span><span>{machine.cottonSize || '0'}</span></p>
                                         <div className='text-red-900 py-2 font-semibold rounded-md underline cursor-pointer select-none'
                                             onClick={() => {
-                                                navigate(`/t-hokim/hisobot/${status}/${selectedDate}/${machine.id}`)
+                                                navigate(`/sector/hisobot/${status}/${selectedDate}/${machine.id}`)
                                             }}
                                         >
                                             information kurish
@@ -101,14 +101,14 @@ export default function T_hokim_getOne() {
                     </div>
                 )
             }
-            {response && response.body?.totalElements > 10 && <Pagination
+            <Pagination
                 showSizeChanger={false}
                 responsive={true}
                 defaultCurrent={1}
                 total={response ? response.body?.totalElements : 0}
                 onChange={(page: number) => setPage(page - 1)}
                 rootClassName={`mt-8 mb-5`}
-            />}
+            />
         </div>
     );
 }

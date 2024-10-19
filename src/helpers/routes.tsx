@@ -153,4 +153,26 @@ export const routes = [
             <V_hokim_hisobot/>
         </>
     },
+    // ====================T-sector ROUTE===================
+    {
+        path: '/sector/dashboard',
+        element: <>
+            <PageTitle title="T-Hokim | Dashboard"/>
+            <T_hokim_dashboard/>
+        </>
+    },
+    {
+        path: '/sector/getOne/:status/:date/:id',
+        element: <>
+            <PageTitle title="T-Hokim | Dashboard"/>
+            <T_hokim_getOne/>
+        </>
+    },
+    {
+        path: '/sector/hisobot/:status/:date/:id',
+        element: <>
+            <PageTitle title="V-Hokim | Hisobot"/>
+            <V_hokim_hisobot/>
+        </>
+    },
 ]
