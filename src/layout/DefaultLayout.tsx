@@ -30,6 +30,11 @@ const DefaultLayout: React.FC<{ children: ReactNode }> = ({children}) => {
     }, []);
 
     useEffect(() => {
+        getNotificationCount.globalDataFunc()
+        getMe.globalDataFunc()
+    }, [role]);
+
+    useEffect(() => {
         if (getMe.response?.body) setMeData(getMe.response.body)
         if (getNotificationCount.response?.success && getNotificationCount.response?.body) setNotificationCounts(getNotificationCount.response.body)
     }, [getMe.response, getNotificationCount.response]);

@@ -2,56 +2,28 @@ export const baseURL = import.meta.env.VITE_BASE_URL;
 
 // =============LOGIN=============
 export const authLogin: string = `${baseURL}auth/login`
-
-//================IMG CONTROLLER======================
 export const imgUploadPost: string = `${baseURL}file/upload`;
 export const imgUpdate: string = `${baseURL}file/update/`;
 export const imgGet: string = `${baseURL}file/files/`;
-
-// ==================USERS====================
 export const userGroupEditUser: string = `${baseURL}user/addStudentGroup/`
 export const userConfirms: string = `${baseURL}user/searchUserAdmin`
 export const userGetMe: string = `${baseURL}user/getMe`
-
-//================CATEGORY CONTROLLER==================
 export const categoryList: string = `${baseURL}category/list?categoryEnum=`
 export const categoryAdd: string = `${baseURL}category/save/category?categoryEnum=`
 export const categoryUpdate: string = `${baseURL}category/update/`
 export const categoryDelete: string = `${baseURL}category/delete/`
 export const categoryGetOne: string = `${baseURL}category/get-one/`
-
-// ==============CATEGORY QUIZ SETTINGS CONTROLLER====================
 export const quizCategorySettings: string = `${baseURL}quiz-category/settings`
-
-// ==============QUESTION CONTROLLER====================
 export const questionAllGetPage: string = `${baseURL}question/filter`
 export const questionCrud: string = `${baseURL}question`
-
-// ==============GROUP CONTROLLER====================
 export const groupList: string = `${baseURL}group/list`
-
-// ==============RATE CONTROLLER====================
 export const rateList: string = `${baseURL}rate/studentsRate`
-
-// ==============RESULT CONTROLLER====================
 export const resultSearch: string = `${baseURL}result/search`
-
-// ==============MODULE CONTROLLER====================
-export const moduleCategoryId: string = `${baseURL}module/byCategory/`
 export const moduleOnline: string = `${baseURL}module/searchModuleOnline`
-
-// ==============LESSON CONTROLLER====================
-export const lessonPageList: string = `${baseURL}lesson/search`
-export const lessonCrud: string = `${baseURL}lesson`
 export const lessonModuleID: string = `${baseURL}lesson/list/edu/`
 
-// ==============TASK CONTROLLER====================
-export const taskCrud: string = `${baseURL}report`
-export const taskLessonId: string = `${baseURL}task/getTaskByLesson/` //lessonga tegishli hamma module ni get qilish
 
-
-
-
+//==============PAXTA==============
 // Hokim Buva Apilari
 export const statistic_H_page: string = `${baseURL}statistic/dashboard/`
 export const district_getOne: string = `${baseURL}machines/machines/by/district`
@@ -59,7 +31,7 @@ export const district_getOne_invalid: string = `${baseURL}break-report/invalid-m
 export const district_getOne_report: string = `${baseURL}break-report/list/today`
 export const district_getOne_report_active: string = `${baseURL}report/report/by/machine`
 
-//==============PAXTA==============
+// ============USER===========
 export const getUserList: string = `${baseURL}user/list`
 export const createUser: string = `${baseURL}user/create`
 export const editUser: string = `${baseURL}user/edit/`
@@ -87,9 +59,13 @@ export const machineDeletes: string = `${baseURL}machines/delete/`
 export const machineCount: string = `${baseURL}machines/count-machine`
 
 // ============Report========
-export const reportMaster: string = `${baseURL}break-report/list/today`
-export const reportPostMaster: string = `${baseURL}break-report/create`
+export const breakReportGetMasterList: string = `${baseURL}break-report/list`
+export const breakReportAddMaster: string = `${baseURL}break-report/create`
+export const breakReportEditMaster: string = `${baseURL}break-report/`
 export const reportAdminGet: string = `${baseURL}report/admin`
+export const reportGetMaster: string = `${baseURL}report/master`
+export const reportAddMaster: string = `${baseURL}report/create`
+export const reportEditMaster: string = `${baseURL}report/edit/`
 
 // ==========FARM=========
 export const farmList: string = `${baseURL}farm/list`
@@ -102,10 +78,10 @@ export const cottonGet: string = `${baseURL}cottonPicked/list`
 export const cottonPost: string = `${baseURL}cottonPicked/create`
 export const cottonEditOrDelete: string = `${baseURL}cottonPicked/`
 
-// ==============sts=============
+// ==============STS=============
 export const stsReport: string = `${baseURL}statistic/report`
 
-// ============down file=======
+// ============DOWN FILE=========
 export const excelDownload: string = `${baseURL}attachment/download`
 
 // ============NOTIFICATION=================
