@@ -7,10 +7,12 @@ import Skeleton from "@/components/custom/skeleton/skeleton-cards.tsx";
 import {MdNote} from "react-icons/md";
 import {consoleClear} from "@/helpers/functions/toastMessage.tsx";
 import toast from "react-hot-toast";
+import {Pagination} from "antd";
 
 const Notifications = () => {
     const [readID, setReadID] = useState<number | null>(null)
-    const {response, loading, globalDataFunc} = useGlobalRequest(notificationGet, 'GET')
+    const [page, setPage] = useState(0)
+    const {response, loading, globalDataFunc} = useGlobalRequest(`${notificationGet}?page=${page}&size=10`, 'GET')
     const readNotification = useGlobalRequest(notificationRead, 'POST', {
         ids: [readID]
     })
@@ -43,7 +45,7 @@ const Notifications = () => {
             </Card>
             {loading ? <div className={`w-full grid grid-cols-1 gap-3`}>
                 {[...Array(4)].map((_, index) => <Skeleton key={index}/>)}
-            </div> : response ? response.map((n: any, idx: number) => (
+            </div> : response?.success ? response.body?.length > 0 ? response.body.map((n: any, idx: number) => (
                 <HoverEffect
                     idx={idx}
                     title={n.title}
@@ -54,11 +56,27 @@ const Notifications = () => {
                         if (!n.read) setReadID(n.id)
                     }}
                 />
-            )) : <Card className={`mt-10`}>
-                <CardTitle className={`flex items-center justify-center gap-3`}>
-                    Ma'lumot topilmadi <MdNote className={`text-darkGreen text-3xl`}/>
-                </CardTitle>
-            </Card>}
+            )) : (
+                <Card className={`mt-10`}>
+                    <CardTitle className={`flex items-center justify-center gap-3`}>
+                        Ma'lumot topilmadi <MdNote className={`text-darkGreen text-3xl`}/>
+                    </CardTitle>
+                </Card>
+            ) : (
+                <Card className={`mt-10`}>
+                    <CardTitle className={`flex items-center justify-center gap-3`}>
+                        Ma'lumot topilmadi <MdNote className={`text-darkGreen text-3xl`}/>
+                    </CardTitle>
+                </Card>
+            )}
+            <Pagination
+                showSizeChanger={false}
+                responsive={true}
+                defaultCurrent={1}
+                total={response?.success ? response.body?.totalElements : 0}
+                onChange={(page: number) => setPage(page - 1)}
+                rootClassName={`mt-8 mb-5`}
+            />
         </>
     );
 };

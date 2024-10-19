@@ -9,7 +9,7 @@ import {
     cottonEditOrDelete,
     cottonGet,
     cottonPost,
-    districtList
+    districtList, sectorByDistrict
 } from "@/helpers/api.tsx";
 import ShinyButton from "@/components/magicui/shiny-button.tsx";
 import {MdOutlineAddCircle} from "react-icons/md";
@@ -22,7 +22,7 @@ import {consoleClear} from "@/helpers/functions/toastMessage.tsx";
 
 const defVal = {
     areaName: '',
-    sectorNumber: 0,
+    sectorId: 0,
     districtId: 0
 }
 
@@ -33,12 +33,12 @@ const Cotton = () => {
     const {editOrDeleteStatus, setEditOrDeleteStatus} = courseStore()
     const requestData = {
         areaName: crudCotton.areaName,
-        sectorNumber: crudCotton.sectorNumber,
-        districtId: crudCotton.districtId
+        sectorId: crudCotton.sectorId
     }
 
     const {loading, response, globalDataFunc} = useGlobalRequest(`${cottonGet}?page=${page}&size=10`, 'GET')
     const districtLists = useGlobalRequest(districtList, 'GET')
+    const sectorLists = useGlobalRequest(`${sectorByDistrict}?districtId=${crudCotton.districtId}`, 'GET')
     const cottonAdd = useGlobalRequest(cottonPost, 'POST', requestData)
     const cottonEdit = useGlobalRequest(`${cottonEditOrDelete}${crudCotton.cottonPickedId}`, 'PUT', requestData)
     const cottonDelete = useGlobalRequest(`${cottonEditOrDelete}${crudCotton.cottonPickedId}`, 'DELETE')
@@ -51,6 +51,11 @@ const Cotton = () => {
     useEffect(() => {
         globalDataFunc()
     }, [page]);
+
+    useEffect(() => {
+        crudCotton.sectorId = 0
+        if (crudCotton.districtId) sectorLists.globalDataFunc()
+    }, [crudCotton.districtId]);
 
     useEffect(() => {
         if (cottonAdd.response && cottonAdd.response.success) {
@@ -194,16 +199,6 @@ const Cotton = () => {
                             placeholder="Area nomini kiriting"
                             className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5 mt-7"
                         />
-                        <input
-                            value={crudCotton.sectorNumber}
-                            type={'number'}
-                            onChange={(e) => handleChange('sectorNumber', e.target.value)}
-                            placeholder="Sector raqamini kiriting"
-                            onKeyDown={e => {
-                                if (e.key === '+' || e.key === 'e' || e.key === 'E' || e.key === '-') e.preventDefault()
-                            }}
-                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5 mt-7"
-                        />
                         <select
                             value={crudCotton.districtId}
                             onChange={(e) => handleChange(`districtId`, e.target.value)}
@@ -215,6 +210,22 @@ const Cotton = () => {
                                 name: string
                             }) => (
                                 <option value={item.id} key={item.id}>{item.name}</option>
+                            ))}
+                        </select>
+                        <select
+                            value={crudCotton.sectorId}
+                            onChange={(e) => handleChange(`sectorId`, e.target.value)}
+                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5 my-7"
+                        >
+                            <option disabled selected value={0}>Sectorni tanlang</option>
+                            {sectorLists.response && sectorLists.response.body?.map((item: {
+                                id: number
+                                name: null|string
+                                number: number
+                                districtId: number
+                                districtName: string
+                            }) => (
+                                <option value={item.id} key={item.id}>{item.districtName} {item.number}</option>
                             ))}
                         </select>
                     </div>
@@ -231,7 +242,7 @@ const Cotton = () => {
                                 className={`bg-darkGreen ${cottonAdd.loading && 'cursor-not-allowed opacity-60'}`}
                                 onClick={() => {
                                     if (!cottonAdd.loading) {
-                                        if (crudCotton.areaName && crudCotton.sectorNumber && crudCotton.districtId) cottonAdd.globalDataFunc()
+                                        if (crudCotton.areaName && crudCotton.sectorId) cottonAdd.globalDataFunc()
                                         else toast.error('Ma\'lumotlar tuliqligini tekshirib kuring')
                                     }
                                 }}
@@ -243,7 +254,7 @@ const Cotton = () => {
                                 className={`bg-darkGreen ${cottonEdit.loading && 'cursor-not-allowed opacity-60'}`}
                                 onClick={() => {
                                     if (!cottonEdit.loading) {
-                                        if (crudCotton.areaName && crudCotton.sectorNumber && crudCotton.districtId) cottonEdit.globalDataFunc()
+                                        if (crudCotton.areaName && crudCotton.sectorId) cottonEdit.globalDataFunc()
                                         else toast.error('Ma\'lumotlar tuliqligini tekshirib kuring')
                                     }
                                 }}

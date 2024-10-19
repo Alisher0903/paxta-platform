@@ -28,27 +28,6 @@ export const sideData = {
 };
 
 // ===================THEAD DATA==================
-export const topGroupEdu: IThead[] = [
-    {id: 5, name: 'ID'},
-    {id: 1, name: 'Guruh nomi'},
-    {id: 2, name: 'O\'quvchilar soni'},
-    {id: 3, name: 'Guruh umumiy bali'},
-];
-
-export const topTeacherEdu: IThead[] = [
-    {id: 5, name: 'ID'},
-    {id: 1, name: 'Guruh nomi'},
-    {id: 2, name: 'O\'quvchilar soni'},
-    {id: 3, name: 'Guruh umumiy bali'},
-];
-
-export const topStudentEdu: IThead[] = [
-    {id: 5, name: 'ID'},
-    {id: 1, name: 'F.I.O'},
-    {id: 2, name: 'Guruh nomi'},
-    {id: 3, name: 'Umumiy bali'},
-];
-
 export const confirmUserTHead: IThead[] = [
     {id: 1, name: 'ID'},
     {id: 2, name: 'Ismi'},

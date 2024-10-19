@@ -1,8 +1,5 @@
 import PageTitle from "@/components/custom/Header/PageTitle.tsx";
-import {
-    Courses, Dashboard, Login, Users, Machine, Notifications, Rate, Reports, Task,
-    District, UsersEdu, Sectors, Farms, Statistics, Cotton
-} from "@/pages";
+import {Login, Users, Machine, Notifications, Reports, District, Sectors, Farms, Statistics, Cotton} from "@/pages";
 import MasterAddReport from "@/pages/master/MasterAddReport";
 import MasterMachine from "@/pages/master/masterMachine";
 import T_hokim_getOne from "@/pages/t-hokim/t-hokim_getOne";
@@ -85,73 +82,10 @@ export const routes = [
         </>
     },
     {
-        path: '/online/notification',
+        path: '/super-admin/notification',
         element: <>
-            <PageTitle title="Online platform | Notification"/>
+            <PageTitle title="Super admin | Notification"/>
             <Notifications/>
-        </>
-    },
-    {
-        path: '/online/course',
-        element: <>
-            <PageTitle title="Online platform | Courses"/>
-            <Courses/>
-        </>
-    },
-    {
-        path: '/edu/dashboard',
-        element: <>
-            <PageTitle title="Education | Dashboard"/>
-            <Dashboard/>
-        </>
-    },
-    {
-        path: '/edu/users',
-        element: <>
-            <PageTitle title="Education | Users"/>
-            <Users/>
-        </>
-    },
-    {
-        path: '/edu/notification',
-        element: <>
-            <PageTitle title="Education | Notification"/>
-            <Notifications/>
-        </>
-    },
-    {
-        path: '/edu/course',
-        element: <>
-            <PageTitle title="Education | Courses"/>
-            <Courses/>
-        </>
-    },
-    {
-        path: '/edu/module',
-        element: <>
-            <PageTitle title="Education | Reports"/>
-            <Reports/>
-        </>
-    },
-    {
-        path: '/edu/rate',
-        element: <>
-            <PageTitle title="Education | Rate"/>
-            <Rate/>
-        </>
-    },
-    {
-        path: '/edu/task/:id',
-        element: <>
-            <PageTitle title="Education | Task"/>
-            <Task/>
-        </>
-    },
-    {
-        path: '/edu/users-confirm',
-        element: <>
-            <PageTitle title="Education | Confirm Users"/>
-            <UsersEdu/>
         </>
     },
     {
@@ -178,44 +112,45 @@ export const routes = [
     {
         path: '/v-hokim/dashboard',
         element: <>
-            <PageTitle title="V-Hokim | Dashboard" />
-            <V_hokim_dashboard />
+            <PageTitle title="V-Hokim | Dashboard"/>
+            <V_hokim_dashboard/>
         </>
     },
     {
         path: '/v-hokim/getOne/:status/:date/:id',
         element: <>
-            <PageTitle title="V-Hokim | Dashboard" />
-            <V_hokim_getOne />
+            <PageTitle title="V-Hokim | Dashboard"/>
+            <V_hokim_getOne/>
         </>
     },
+
     // ====================T-HOKIM ROUTE===================
     {
         path: '/t-hokim/hisobot/:status/:date/:id',
         element: <>
-            <PageTitle title="T-Hokim | Hisobot" />
-            <T_hokim_hisobot />
+            <PageTitle title="T-Hokim | Hisobot"/>
+            <T_hokim_hisobot/>
         </>
     },
     {
         path: '/t-hokim/dashboard',
         element: <>
-            <PageTitle title="T-Hokim | Dashboard" />
-            <T_hokim_dashboard />
+            <PageTitle title="T-Hokim | Dashboard"/>
+            <T_hokim_dashboard/>
         </>
     },
     {
         path: '/t-hokim/getOne/:status/:date/:id',
         element: <>
-            <PageTitle title="T-Hokim | Dashboard" />
-            <T_hokim_getOne />
+            <PageTitle title="T-Hokim | Dashboard"/>
+            <T_hokim_getOne/>
         </>
     },
     {
         path: '/v-hokim/hisobot/:status/:date/:id',
         element: <>
-            <PageTitle title="V-Hokim | Hisobot" />
-            <V_hokim_hisobot />
+            <PageTitle title="V-Hokim | Hisobot"/>
+            <V_hokim_hisobot/>
         </>
     },
 ]
