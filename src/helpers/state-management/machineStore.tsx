@@ -18,6 +18,7 @@ const machineStore = create<Machine>((set) => ({
     },
     defVal: {
         districtId: 0,
+        userIdIs: '',
         farmName: '',
         ownerFullName: '',
         ownerPhoneNumber: '',

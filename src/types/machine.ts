@@ -17,6 +17,7 @@ export interface GroupCreate {
     id?: number
     district?: number
     districtName?: string
+    userIdIs?: number | string
     districtId: number,
     farmName: string,
     ownerFullName: string,
@@ -29,4 +30,11 @@ export interface GroupCreate {
     phoneNumber: string,
     password: string,
     lavozimi: string
+}
+
+export interface IUser {
+    id: number
+    firstName: string
+    lastName: string
+    phoneNumber: string
 }
