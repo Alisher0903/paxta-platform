@@ -2,6 +2,9 @@ import PageTitle from "@/components/custom/Header/PageTitle.tsx";
 import {Login, Users, Machine, Notifications, Reports, District, Sectors, Farms, Statistics, Cotton} from "@/pages";
 import MasterAddReport from "@/pages/master/MasterAddReport";
 import MasterMachine from "@/pages/master/masterMachine";
+import Sector_dashboard from "@/pages/sector/sector_dashbord";
+import Sector_getOne from "@/pages/sector/sector_getOne";
+import Sector_hisobot from "@/pages/sector/sertor_hisobot";
 import T_hokim_getOne from "@/pages/t-hokim/t-hokim_getOne";
 import T_hokim_dashboard from "@/pages/t-hokim/t_hokim_dashboard";
 import T_hokim_hisobot from "@/pages/t-hokim/t_hokim_hisobot";
@@ -150,29 +153,29 @@ export const routes = [
         path: '/v-hokim/hisobot/:status/:date/:id',
         element: <>
             <PageTitle title="V-Hokim | Hisobot"/>
-            <V_hokim_hisobot/>
+            <Sector_hisobot/>
         </>
     },
     // ====================T-sector ROUTE===================
     {
         path: '/sector/dashboard',
         element: <>
-            <PageTitle title="T-Hokim | Dashboard"/>
-            <T_hokim_dashboard/>
+            <PageTitle title="Sector | Dashboard"/>
+            <Sector_dashboard/>
         </>
     },
     {
         path: '/sector/getOne/:status/:date/:id',
         element: <>
-            <PageTitle title="T-Hokim | Dashboard"/>
-            <T_hokim_getOne/>
+            <PageTitle title="Sector | Dashboard"/>
+            <Sector_getOne/>
         </>
     },
     {
         path: '/sector/hisobot/:status/:date/:id',
         element: <>
-            <PageTitle title="V-Hokim | Hisobot"/>
-            <V_hokim_hisobot/>
+            <PageTitle title="Sector | Hisobot"/>
+            <Sector_hisobot/>
         </>
     },
 ]
