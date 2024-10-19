@@ -149,13 +149,7 @@ export const routes = [
             <T_hokim_getOne/>
         </>
     },
-    {
-        path: '/v-hokim/hisobot/:status/:date/:id',
-        element: <>
-            <PageTitle title="V-Hokim | Hisobot"/>
-            <Sector_hisobot/>
-        </>
-    },
+
     // ====================T-sector ROUTE===================
     {
         path: '/sector/dashboard',
