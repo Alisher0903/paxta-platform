@@ -71,7 +71,7 @@ export default function T_hokim_getOne() {
                                 id: number
                             }) => (
                                 <div key={machine.machineId} className=''>
-                                    <Card className='lg:w-[400px] w-[100%] flex flex-col gap-4 text-black bg-[#ffeaea] rounded-md'>
+                                    <Card className='flex flex-col gap-4  text-black bg-[#ffeaea] rounded-md'>
                                         <h1 className='text-2xl pb-5 font-semibold uppercase'>
                                             {machine.machineId || '0'}
                                         </h1>
