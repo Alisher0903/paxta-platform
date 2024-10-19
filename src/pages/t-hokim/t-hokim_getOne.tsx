@@ -32,7 +32,7 @@ export default function T_hokim_getOne() {
             </div>
             {
                 status === 'active' ? (
-                    <div className=" flex lg:flex-wrap gap-4 lg:justify-between flex-col">
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 ">
                         {response && response?.body?.object?.length > 0 ? (
                             response?.body?.object?.map((machine: {
                                 machineModel: string,
@@ -62,7 +62,7 @@ export default function T_hokim_getOne() {
                         )}
                     </div>
                 ) : (
-                    <div className=" flex lg:flex-wrap gap-4 lg:justify-between flex-col">
+                    <div className=" grid md:grid-cols-2 lg:grid-cols-3 gap-6 ">
                         {responseInvalid && responseInvalid?.body?.length > 0 ? (
                             responseInvalid?.body?.map((machine: {
                                 machineModel: string,
