@@ -9,6 +9,7 @@ import axios from "axios";
 import {config} from "@/helpers/token.tsx";
 import {consoleClear} from "@/helpers/functions/toastMessage.tsx";
 import {Select} from "antd";
+import {dateGenerate} from "@/helpers/functions/common-functions.tsx";
 
 const Statistics = () => {
     const [date, setDate] = useState<string>(dateGenerate());
@@ -33,15 +34,6 @@ const Statistics = () => {
     useEffect(() => {
         globalDataFunc()
     }, [hour, date]);
-
-    function dateGenerate() {
-        let month: string | number = new Date().getMonth() + 1
-        let day: string | number = new Date().getDate()
-        if (month < 10) month = `0${month}`
-        if (day < 10) day = `0${day}`
-
-        return `${new Date().getFullYear()}-${month}-${day}`
-    }
 
     const downloadFile = (url: string) => {
         setIsLoading(true)

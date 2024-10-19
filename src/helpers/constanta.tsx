@@ -22,7 +22,6 @@ export const sideData = {
     ],
     user: [
         {title: 'Hisobotlar', icon: <TbReportSearch size={20}/>, path: '/user/report'},
-        // {title: 'Hisobot qo\'shish', icon: <SiCoursera size={20}/>, path: '/user/course'},
         {title: 'Mashinalar holati', icon: <FaTractor size={20}/>, path: '/user/machine'},
     ]
 };
@@ -52,17 +51,6 @@ export const rateThead: IThead[] = [
     {id: 4, name: 'Reytingi'},
 ];
 
-export const lessonPageThead: IThead[] = [
-    {id: 5, name: 'ID'},
-    {id: 1, name: 'Dars nomi'},
-    {id: 8, name: 'Yunalish nomi'},
-    {id: 9, name: 'Modul nomi'},
-    {id: 6, name: 'Tavsifi'},
-    {id: 2, name: 'Vedio linki'},
-    {id: 3, name: 'Vedio davomiyligi'},
-    {id: 4, name: 'Foydalanuvchi aktivligi'},
-]
-
 export const resultThead: IThead[] = [
     {id: 1, name: 'ID'},
     {id: 2, name: 'F.I.O'},
@@ -77,11 +65,33 @@ export const resultThead: IThead[] = [
 // ============PAXTA================
 export const machineReportList: IThead[] = [
     {id: 1, name: 'T/r'},
-    {id: 2, name: 'Ferma nomi '},
-    {id: 3, name: 'Mashinani ishlamaslik sababi'},
-    {id: 4, name: 'Mashinani ishlamay qolgan vaqti'},
-    {id: 5, name: 'Mashina tuzilgan vaqt'},
-    {id: 5, name: "Mashinani holatini o'zgartirish"},
+    {id: 2, name: 'Tuman nomi'},
+    {id: 3, name: 'Sector raqami'},
+    {id: 4, name: 'Area nomi'},
+    {id: 5, name: 'Fermer xo\'jaligi nomi'},
+    {id: 6, name: "Mashina statusi"},
+    {id: 7, name: "Mashina buzilgan vaqti"},
+    {id: 8, name: "Mashina sozlangan vaqti"},
+    {id: 9, name: "Harakat"},
+];
+
+export const machineReportThead: IThead[] = [
+    {id: 1, name: 'T/r'},
+    {id: 2, name: 'Mashina modeli '},
+    {id: 3, name: 'Tuman'},
+    {id: 4, name: 'Sector raqami'},
+    {id: 5, name: 'Area nomi'},
+    {id: 6, name: "Fermer xo'jaligi nomi"},
+    {id: 7, name: "Yer maydoni (gektar)"},
+    {id: 8, name: "Terilgan (tonna)"},
+    {id: 9, name: "Mashina holati"},
+    {id: 10, name: "Buzilgan sanasi"},
+    {id: 11, name: "Buzilgan vaqti"},
+    {id: 12, name: "Mashina statusi"},
+    {id: 13, name: "Masul shaxs"},
+    {id: 14, name: "Kun"},
+    {id: 15, name: "Vaqt"},
+    {id: 16, name: "Harakat"},
 ];
 
 export const districtsThead: IThead[] = [
