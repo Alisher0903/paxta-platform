@@ -101,14 +101,14 @@ export default function T_hokim_getOne() {
                     </div>
                 )
             }
-            <Pagination
+            {response && response.body?.totalElements > 10 && <Pagination
                 showSizeChanger={false}
                 responsive={true}
                 defaultCurrent={1}
                 total={response ? response.body?.totalElements : 0}
                 onChange={(page: number) => setPage(page - 1)}
                 rootClassName={`mt-8 mb-5`}
-            />
+            />}
         </div>
     );
 }
