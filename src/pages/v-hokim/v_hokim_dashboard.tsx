@@ -72,7 +72,7 @@ export default function V_hokim_dashboard() {
                     <Spin tip="Yuklanmoqda..." />
                 </div>
             ) : (
-                <div className="flex lg:flex-wrap lg:justify-between flex-col gap-10 ">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 ">
                     {response && response?.body?.length > 0 ? (
                         response?.body.map((item: {
                             districtId: number,
@@ -83,7 +83,7 @@ export default function V_hokim_dashboard() {
                             <div className='shadow-3 rounded-3xl' key={item.districtId}
                                 onClick={() => navigate(`/v-hokim/getOne/${active}/${selectedDate}/${item.districtId}`)} >
                                 <Card
-                                    className={active === 'active' ? 'lg:w-[400px] w-[100%] text-[#fff] bg-[#6A9C89] hover:bg-[#6A9C89cf] cursor-pointer' : 'lg:w-[400px] w-[100%] bg-[#ffeaea] hover:bg-[#fffafa] cursor-pointer'}
+                                    className={active === 'active' ? 'w-[100%] text-[#fff] bg-[#6A9C89] hover:bg-[#6A9C89cf] cursor-pointer' : 'lg:w-[400px] w-[100%] bg-[#ffeaea] hover:bg-[#fffafa] cursor-pointer'}
                                 >
                                     <div className='text-2xl font-semibold py-3 pb-10'>{item.districtName}</div>
                                     <div className='flex justify-between uppercase border-b'>

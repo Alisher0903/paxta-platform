@@ -25,7 +25,7 @@ export const routes = [
         path: '/super-admin/dashboard',
         element: <>
             <PageTitle title="Super Admin | Dashboard"/>
-            <Dashboard/>
+            <V_hokim_dashboard/>
         </>
     },
     {
