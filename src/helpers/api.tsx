@@ -75,6 +75,7 @@ export const statistic_H_page: string = `${baseURL}statistic/dashboard/`
 export const district_getOne: string = `${baseURL}machines/machines/by/district`
 export const district_getOne_invalid: string = `${baseURL}break-report/invalid-machine`
 export const district_getOne_report: string = `${baseURL}break-report/list/today`
+export const district_getOne_report_active: string = `${baseURL}report/report/by/machine`
 
 //==============PAXTA==============
 export const getUserList: string = `${baseURL}user/list`

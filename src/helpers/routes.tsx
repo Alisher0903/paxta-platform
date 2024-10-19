@@ -5,6 +5,9 @@ import {
 } from "@/pages";
 import MasterAddReport from "@/pages/master/MasterAddReport";
 import MasterMachine from "@/pages/master/masterMachine";
+import T_hokim_getOne from "@/pages/t-hokim/t-hokim_getOne";
+import T_hokim_dashboard from "@/pages/t-hokim/t_hokim_dashboard";
+import T_hokim_hisobot from "@/pages/t-hokim/t_hokim_hisobot";
 import V_hokim_getOne from "@/pages/v-hokim/v-hokim_getOne";
 import V_hokim_dashboard from "@/pages/v-hokim/v_hokim_dashboard";
 import V_hokim_hisobot from "@/pages/v-hokim/v_hokim_hisobot";
@@ -173,14 +176,36 @@ export const routes = [
         </>
     },
     {
-        path: '/v-hokim/getOne/:status/:id',
+        path: '/v-hokim/getOne/:status/:date/:id',
         element: <>
             <PageTitle title="V-Hokim | Dashboard" />
             <V_hokim_getOne />
         </>
     },
+    // ====================T-HOKIM ROUTE===================
     {
-        path: '/v-hokim/hisobot/:id',
+        path: '/t-hokim/hisobot/:status/:date/:id',
+        element: <>
+            <PageTitle title="T-Hokim | Hisobot" />
+            <T_hokim_hisobot />
+        </>
+    },
+    {
+        path: '/t-hokim/dashboard',
+        element: <>
+            <PageTitle title="T-Hokim | Dashboard" />
+            <T_hokim_dashboard />
+        </>
+    },
+    {
+        path: '/t-hokim/getOne/:status/:date/:id',
+        element: <>
+            <PageTitle title="T-Hokim | Dashboard" />
+            <T_hokim_getOne />
+        </>
+    },
+    {
+        path: '/v-hokim/hisobot/:status/:date/:id',
         element: <>
             <PageTitle title="V-Hokim | Hisobot" />
             <V_hokim_hisobot />

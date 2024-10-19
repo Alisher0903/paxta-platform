@@ -5,7 +5,7 @@ import { Input, Pagination } from 'antd';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export default function V_hokim_getOne() {
+export default function T_hokim_getOne() {
     const location = useLocation();
     const districtId = location.pathname.split('/').pop();
     const status = location.pathname.split('/')[3]
@@ -49,7 +49,7 @@ export default function V_hokim_getOne() {
                                         <p className='text-sm md:text-lg flex justify-between uppercase'><span className='font-semibold'>Yig'ilgan Paxta: </span><span>{machine.cottonSize || '0'}</span></p>
                                         <div className='text-gray-800  py-2 font-semibold rounded-md underline cursor-pointer select-none'
                                             onClick={() => {
-                                                navigate(`/v-hokim/hisobot/${status}/${selectedDate}/${machine.id}`)
+                                                navigate(`/t-hokim/hisobot/${status}/${selectedDate}/${machine.id}`)
                                             }}
                                         >
                                             information kurish
@@ -79,7 +79,7 @@ export default function V_hokim_getOne() {
                                         <p className='text-sm md:text-sm flex justify-between uppercase'><span className='font-semibold'>Yig'ilgan Paxta: </span><span>{machine.cottonSize || '0'}</span></p>
                                         <div className='text-red-900 py-2 font-semibold rounded-md underline cursor-pointer select-none'
                                             onClick={() => {
-                                                navigate(`/v-hokim/hisobot/${status}/${selectedDate}/${machine.id}`)
+                                                navigate(`/t-hokim/hisobot/${status}/${selectedDate}/${machine.id}`)
                                             }}
                                         >
                                             information kurish

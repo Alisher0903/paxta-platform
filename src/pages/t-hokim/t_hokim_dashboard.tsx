@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import { FaCottonBureau, FaTractor } from 'react-icons/fa6'
 import { useNavigate } from 'react-router-dom'
 
-export default function V_hokim_dashboard() {
+export default function T_hokim_dashboard() {
     const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split('T')[0])
     const [active, setActive] = useState<string>('active')
     const { error, globalDataFunc, response, loading } = useGlobalRequest(
@@ -81,7 +81,7 @@ export default function V_hokim_dashboard() {
                             cottonCount: number | null,
                         }) => (
                             <div className='shadow-3 rounded-3xl' key={item.districtId}
-                                onClick={() => navigate(`/v-hokim/getOne/${active}/${selectedDate}/${item.districtId}`)} >
+                                onClick={() => navigate(`/t-hokim/getOne/${active}/${selectedDate}/${item.districtId}`)} >
                                 <Card
                                     className={active === 'active' ? 'lg:w-[400px] w-[100%] text-[#fff] bg-[#6A9C89] hover:bg-[#6A9C89cf] cursor-pointer' : 'lg:w-[400px] w-[100%] bg-[#ffeaea] hover:bg-[#fffafa] cursor-pointer'}
                                 >

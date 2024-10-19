@@ -4,7 +4,7 @@ import { Spin } from 'antd';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
-export default function V_hokim_hisobot() {
+export default function T_hokim_hisobot() {
     const location = useLocation();
     const status = location.pathname.split('/')[3];
     const date = location.pathname.split('/')[4];
