@@ -11,7 +11,6 @@ import Modal from "@/components/custom/modal/modal.tsx";
 import toast from "react-hot-toast";
 import courseStore from "@/helpers/state-management/coursesStore.tsx";
 import {consoleClear} from "@/helpers/functions/toastMessage.tsx";
-import globalStore from "@/helpers/state-management/globalStore.tsx";
 import {dateGenerate} from "@/helpers/functions/common-functions.tsx";
 
 const defVal = {
@@ -24,18 +23,15 @@ const defVal = {
 }
 
 const MasterMachine = () => {
-    const [categoryId, setCategoryId] = useState<string>('');
     const [isModal, setIsModal] = useState(false);
     const [crudLesson, setCrudLesson] = useState<any>(defVal);
     const {editOrDeleteStatus, setEditOrDeleteStatus} = courseStore()
-    const {imgUpload, setImgUpload} = globalStore()
     const requestData = {
         name: crudLesson.name,
         description: crudLesson.description,
         videoLink: crudLesson.videoLink,
         videoTime: crudLesson.videoTime,
         moduleId: crudLesson.moduleId,
-        fileId: imgUpload ? imgUpload : crudLesson.fileId ? crudLesson.fileId : 0
     }
 
     const machineReportGet = useGlobalRequest(`${breakReportGetMasterList}?date=${dateGenerate()}`, 'GET')
@@ -49,23 +45,20 @@ const MasterMachine = () => {
     }, []);
 
     useEffect(() => {
-        if (categoryId) moduleLessonGet.globalDataFunc()
-    }, [categoryId]);
-
-    useEffect(() => {
-        crudLesson.moduleId = 0
-    }, [crudLesson.categoryId]);
-
-    useEffect(() => {
         if (lessonAdd.response) {
-            toast.success('Dars muvaffaqiyatli qushildi')
-            closeModal()
-        } else if (lessonEdit.response) {
-            toast.success('Dars muvaffaqiyatli taxrirlandi')
+            toast.success('Mashina holati muvaffaqiyatli qo\'shildi')
             closeModal()
         }
         consoleClear()
-    }, [lessonAdd.response, lessonEdit.response]);
+    }, [lessonAdd.response]);
+
+    useEffect(() => {
+        if (lessonEdit.response) {
+            toast.success('Mashina holati muvaffaqiyatli taxrirlandi')
+            closeModal()
+        }
+        consoleClear()
+    }, [lessonEdit.response]);
 
     const handleChange = (name: string, value: string) => setCrudLesson({...crudLesson, [name]: value});
 
@@ -75,7 +68,6 @@ const MasterMachine = () => {
         setTimeout(() => {
             setCrudLesson(defVal);
             setEditOrDeleteStatus('');
-            setImgUpload(null)
         }, 500)
     };
 
@@ -189,10 +181,7 @@ const MasterMachine = () => {
                     <div className={`mt-7`}>
                         <select
                             value={crudLesson.categoryId}
-                            onChange={(e) => {
-                                setCategoryId(e.target.value)
-                                handleChange(`categoryId`, e.target.value)
-                            }}
+                            onChange={(e) => handleChange(`categoryId`, e.target.value)}
                             className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5 my-7"
                         >
                             <option disabled selected value={``}>Kursni tanlang</option>
