@@ -12,6 +12,7 @@ import toast from "react-hot-toast";
 import courseStore from "@/helpers/state-management/coursesStore.tsx";
 import {consoleClear} from "@/helpers/functions/toastMessage.tsx";
 import globalStore from "@/helpers/state-management/globalStore.tsx";
+import {dateGenerate} from "@/helpers/functions/common-functions.tsx";
 
 const defVal = {
     name: '',
@@ -77,15 +78,6 @@ const MasterMachine = () => {
             setImgUpload(null)
         }, 500)
     };
-
-    function dateGenerate() {
-        let month: string | number = new Date().getMonth() + 1
-        let day: string | number = new Date().getDate()
-        if (month < 10) month = `0${month}`
-        if (day < 10) day = `0${day}`
-
-        return `${new Date().getFullYear()}-${month}-${day}`
-    }
 
     return (
         <>
