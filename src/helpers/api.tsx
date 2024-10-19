@@ -3,18 +3,6 @@ export const baseURL = import.meta.env.VITE_BASE_URL;
 // =============LOGIN=============
 export const authLogin: string = `${baseURL}auth/login`
 
-// =============STATISTIC DASHBOARD==============
-export const eduAdminSts: string = `${baseURL}statistic`
-export const eduAdminTopGroup: string = `${baseURL}statistic/top/group`
-export const eduAdminTopTeacher: string = `${baseURL}statistic/top/Teacher`
-export const eduAdminTopStudent: string = `${baseURL}statistic/top/Student`
-export const eduAdminCategoryStsYear: string = `${baseURL}statistic/categoryYearly`
-export const eduAdminCategoryStsPercentage: string = `${baseURL}statistic/categoryPercentage`
-export const quizAdminSts: string = `${baseURL}statistic/countAll-quiz`
-export const quizAdminWeeklySts: string = `${baseURL}statistic/weekly-statistic`
-export const quizAdminPercentageSts: string = `${baseURL}statistic/percentage-resultStatus`
-export const onlineAdminSts: string = `${baseURL}statistic/getOnlineCount`
-
 //================IMG CONTROLLER======================
 export const imgUploadPost: string = `${baseURL}file/upload`;
 export const imgUpdate: string = `${baseURL}file/update/`;
@@ -82,6 +70,7 @@ export const getUserList: string = `${baseURL}user/list`
 export const createUser: string = `${baseURL}user/create`
 export const editUser: string = `${baseURL}user/edit/`
 export const deleteUser: string = `${baseURL}user/`
+export const searchUser: string = `${baseURL}user/search?text=`
 
 //==============DISTRICT============
 export const districtList: string = `${baseURL}district/list`
@@ -103,7 +92,7 @@ export const machineCreate: string = `${baseURL}machines/create`
 export const machineDeletes: string = `${baseURL}machines/delete/`
 export const machineCount: string = `${baseURL}machines/count-machine`
 
-// Report 
+// ============Report========
 export const reportMaster: string = `${baseURL}break-report/list/today`
 export const reportPostMaster: string = `${baseURL}break-report/create`
 export const reportAdminGet: string = `${baseURL}report/admin`

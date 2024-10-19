@@ -5,8 +5,8 @@ import Tables from "@/components/custom/tables/table.tsx";
 import {machineThead} from "@/helpers/constanta.tsx";
 import {useGlobalRequest} from "@/helpers/functions/restApi-function.tsx";
 import {useEffect, useState} from "react";
-import {Pagination} from "antd";
-import {GroupCreate} from "@/types/machine.ts";
+import {Pagination, Popover} from "antd";
+import {GroupCreate, IUser} from "@/types/machine.ts";
 import Skeleton from "@/components/custom/skeleton/skeleton-cards.tsx";
 import {
     districtList,
@@ -14,9 +14,9 @@ import {
     machineDeletes,
     machineEdits,
     machineEditUsers,
-    machineList
+    machineList, searchUser
 } from "@/helpers/api.tsx";
-import {FaEdit} from "react-icons/fa";
+import {FaEdit, FaUserEdit, FaUserLock} from "react-icons/fa";
 import {RiDeleteBin7Fill} from "react-icons/ri";
 import courseStore from "@/helpers/state-management/coursesStore.tsx";
 import machineStore from "@/helpers/state-management/machineStore.tsx";
@@ -28,6 +28,7 @@ const Machine = () => {
     const {editOrDeleteStatus, setEditOrDeleteStatus} = courseStore()
     const {crudMachine, setCrudMachine, defVal} = machineStore()
     const [page, setPage] = useState(0)
+    const [search, setSearch] = useState<string>('')
     const [isModal, setIsModal] = useState(false);
     const requestData = {
         districtId: crudMachine.districtId,
@@ -49,7 +50,9 @@ const Machine = () => {
     const districtLists = useGlobalRequest(districtList, 'GET')
     const machineAdd = useGlobalRequest(machineCreate, 'POST', requestData)
     const machineEdit = useGlobalRequest(`${machineEdits}${crudMachine.id}`, 'PUT', requestData)
-    const machineEditUser = useGlobalRequest(`${machineEditUsers}`, 'PUT')
+    const machineEditUser = useGlobalRequest(`${machineEditUsers}${crudMachine.id}?userId=${crudMachine.userIdIs}`, 'PUT')
+    const machineDeleteUser = useGlobalRequest(`${machineEditUsers}${crudMachine.id}?userId=null`, 'PUT')
+    const machineEditUserSearch = useGlobalRequest(`${searchUser}${search}`, 'GET')
     const machineDelete = useGlobalRequest(`${machineDeletes}${crudMachine.id}`, 'DELETE')
 
     useEffect(() => {
@@ -97,12 +100,18 @@ const Machine = () => {
         consoleClear()
     }, [machineEditUser.response]);
 
+    useEffect(() => {
+        if (search) machineEditUserSearch.globalDataFunc()
+        consoleClear()
+    }, [search]);
+
     const openModal = () => setIsModal(true);
     const closeModal = () => {
         setIsModal(false);
         setTimeout(() => {
             setCrudMachine(defVal)
             setEditOrDeleteStatus('')
+            setSearch('')
             machineAdd.response = undefined
             machineEdit.response = undefined
             machineDelete.response = undefined
@@ -110,6 +119,10 @@ const Machine = () => {
     };
 
     const handleChange = (name: string, value: string | any) => setCrudMachine({...crudMachine, [name]: value});
+    const handleSelect = (res: IUser) => {
+        setSearch(`${res.firstName} ${res.lastName}`)
+        setCrudMachine({...crudMachine, "userIdIs": res.id});
+    }
 
     const changeRegex = () => {
         return (
@@ -128,6 +141,150 @@ const Machine = () => {
         )
     }
 
+    const checkModal = (type: string) => {
+        switch (type) {
+            case 'POST':
+            case 'EDIT':
+                return (
+                    <div className={`mt-7 grid grid-cols-1 lg:grid-cols-2 gap-5`}>
+                        <select
+                            value={crudMachine.districtId}
+                            onChange={(e) => handleChange(`districtId`, +e.target.value)}
+                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5"
+                        >
+                            <option disabled selected value={0}>
+                                Tumanni tanlang
+                            </option>
+                            {districtLists.response && districtLists.response.body?.map((item: {
+                                id: number
+                                name: string
+                            }) => (
+                                <option value={item.id} key={item.id}>{item.name}</option>
+                            ))}
+                        </select>
+                        <input
+                            value={crudMachine.firstName}
+                            onChange={(e) => handleChange('firstName', e.target.value)}
+                            placeholder="Ismni kiriting"
+                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
+                        />
+                        <input
+                            value={crudMachine.lastName}
+                            onChange={(e) => handleChange('lastName', e.target.value)}
+                            placeholder="Familiyani kiriting"
+                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
+                        />
+                        <input
+                            value={crudMachine.phoneNumber}
+                            onChange={(e) => handleChange('phoneNumber', e.target.value)}
+                            placeholder="Telefon raqamni kiriting"
+                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
+                        />
+                        <input
+                            value={crudMachine.year}
+                            type={'number'}
+                            onChange={(e) => {
+                                const v = e.target.value;
+                                if (+v >= 0 && +v <= 9999) handleChange('year', v)
+                            }}
+                            onKeyDown={e => {
+                                if (e.key === "-" || e.key === "e" || e.key === 'E' || e.key === '+') e.preventDefault();
+                            }}
+                            placeholder="Yilini kiriting"
+                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
+                        />
+                        <input
+                            value={crudMachine.lavozimi}
+                            onChange={(e) => handleChange('lavozimi', e.target.value)}
+                            placeholder="Lavozimni kiriting"
+                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
+                        />
+                        <input
+                            value={crudMachine.farmName}
+                            onChange={(e) => handleChange('farmName', e.target.value)}
+                            placeholder="Fermer xujaligi nomini kiriting"
+                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
+                        />
+                        <input
+                            value={crudMachine.ownerFullName}
+                            onChange={(e) => handleChange('ownerFullName', e.target.value)}
+                            placeholder="Operator tuliq ismini kiriting"
+                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
+                        />
+                        <input
+                            value={crudMachine.ownerPhoneNumber}
+                            onChange={(e) => handleChange('ownerPhoneNumber', e.target.value)}
+                            placeholder="Operator raqamini kiriting"
+                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
+                        />
+                        <input
+                            value={crudMachine.machineId}
+                            onChange={(e) => handleChange('machineId', e.target.value)}
+                            placeholder="Mashina idsini kiriting"
+                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
+                        />
+                        <select
+                            value={crudMachine.machineModel}
+                            onChange={(e) => handleChange(`machineModel`, e.target.value)}
+                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5"
+                        >
+                            <option disabled selected value={''}>
+                                Mashina modelini kiriting
+                            </option>
+                            <option value={'CE_220'}>CE_220</option>
+                            <option value={'JOHN_DEERE'}>JOHN_DEERE</option>
+                            <option value={'BOSHIRAN'}>BOSHIRAN</option>
+                            <option value={'FM_WORLD'}>FM_WORLD</option>
+                            <option value={'DONG_FENG'}>DONG_FENG</option>
+                        </select>
+                        <input
+                            value={crudMachine.password}
+                            onChange={(e) => handleChange('password', e.target.value)}
+                            placeholder="Parolni kiriting"
+                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
+                        />
+                    </div>
+                )
+            case 'DELETE':
+                return (
+                    <p className={`text-center text-black text-base lg:text-xl mb-10 mt-7`}>
+                        Haqiqatdan xam bu mashinani o'chirib tashlamoqchimisiz?
+                    </p>
+                )
+            case 'EDIT_USER':
+                return (<>
+                    <input
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        placeholder="Foydalanuvchini qidiring..."
+                        className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
+                    />
+                    {(machineEditUserSearch.response?.body?.length > 0 && search) && (
+                        <ul className="bg-white border-2 border-darkGreen w-full rounded-lg mt-3 max-h-[200px] overflow-y-auto shadow-lg">
+                            {machineEditUserSearch.response.body.map((result: IUser) => (
+                                <li
+                                    key={result.id}
+                                    className="p-2 hover:bg-gray-100 cursor-pointer"
+                                    onClick={() => handleSelect(result)}
+                                >
+                                    <div>{result.firstName} {result.lastName}</div>
+                                    <div className="text-sm text-gray-500">{result.phoneNumber}</div>
+                                </li>
+                            ))}
+                        </ul>
+                    )}
+                </>)
+            case 'DELETE_USER':
+                return (
+                    <p className={`text-center text-black text-base lg:text-xl mb-10 mt-7`}>
+                        Haqiqatdan xam biriktirilgan odamni olib tashlamoqchimisiz?
+                    </p>
+                )
+            default:
+                return null
+        }
+    }
+
     return (
         <>
             <Breadcrumb pageName={`Mashinalar`}/>
@@ -143,16 +300,6 @@ const Machine = () => {
                         setEditOrDeleteStatus('POST')
                     }}
                 />
-                {/*<div*/}
-                {/*    className={`w-full lg:max-w-[30%] flex justify-start xl:justify-between items-center flex-wrap md:flex-nowrap gap-5`}>*/}
-                {/*    <Input*/}
-                {/*        className={`w-full bg-transparent h-11 custom-input`}*/}
-                {/*        placeholder="Guruh nomi buyicha qidirish"*/}
-                {/*        // onChange={(e) => setName(e.target.value)}*/}
-                {/*        allowClear*/}
-                {/*        disabled*/}
-                {/*    />*/}
-                {/*</div>*/}
             </div>
 
             {/*========================BODY===================*/}
@@ -222,29 +369,65 @@ const Machine = () => {
                                     </td>
                                     <td className="border-b border-[#eee] p-5">
                                         <p className="text-black flex items-center justify-start gap-5 text-xl">
-                                            <FaEdit
-                                                className={`hover:text-yellow-500 duration-300 cursor-pointer`}
-                                                onClick={() => {
-                                                    openModal()
-                                                    setCrudMachine(sts)
-                                                    setEditOrDeleteStatus('EDIT')
-                                                }}
-                                            />
-                                            <RiDeleteBin7Fill
-                                                className={`hover:text-red-500 duration-300 cursor-pointer`}
-                                                onClick={() => {
-                                                    openModal()
-                                                    setCrudMachine(sts)
-                                                    setEditOrDeleteStatus('DELETE')
-                                                }}
-                                            />
+                                            <Popover
+                                                title={`Mashinaga yangi foydalanuvchi biriktirish`}
+                                                overlayStyle={{textAlign: 'center'}}
+                                            >
+                                                <FaUserEdit
+                                                    className={`hover:text-yellow-500 duration-300 cursor-pointer`}
+                                                    onClick={() => {
+                                                        openModal()
+                                                        setCrudMachine(sts)
+                                                        setEditOrDeleteStatus('EDIT_USER')
+                                                    }}
+                                                />
+                                            </Popover>
+                                            <Popover
+                                                title={`Biriktirilgan foydalanuvchini olib tashlash`}
+                                                overlayStyle={{textAlign: 'center'}}
+                                            >
+                                                <FaUserLock
+                                                    className={`hover:text-yellow-500 duration-300 cursor-pointer`}
+                                                    onClick={() => {
+                                                        openModal()
+                                                        setCrudMachine(sts)
+                                                        setEditOrDeleteStatus('DELETE_USER')
+                                                    }}
+                                                />
+                                            </Popover>
+                                            <Popover
+                                                title={`Mashina malumotlarini taxrirlash`}
+                                                overlayStyle={{textAlign: 'center'}}
+                                            >
+                                                <FaEdit
+                                                    className={`hover:text-yellow-500 duration-300 cursor-pointer`}
+                                                    onClick={() => {
+                                                        openModal()
+                                                        setCrudMachine(sts)
+                                                        setEditOrDeleteStatus('EDIT')
+                                                    }}
+                                                />
+                                            </Popover>
+                                            <Popover
+                                                title={`Mashinani o'chirib tashlash`}
+                                                overlayStyle={{textAlign: 'center'}}
+                                            >
+                                                <RiDeleteBin7Fill
+                                                    className={`hover:text-red-500 duration-300 cursor-pointer`}
+                                                    onClick={() => {
+                                                        openModal()
+                                                        setCrudMachine(sts)
+                                                        setEditOrDeleteStatus('DELETE')
+                                                    }}
+                                                />
+                                            </Popover>
                                         </p>
                                     </td>
                                 </tr>
                             )) : (
                                 <tr className={`hover:bg-whiteGreen duration-100`}>
                                     <td className="border-b border-[#eee] p-5" colSpan={machineThead.length}>
-                                    <p className="text-black text-center">
+                                        <p className="text-black text-center">
                                             Mashinalar topilmadi
                                         </p>
                                     </td>
@@ -272,110 +455,12 @@ const Machine = () => {
 
             <Modal onClose={closeModal} isOpen={isModal}>
                 <div className={`min-w-54 sm:w-64 md:w-96 lg:w-[40rem]`}>
-                    {editOrDeleteStatus === 'DELETE' ? (
-                        <p className={`text-center text-black text-base lg:text-xl mb-10 mt-7`}>
-                            Haqiqatdan xam bu mashinani o'chirib tashlamoqchimisiz?
-                        </p>
-                    ) : (
-                        <div className={`mt-7 grid grid-cols-1 lg:grid-cols-2 gap-5`}>
-                            <select
-                                value={crudMachine.districtId}
-                                onChange={(e) => handleChange(`districtId`, +e.target.value)}
-                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5"
-                            >
-                                <option disabled selected value={0}>
-                                    Tumanni tanlang
-                                </option>
-                                {districtLists.response && districtLists.response.body?.map((item: {
-                                    id: number
-                                    name: string
-                                }) => (
-                                    <option value={item.id} key={item.id}>{item.name}</option>
-                                ))}
-                            </select>
-                            <input
-                                value={crudMachine.firstName}
-                                onChange={(e) => handleChange('firstName', e.target.value)}
-                                placeholder="Ismni kiriting"
-                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
-                            />
-                            <input
-                                value={crudMachine.lastName}
-                                onChange={(e) => handleChange('lastName', e.target.value)}
-                                placeholder="Familiyani kiriting"
-                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
-                            />
-                            <input
-                                value={crudMachine.phoneNumber}
-                                onChange={(e) => handleChange('phoneNumber', e.target.value)}
-                                placeholder="Telefon raqamni kiriting"
-                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
-                            />
-                            <input
-                                value={crudMachine.year}
-                                type={'number'}
-                                onChange={(e) => {
-                                    const v = e.target.value;
-                                    if (+v >= 0 && +v <= 9999) handleChange('year', v)
-                                }}
-                                onKeyDown={e => {
-                                    if (e.key === "-" || e.key === "e" || e.key === 'E' || e.key === '+') e.preventDefault();
-                                }}
-                                placeholder="Yilini kiriting"
-                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
-                            />
-                            <input
-                                value={crudMachine.lavozimi}
-                                onChange={(e) => handleChange('lavozimi', e.target.value)}
-                                placeholder="Lavozimni kiriting"
-                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
-                            />
-                            <input
-                                value={crudMachine.farmName}
-                                onChange={(e) => handleChange('farmName', e.target.value)}
-                                placeholder="Fermer xujaligi nomini kiriting"
-                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
-                            />
-                            <input
-                                value={crudMachine.ownerFullName}
-                                onChange={(e) => handleChange('ownerFullName', e.target.value)}
-                                placeholder="Operator tuliq ismini kiriting"
-                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
-                            />
-                            <input
-                                value={crudMachine.ownerPhoneNumber}
-                                onChange={(e) => handleChange('ownerPhoneNumber', e.target.value)}
-                                placeholder="Operator raqamini kiriting"
-                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
-                            />
-                            <input
-                                value={crudMachine.machineId}
-                                onChange={(e) => handleChange('machineId', e.target.value)}
-                                placeholder="Mashina idsini kiriting"
-                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
-                            />
-                            <select
-                                value={crudMachine.machineModel}
-                                onChange={(e) => handleChange(`machineModel`, e.target.value)}
-                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5"
-                            >
-                                <option disabled selected value={''}>
-                                    Mashina modelini kiriting
-                                </option>
-                                    <option value={'CE_220'}>CE_220</option>
-                                    <option value={'JOHN_DEERE'}>JOHN_DEERE</option>
-                                    <option value={'BOSHIRAN'}>BOSHIRAN</option>
-                                    <option value={'FM_WORLD'}>FM_WORLD</option>
-                                    <option value={'DONG_FENG'}>DONG_FENG</option>
-                            </select>
-                            <input
-                                value={crudMachine.password}
-                                onChange={(e) => handleChange('password', e.target.value)}
-                                placeholder="Parolni kiriting"
-                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
-                            />
-                        </div>
-                    )}
+                    {editOrDeleteStatus === 'POST' && checkModal('POST')}
+                    {editOrDeleteStatus === 'EDIT' && checkModal('EDIT')}
+                    {editOrDeleteStatus === 'DELETE' && checkModal('DELETE')}
+                    {editOrDeleteStatus === 'EDIT_USER' && checkModal('EDIT_USER')}
+                    {editOrDeleteStatus === 'DELETE_USER' && checkModal('DELETE_USER')}
+
                     <div className={`flex justify-end items-center gap-5 mt-5`}>
                         <ShinyButton
                             text={`Orqaga`}
@@ -412,6 +497,24 @@ const Machine = () => {
                                 className={`bg-darkGreen ${machineDelete.loading && 'cursor-not-allowed opacity-60'}`}
                                 onClick={() => {
                                     if (!machineDelete.loading) machineDelete.globalDataFunc()
+                                }}
+                            />
+                        )}
+                        {editOrDeleteStatus === 'EDIT_USER' && (
+                            <ShinyButton
+                                text={machineEditUser.loading ? 'Saqlanmoqda...' : 'Biriktirish'}
+                                className={`bg-darkGreen ${machineEditUser.loading && 'cursor-not-allowed opacity-60'}`}
+                                onClick={() => {
+                                    if (!machineEditUser.loading) machineEditUser.globalDataFunc()
+                                }}
+                            />
+                        )}
+                        {editOrDeleteStatus === 'DELETE_USER' && (
+                            <ShinyButton
+                                text={machineDeleteUser.loading ? 'Saqlanmoqda...' : 'Olib tashlash'}
+                                className={`bg-darkGreen ${machineDeleteUser.loading && 'cursor-not-allowed opacity-60'}`}
+                                onClick={() => {
+                                    if (!machineDeleteUser.loading) machineDeleteUser.globalDataFunc()
                                 }}
                             />
                         )}
