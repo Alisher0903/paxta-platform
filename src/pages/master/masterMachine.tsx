@@ -4,7 +4,13 @@ import Tables from "@/components/custom/tables/table.tsx";
 import {machineReportList} from "@/helpers/constanta.tsx";
 import {useGlobalRequest} from "@/helpers/functions/restApi-function.tsx";
 import {useEffect, useState} from "react";
-import {breakReportGetMasterList} from "@/helpers/api.tsx";
+import {
+    breakReportAddMaster,
+    breakReportEditMaster,
+    breakReportGetMasterList,
+    cottonGetMaster,
+    districtList, farmList
+} from "@/helpers/api.tsx";
 import ShinyButton from "@/components/magicui/shiny-button.tsx";
 import {FaEdit} from "react-icons/fa";
 import Modal from "@/components/custom/modal/modal.tsx";
@@ -14,59 +20,72 @@ import {consoleClear} from "@/helpers/functions/toastMessage.tsx";
 import {dateGenerate} from "@/helpers/functions/common-functions.tsx";
 
 const defVal = {
-    name: '',
-    description: '',
-    videoLink: '',
-    videoTime: '',
-    moduleId: 0,
-    fileId: 0
+    farmId: 0,
+    machineStatus: '',
+    hour: '',
+    minute: '',
+    districtId: 0,
+    cottonId: 0
 }
 
 const MasterMachine = () => {
     const [isModal, setIsModal] = useState(false);
-    const [crudLesson, setCrudLesson] = useState<any>(defVal);
+    const [crudBreakRep, setCrudBreakRep] = useState<any>(defVal);
     const {editOrDeleteStatus, setEditOrDeleteStatus} = courseStore()
     const requestData = {
-        name: crudLesson.name,
-        description: crudLesson.description,
-        videoLink: crudLesson.videoLink,
-        videoTime: crudLesson.videoTime,
-        moduleId: crudLesson.moduleId,
+        farmId: crudBreakRep.farmId,
+        machineStatus: editOrDeleteStatus === 'EDIT' ? null : crudBreakRep.machineStatus,
+        hour: crudBreakRep.hour,
+        minute: 0
     }
 
     const machineReportGet = useGlobalRequest(`${breakReportGetMasterList}?date=${dateGenerate()}`, 'GET')
-    const categoryLists = useGlobalRequest('', 'GET')
-    const moduleLessonGet = useGlobalRequest('', 'GET')
-    const lessonAdd = useGlobalRequest('', 'POST', requestData)
-    const lessonEdit = useGlobalRequest('', 'PUT', requestData)
+    const breakRepAdd = useGlobalRequest(breakReportAddMaster, 'POST', requestData)
+    const breakRepEdit = useGlobalRequest(`${breakReportEditMaster}${crudBreakRep.id}`, 'PUT', requestData)
+    const districtLists = useGlobalRequest(districtList, 'GET');
+    const cottonLists = useGlobalRequest(`${cottonGetMaster}${crudBreakRep.districtId}`, 'GET');
+    const farmLists = useGlobalRequest(`${farmList}/${crudBreakRep.cottonId}`, 'GET');
 
     useEffect(() => {
         machineReportGet.globalDataFunc()
+        districtLists.globalDataFunc()
     }, []);
 
     useEffect(() => {
-        if (lessonAdd.response) {
+        if (breakRepAdd.response?.success) {
+            machineReportGet.globalDataFunc()
             toast.success('Mashina holati muvaffaqiyatli qo\'shildi')
             closeModal()
         }
         consoleClear()
-    }, [lessonAdd.response]);
+    }, [breakRepAdd.response]);
 
     useEffect(() => {
-        if (lessonEdit.response) {
+        if (breakRepEdit.response?.success) {
+            machineReportGet.globalDataFunc()
             toast.success('Mashina holati muvaffaqiyatli taxrirlandi')
             closeModal()
         }
         consoleClear()
-    }, [lessonEdit.response]);
+    }, [breakRepEdit.response]);
 
-    const handleChange = (name: string, value: string) => setCrudLesson({...crudLesson, [name]: value});
+    useEffect(() => {
+        crudBreakRep.cottonId = 0
+        if (crudBreakRep.districtId) cottonLists.globalDataFunc();
+    }, [crudBreakRep.districtId]);
+
+    useEffect(() => {
+        crudBreakRep.farmId = 0
+        if (crudBreakRep.cottonId) farmLists.globalDataFunc();
+    }, [crudBreakRep.districtId, crudBreakRep.cottonId]);
+
+    const handleChange = (name: string, value: string) => setCrudBreakRep({...crudBreakRep, [name]: value});
 
     const openModal = () => setIsModal(true);
     const closeModal = () => {
         setIsModal(false);
         setTimeout(() => {
-            setCrudLesson(defVal);
+            setCrudBreakRep(defVal);
             setEditOrDeleteStatus('');
         }, 500)
     };
@@ -85,15 +104,12 @@ const MasterMachine = () => {
                         setEditOrDeleteStatus('POST')
                     }}
                 />
-                <div
-                    className={`w-full lg:max-w-[60%] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5`}
-                >
-                </div>
             </div>
 
             {/*======================BODY TABLE======================*/}
             <div className={`mt-6`}>
                 {machineReportGet?.loading ? <div className={`w-full grid grid-cols-1 gap-3`}>
+                    <Skeleton/>
                     <Skeleton/>
                     <Skeleton/>
                 </div> : (
@@ -147,7 +163,7 @@ const MasterMachine = () => {
                                             onClick={() => {
                                                 openModal();
                                                 setEditOrDeleteStatus('EDIT');
-                                                setCrudLesson(item);
+                                                setCrudBreakRep(item);
                                             }}
                                         />
                                     </td>
@@ -178,45 +194,110 @@ const MasterMachine = () => {
 
             <Modal onClose={closeModal} isOpen={isModal}>
                 <div className={`min-w-54 sm:w-64 md:w-96 lg:w-[40rem]`}>
-                    <div className={`mt-7`}>
-                        <select
-                            value={crudLesson.categoryId}
-                            onChange={(e) => handleChange(`categoryId`, e.target.value)}
-                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5 my-7"
-                        >
-                            <option disabled selected value={``}>Kursni tanlang</option>
-                            {categoryLists.response && categoryLists.response.map((item: any) => (
-                                <option value={item.id} key={item.id}>{item.name}</option>
-                            ))}
-                        </select>
-                        <select
-                            value={crudLesson.moduleId}
-                            onChange={(e) => handleChange(`moduleId`, e.target.value)}
-                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5 my-7"
-                        >
-                            <option disabled selected value={0}>Modulni tanlang</option>
-                            {moduleLessonGet.response && moduleLessonGet.response.map((item: any) => (
-                                <option value={item.moduleId} key={item.moduleId}>{item.name}</option>
-                            ))}
-                        </select>
-                        <input
-                            value={crudLesson.name}
-                            onChange={(e) => handleChange('name', e.target.value)}
-                            placeholder="Dars nomini kiriting"
-                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5 mt-7"
-                        />
-                        <input
-                            value={crudLesson.description}
-                            onChange={(e) => handleChange('description', e.target.value)}
-                            placeholder="Tavsifni kiriting"
-                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5 mt-7"
-                        />
-                        <input
-                            value={crudLesson.videoLink}
-                            onChange={(e) => handleChange('videoLink', e.target.value)}
-                            placeholder="Vedio linkini kiriting"
-                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5 mt-7"
-                        />
+                    <div className={`mt-7 grid grid-cols-1 gap-4`}>
+                        <div>
+                            <label>Tumanni tanlang</label>
+                            <select
+                                value={crudBreakRep.districtId}
+                                onChange={(e) => handleChange('districtId', e.target.value)}
+                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
+                            >
+                                <option value={0} disabled>Tumanni tanlang</option>
+                                {districtLists.response?.success && districtLists.response.body?.length > 0 && districtLists.response.body.map((item: {
+                                    id: number
+                                    name: string
+                                }) => (
+                                    <option key={item.id} value={item.id}>{item.name}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div>
+                            <label>Terim hududini tanlang</label>
+                            <select
+                                value={crudBreakRep.cottonId}
+                                onChange={(e) => handleChange('cottonId', e.target.value)}
+                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
+                            >
+                                <option value={0} disabled>Terim hududini tanlang</option>
+                                {cottonLists.response?.success && cottonLists.response.body?.length > 0 && cottonLists.response.body.map((item: {
+                                    cottonPickedId: number
+                                    areaName: string
+                                }) => (
+                                    <option key={item.cottonPickedId} value={item.cottonPickedId}>
+                                        {item.areaName}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div>
+                            <label>Fermer xo'jaligini tanlang</label>
+                            <select
+                                value={crudBreakRep.farmId}
+                                onChange={(e) => handleChange('farmId', e.target.value)}
+                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
+                            >
+                                <option value={0} disabled>Fermer xo'jaligini tanlang</option>
+                                {farmLists.response?.success && farmLists.response.body?.length > 0 && farmLists.response.body.map((item: {
+                                    farmId: number
+                                    farmName: string
+                                }) => (
+                                    <option key={item.farmId} value={item.farmId}>{item.farmName}</option>
+                                ))}
+                            </select>
+                        </div>
+                        {editOrDeleteStatus !== 'EDIT' && <>
+                            <div>
+                                <label>Buzilganlik sababini kiriting</label>
+                                <select
+                                    value={crudBreakRep.machineStatus}
+                                    onChange={(e) => handleChange('machineStatus', e.target.value)}
+                                    className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
+                                >
+                                    <option value={'null'}>Buzilganlik sababini kiriting</option>
+                                    <option value={'ROSTLASH_ISHLARI_OLIB_BORILMOQDA'}>
+                                        ROSTLASH_ISHLARI_OLIB_BORILMOQDA
+                                    </option>
+                                    <option value={'OPERATORI_YUQ'}>OPERATORI_YUQ</option>
+                                    <option value={'TAMIRDA'}>TAMIRDA</option>
+                                    <option value={'TASHKILIY_SABAB'}>TASHKILIY_SABAB</option>
+                                    <option value={'YOQILGI_YETKAZIB_BERILMAGAN'}>
+                                        YOQILGI_YETKAZIB_BERILMAGAN
+                                    </option>
+                                </select>
+                            </div>
+                        </>}
+                        <div>
+                            <label>{editOrDeleteStatus === 'EDIT' ? 'Sozlangan' : 'Buzilgan'} soatini kiriting</label>
+                            <input
+                                type={'number'}
+                                value={crudBreakRep.hour}
+                                onChange={(e) => {
+                                    const v = e.target.value
+                                    if (+v >= 0 && +v <= 24) handleChange('hour', e.target.value)
+                                }}
+                                onKeyDown={e => {
+                                    if (e.keyCode === 69 || e.key === '+' || e.key === '-' || e.key === '.') e.preventDefault();
+                                }}
+                                placeholder="Buzilgan soatini kiriting"
+                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
+                            />
+                        </div>
+                        <div>
+                            <label>{editOrDeleteStatus === 'EDIT' ? 'Sozlangan' : 'Buzilgan'} minutini kiriting</label>
+                            <input
+                                type={'number'}
+                                value={crudBreakRep.minute}
+                                onChange={(e) => {
+                                    const v = e.target.value
+                                    if (+v >= 0 && +v < 60) handleChange('minute', e.target.value)
+                                }}
+                                onKeyDown={e => {
+                                    if (e.keyCode === 69 || e.key === '+' || e.key === '-' || e.key === '.') e.preventDefault();
+                                }}
+                                placeholder="Buzilgan minutini kiriting"
+                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
+                            />
+                        </div>
                     </div>
 
                     <div className={`flex justify-end items-center gap-5 mt-5`}>
@@ -227,11 +308,11 @@ const MasterMachine = () => {
                         />
                         {editOrDeleteStatus === 'POST' && (
                             <ShinyButton
-                                text={lessonAdd.loading ? 'Saqlanmoqda...' : 'Saqlash'}
-                                className={`bg-darkGreen ${lessonAdd.loading && 'cursor-not-allowed opacity-60'}`}
+                                text={breakRepAdd.loading ? 'Saqlanmoqda...' : 'Saqlash'}
+                                className={`bg-darkGreen ${breakRepAdd.loading && 'cursor-not-allowed opacity-60'}`}
                                 onClick={() => {
-                                    if (!lessonAdd.loading) {
-                                        if (crudLesson.name && crudLesson.description && crudLesson.videoLink && crudLesson.videoTime && crudLesson.moduleId) lessonAdd.globalDataFunc()
+                                    if (!breakRepAdd.loading) {
+                                        if (crudBreakRep.farmId && crudBreakRep.machineStatus && crudBreakRep.hour && crudBreakRep.minute) breakRepAdd.globalDataFunc()
                                         else toast.error('Ma\'lumotlar tuliqligini tekshirib kuring')
                                     }
                                 }}
@@ -239,11 +320,11 @@ const MasterMachine = () => {
                         )}
                         {editOrDeleteStatus === 'EDIT' && (
                             <ShinyButton
-                                text={lessonEdit.loading ? 'Yuklanmoqda...' : 'Taxrirlash'}
-                                className={`bg-darkGreen ${lessonEdit.loading && 'cursor-not-allowed opacity-60'}`}
+                                text={breakRepEdit.loading ? 'Yuklanmoqda...' : 'Taxrirlash'}
+                                className={`bg-darkGreen ${breakRepEdit.loading && 'cursor-not-allowed opacity-60'}`}
                                 onClick={() => {
-                                    if (!lessonEdit.loading) {
-                                        if (crudLesson.name && crudLesson.description && crudLesson.videoLink && crudLesson.videoTime) lessonEdit.globalDataFunc()
+                                    if (!breakRepEdit.loading) {
+                                        if (crudBreakRep.farmId && crudBreakRep.machineStatus && crudBreakRep.hour && crudBreakRep.minute) breakRepEdit.globalDataFunc()
                                         else toast.error('Ma\'lumotlar tuliqligini tekshirib kuring')
                                     }
                                 }}
