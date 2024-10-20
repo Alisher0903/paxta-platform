@@ -159,7 +159,7 @@ export const routes = [
         </>
     },
     {
-        path: '/sector/getOne/:status/:date/:id',
+        path: '/sector/getOne/:selectedDate/:sectorNumber/:status/:sectorId',
         element: <>
             <PageTitle title="Sector | Dashboard"/>
             <Sector_getOne/>

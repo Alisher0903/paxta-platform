@@ -1,19 +1,19 @@
 import { Card } from '@/components/ui/card-hover-effect';
-import { district_getOne, district_getOne_invalid } from '@/helpers/api';
+import { active_machines_by_sector, sector_invalid_machine } from '@/helpers/api';
 import { useGlobalRequest } from '@/helpers/functions/restApi-function';
-import { Input, Pagination } from 'antd';
+import { Input } from 'antd';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 export default function Sector_getOne() {
     const location = useLocation();
-    const districtId = location.pathname.split('/').pop();
-    const status = location.pathname.split('/')[3]
-    const date = location.pathname.split('/')[4]
+    const sectorId = location.pathname.split('/').pop();
+    const date = location.pathname.split('/')[3]
+    const sectorNumber = location.pathname.split('/')[4]
+    const status = location.pathname.split('/')[5]
     const [selectedDate, setSelectedDate] = useState<string>(date)
-    const [page, setPage] = useState<number>(0)
-    const { response, globalDataFunc } = useGlobalRequest(`${district_getOne}?page=${page}&size=10&districtId=${districtId}&date=${selectedDate}`, 'GET');
-    const { response: responseInvalid, globalDataFunc: globalDataFuncInvalid } = useGlobalRequest(`${district_getOne_invalid}?page=${page}&size=10&districtId=${districtId}&date=${selectedDate}&status=${status}`, 'GET');
+    const { response, globalDataFunc } = useGlobalRequest(`${active_machines_by_sector}?sectorId=${sectorId}&date=${selectedDate}`, 'GET');
+    const { response: responseInvalid, globalDataFunc: globalDataFuncInvalid } = useGlobalRequest(`${sector_invalid_machine}?&date=${selectedDate}&sectorId=${sectorId}`, 'GET');
     useEffect(() => {
         globalDataFunc()
         globalDataFuncInvalid()
@@ -28,13 +28,13 @@ export default function Sector_getOne() {
                 onChange={(e) => setSelectedDate(e.target.value)}
             />
             <div className="flex justify-center py-16">
-                {response && response.body !== null && <h1 className='text-3xl font-semibold uppercase'>{response.message} tumaniga tegishli barcha mashinalar hisoboti</h1>}
+                {response && response.body !== null && <h1 className='text-3xl font-semibold uppercase'>{sectorNumber} - Sectorga tegishli barcha {status === 'active' ? 'ishlayotgan' : 'ishlamagan'} mashinalar hisoboti</h1>}
             </div>
             {
                 status === 'active' ? (
                     <div className=" flex lg:flex-wrap gap-4 lg:justify-between flex-col">
-                        {response && response?.body?.object?.length > 0 ? (
-                            response?.body?.object?.map((machine: {
+                        {response && response?.body?.length > 0 ? (
+                            response?.body?.map((machine: {
                                 machineModel: string,
                                 machineId: string,
                                 cottonSize: string,
@@ -90,25 +90,17 @@ export default function Sector_getOne() {
                         ) : (
                             <div>Bu san'ada hech qanday mashina ishlamayapti</div>
                         )}
-                        {status === 'invalid' && <Pagination
-                            showSizeChanger={false}
-                            responsive={true}
-                            defaultCurrent={1}
-                            total={response ? response.body?.totalElements : 0}
-                            onChange={(page: number) => setPage(page - 1)}
-                            rootClassName={`mt-8 mb-5`}
-                        />}
+                        {/* {status === 'invalid' && <Pagination
+                                showSizeChanger={false}
+                                responsive={true}
+                                defaultCurrent={1}
+                                total={response ? response.body?.totalElements : 0}
+                                onChange={(page: number) => setPage(page - 1)}
+                                rootClassName={`mt-8 mb-5`}
+                            />} */}
                     </div>
                 )
             }
-            <Pagination
-                showSizeChanger={false}
-                responsive={true}
-                defaultCurrent={1}
-                total={response ? response.body?.totalElements : 0}
-                onChange={(page: number) => setPage(page - 1)}
-                rootClassName={`mt-8 mb-5`}
-            />
         </div>
     );
 }

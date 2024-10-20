@@ -32,10 +32,10 @@ export default function T_hokim_dashboard() {
                     onChange={(e) => setSelectedDate(e.target.value)}
                 />
 
-                <div className={active === 'active' ? "flex gap-5 md:border-2 px-2 rounded-md border-[#6A9C89]" : "flex gap-5 md:border-2 px-2 rounded-md border-[#9a1e1eb7]"} >
+                <div className={active === 'active' ? "flex justify-between px-10 gap-5 md:border-2 rounded-md border-[#6A9C89]" : "flex justify-between px-10 gap-5 md:border-2 rounded-md border-[#9a1e1eb7]"} >
                     <div
                         onClick={() => setActive('active')}
-                        className={active === 'active' ? 'text-[#6A9C89]  cursor-pointer select-none underline' : 'text-[#6A9C89]  cursor-pointer select-none'}
+                        className={active === 'active' ? 'text-[#6A9C89]   cursor-pointer select-none underline' : 'text-[#868686]  cursor-pointer select-none'}
                     >
                         Ishlayotgan
                     </div>
@@ -44,7 +44,7 @@ export default function T_hokim_dashboard() {
                         onClick={() => {
                             setActive('deActive')
                         }}
-                        className={active === 'deActive' ? 'text-[#9a1e1e] cursor-pointer select-none underline' : 'text-[#9a1e1e]  cursor-pointer select-none'}
+                        className={active === 'deActive' ? 'text-[#9a1e1e] cursor-pointer select-none underline' : 'text-[#868686]  cursor-pointer select-none'}
                     >
                         Ishlamayotgan
                     </div>

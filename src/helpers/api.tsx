@@ -90,3 +90,7 @@ export const notificationGet: string = `${baseURL}notification/page/admin`
 export const notificationRead: string = `${baseURL}notification/read`
 export const notificationDelete: string = `${baseURL}notification/del-registrant/`
 
+// ============SECTOR=========
+export const statistic_sectorByDistrict: string = `${baseURL}statistic/sectorBy`
+export const sector_invalid_machine: string = `${baseURL}break-report/invalid-machine/sector`
+export const active_machines_by_sector: string = `${baseURL}statistic/machines/by/sector`
