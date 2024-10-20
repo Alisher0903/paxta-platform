@@ -8,13 +8,12 @@ import {consoleClear, siteSecurity} from "@/helpers/functions/toastMessage.tsx";
 function App() {
     const navigate = useNavigate();
     const {pathname} = useLocation()
-    const location = useLocation();
     const tokens = sessionStorage.getItem('token');
     const admin_role = sessionStorage.getItem('admin_roles');
 
     useEffect(() => {
         setConfig()
-        // siteSecurity()
+        siteSecurity()
         window.scrollTo(0, 0);
         const refresh = sessionStorage.getItem('refreshes');
 
@@ -39,16 +38,6 @@ function App() {
             consoleClear()
         }, 10000)
     }, [tokens, pathname, navigate]);
-
-    // useEffect(() => {
-    //     if (location.pathname) {
-    //         const isMatched = routes.some(item => item.path === location.pathname);
-    //         if (!isMatched) {
-    //             navigate('/auth/login')
-    //             sessionStorage.clear()
-    //         }
-    //     }
-    // }, [location, routes]);
 
     return (
         <DefaultLayout>
