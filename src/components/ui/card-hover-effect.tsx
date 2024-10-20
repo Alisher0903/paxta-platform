@@ -14,16 +14,18 @@ export const HoverEffect = (
         onClick,
         idx,
         date,
-        read
+        read,
+        children
     }: {
         title: string;
-        description: string;
+        description: string | React.ReactNode;
         link?: string;
         className?: string;
         onClick?: () => void;
         idx: number;
         date?: string;
-        read?: boolean
+        read?: boolean;
+        children?: React.ReactNode;
     }) => {
     let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
@@ -68,6 +70,9 @@ export const HoverEffect = (
                         {description}
                         {date && <span>{moment(date).format('DD.MM.YYYY')}</span>}
                     </CardDescription>
+                    <CardTitle className="flex justify-end mt-3">
+                        {children}
+                    </CardTitle>
                 </Card>
             </Link>
         </div>
@@ -90,7 +95,7 @@ export const Card = (
             )}
         >
             <Meteors number={60}/>
-            <div className="relative z-50">
+            <div className="relative     z-50">
                 <div className="p-4">{children}</div>
             </div>
         </div>

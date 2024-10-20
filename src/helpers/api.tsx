@@ -89,7 +89,8 @@ export const notificationCount: string = `${baseURL}notification/count/admin`
 export const notificationGet: string = `${baseURL}notification/page/admin`
 export const notificationRead: string = `${baseURL}notification/read`
 export const notificationDelete: string = `${baseURL}notification/delete`
-
+export const notificationStatus: string = `${baseURL}notification/status`
+export const notificationConfirmation: string = `${baseURL}notification/confirmation`
 // ============SECTOR=========
 export const statistic_sectorByDistrict: string = `${baseURL}statistic/sectorBy`
 export const sector_invalid_machine: string = `${baseURL}break-report/invalid-machine/sector`

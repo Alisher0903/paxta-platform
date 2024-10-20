@@ -3,18 +3,21 @@ import Breadcrumb from "@/components/custom/breadcrumb/Breadcrumb.tsx";
 import { Card, CardTitle, HoverEffect } from "@/components/ui/card-hover-effect.tsx";
 import Skeleton from "@/components/custom/skeleton/skeleton-cards.tsx";
 import { MdNote } from "react-icons/md";
-import { Button, Pagination, Modal } from "antd";
+import { Button, Pagination, Modal, Select } from "antd"; // Select import qilindi
 import toast from "react-hot-toast";
 import { useGlobalRequest } from "@/helpers/functions/restApi-function.tsx";
-import { notificationDelete, notificationGet, notificationRead } from "@/helpers/api.tsx";
+import { notificationConfirmation, notificationDelete, notificationGet, notificationRead } from "@/helpers/api.tsx";
 import { consoleClear } from "@/helpers/functions/toastMessage.tsx";
+
+const { Option } = Select;
 
 const Notifications = () => {
     const [readID, setReadID] = useState<number | null>(null);
     const [page, setPage] = useState(0);
-    const [deleteIDs, setDeleteIDs] = useState<number[]>([]); // Yig'ilgan id'lar uchun
-    const [isModalVisible, setIsModalVisible] = useState(false); // Modal oynani boshqarish uchun
-
+    const [deleteIDs, setDeleteIDs] = useState<number[]>([]);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [confirmation, setConfirmation] = useState(''); // Confirmation state
+    const [selectedNotificationID, setSelectedNotificationID] = useState<number | null>(null); // Selected notification ID
     const { response, loading, globalDataFunc } = useGlobalRequest(
         `${notificationGet}?page=${page}&size=10`,
         'GET'
@@ -22,8 +25,11 @@ const Notifications = () => {
 
     const readNotification = useGlobalRequest(notificationRead, 'POST', { ids: [readID] });
     const { response: deleteNotification, globalDataFunc: deleteNotificationFunc } = useGlobalRequest(notificationDelete, 'POST', { list: deleteIDs });
+    const { response: ResNotificationConfirmation, globalDataFunc: notificationConfirmationFunc } = useGlobalRequest(
+        `${notificationConfirmation}?id=${selectedNotificationID}&status=${confirmation}`, 
+        'POST'
+    );
 
-    // Fetch notifications on component mount
     useEffect(() => {
         globalDataFunc();
         consoleClear();
@@ -35,12 +41,11 @@ const Notifications = () => {
         }
     }, [readID]);
 
-    
     const deleteNotificationEffect = async () => {
         try {
             await deleteNotificationFunc();
             if (deleteNotification.success) {
-                setIsModalVisible(false); 
+                setIsModalVisible(false);
                 globalDataFunc();
                 toast.success('Barcha bildirishnomalar o\'chirildi');
             }
@@ -48,7 +53,6 @@ const Notifications = () => {
             toast.error('Bildirishnomalarni o\'chirishda xatolik yuz berdi');
         }
     };
-    
 
     useEffect(() => {
         if (readNotification.response) {
@@ -61,10 +65,30 @@ const Notifications = () => {
 
     const handleDeleteAll = () => {
         const idsToDelete = response?.body?.object?.map((n: { id: number }) => n.id) || [];
-        setDeleteIDs(idsToDelete); 
-        setIsModalVisible(true); 
+        setDeleteIDs(idsToDelete);
+        setIsModalVisible(true);
     };
-console.log(deleteIDs);
+
+    // When the user selects a status
+    const handleConfirmationChange = (value: string, id: number) => {
+        setConfirmation(value);
+        setSelectedNotificationID(id);
+        setIsModalVisible(true); // Show confirmation modal
+    };
+
+    // Confirm and send the request
+    const confirmStatusChange = async () => {
+        try {
+            await notificationConfirmationFunc();
+            if (ResNotificationConfirmation.success) {
+                toast.success('Bildirishnoma muvaffaqiyatli yangilandi');
+                globalDataFunc();
+            }
+        } catch {
+            toast.error('Bildirishnomani yangilashda xatolik yuz berdi');
+        }
+        setIsModalVisible(false); // Hide modal
+    };
 
     return (
         <>
@@ -77,7 +101,7 @@ console.log(deleteIDs);
             </Card>
 
             {/* Barcha bildirishnomalarni o'qish tugmasi */}
-            <Button className=" py-6 px-10 mb-5 hover:border-none  bg-[#9a1e1e] text-white" onClick={handleDeleteAll}>
+            <Button className=" py-6 px-10 mb-5  bg-[#9a1e1e] text-white" onClick={handleDeleteAll}>
                 Barcha bildirishnomalarni o'chirish
             </Button>
 
@@ -99,9 +123,24 @@ console.log(deleteIDs);
                             key={n.id}
                             idx={idx}
                             title={n.title}
-                            description={`Tavsif: ${n.status}`}
+                            description={
+                                <>
+                                    <p>Tavsif: {n.status}</p>
+                                    <p>Foydalanuvchi: {n.userFullName}</p>
+                                </>
+                            }
                             date={n.createdAt}
                             read={!n.read}
+                            children={
+                                <Select
+                                    className="w-full bg-[#9a1e1e] text-white"
+                                    defaultValue="Select status"
+                                    onChange={(value) => handleConfirmationChange(value, n.id)} // Pass notification ID
+                                >
+                                    <Option  value="RUXSAT_SURALMOQDA">RUXSAT_SURALMOQDA</Option>
+                                    <Option value="RUXSAT_BERILDI">RUXSAT_BERILDI</Option>
+                                </Select>
+                            }
                             onClick={() => {
                                 if (!n.read) setReadID(n.id);
                             }}
@@ -122,7 +161,6 @@ console.log(deleteIDs);
                 </Card>
             )}
 
-            {/* Pagination */}
             <Pagination
                 showSizeChanger={false}
                 responsive={true}
@@ -132,16 +170,16 @@ console.log(deleteIDs);
                 rootClassName="mt-8 mb-5"
             />
 
-            {/* Modal oynasi */}
+            {/* Modal for status confirmation */}
             <Modal
                 title="Tasdiqlash"
                 visible={isModalVisible}
-                onOk={deleteNotificationEffect} 
+                onOk={confirmStatusChange} 
                 onCancel={() => setIsModalVisible(false)} 
-                okText="O'chirish"
+                okText="Tasdiqlash"
                 cancelText="Bekor qilish"
             >
-                Barcha bildirishnomalarni o'chirishni xohlaysizmi?
+                Bildirishnoma holatini o'zgartirishni tasdiqlaysizmi?
             </Modal>
         </>
     );
