@@ -10,6 +10,7 @@ import T_hokim_dashboard from "@/pages/t-hokim/t_hokim_dashboard";
 import T_hokim_hisobot from "@/pages/t-hokim/t_hokim_hisobot";
 import V_hokim_getOne from "@/pages/v-hokim/v-hokim_getOne";
 import V_hokim_dashboard from "@/pages/v-hokim/v_hokim_dashboard";
+import NotificationMaster from "@/pages/master/notification";
 import V_hokim_hisobot from "@/pages/v-hokim/v_hokim_hisobot";
 
 export const routes = [
@@ -98,13 +99,13 @@ export const routes = [
             <MasterAddReport/>
         </>
     },
-    // {
-    //     path: 'user/course',
-    //     element: <>
-    //         <PageTitle title="Education | Reports"/>
-    //         <Task/>
-    //     </>
-    // },
+    {
+        path: 'user/notification',
+        element: <>
+            <PageTitle title="Bildirishnomalar"/>
+            <NotificationMaster/>
+        </>
+    },
     {
         path: '/user/machine',
         element: <>

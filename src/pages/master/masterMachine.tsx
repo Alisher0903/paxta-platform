@@ -36,7 +36,7 @@ const MasterMachine = () => {
         farmId: crudBreakRep.farmId,
         machineStatus: editOrDeleteStatus === 'EDIT' ? null : crudBreakRep.machineStatus,
         hour: crudBreakRep.hour,
-        minute: 0
+        minute: crudBreakRep.minute
     }
 
     const machineReportGet = useGlobalRequest(`${breakReportGetMasterList}?date=${dateGenerate()}`, 'GET')

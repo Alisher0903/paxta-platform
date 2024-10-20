@@ -7,7 +7,7 @@ import {IoIosLogOut} from 'react-icons/io';
 import ShinyButton from '@/components/magicui/shiny-button';
 import {useGlobalRequest} from "@/helpers/functions/restApi-function.tsx";
 import globalStore from "@/helpers/state-management/globalStore.tsx";
-import {notificationCount, userGetMe} from "@/helpers/api.tsx";
+import {notificationCount, notificationCountMaster, userGetMe} from "@/helpers/api.tsx";
 
 const DefaultLayout: React.FC<{ children: ReactNode }> = ({children}) => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -17,7 +17,7 @@ const DefaultLayout: React.FC<{ children: ReactNode }> = ({children}) => {
     const navigate = useNavigate()
     const role = sessionStorage.getItem('admin_roles')
     const {setNotificationCounts, setMeData} = globalStore()
-    const getNotificationCount = useGlobalRequest(notificationCount, 'GET')
+    const getNotificationCount = useGlobalRequest(role === 'ROLE_ADMIN' ? notificationCount : notificationCountMaster, 'GET')
     const getMe = useGlobalRequest(userGetMe, 'GET', '')
 
     useEffect(() => {

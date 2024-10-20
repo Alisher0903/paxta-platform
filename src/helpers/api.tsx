@@ -87,7 +87,9 @@ export const excelDownload: string = `${baseURL}attachment/download`
 
 // ============NOTIFICATION=================
 export const notificationCount: string = `${baseURL}notification/count/admin`
+export const notificationCountMaster: string = `${baseURL}notification/count/master`
 export const notificationGet: string = `${baseURL}notification/page/admin`
+export const notificationGetMaster: string = `${baseURL}notification/page/user`
 export const notificationRead: string = `${baseURL}notification/read`
 export const notificationDelete: string = `${baseURL}notification/delete`
 export const notificationStatus: string = `${baseURL}notification/status`
