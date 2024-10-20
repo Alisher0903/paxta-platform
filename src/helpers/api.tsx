@@ -88,7 +88,7 @@ export const excelDownload: string = `${baseURL}attachment/download`
 export const notificationCount: string = `${baseURL}notification/count/admin`
 export const notificationGet: string = `${baseURL}notification/page/admin`
 export const notificationRead: string = `${baseURL}notification/read`
-export const notificationDelete: string = `${baseURL}notification/del-registrant/`
+export const notificationDelete: string = `${baseURL}notification/delete`
 
 // ============SECTOR=========
 export const statistic_sectorByDistrict: string = `${baseURL}statistic/sectorBy`
