@@ -154,8 +154,6 @@ const Users = () => {
         }
     }
 
-    console.log(getSectorList.response)
-
     return (
         <>
             <Breadcrumb pageName={`Foydalanuvchilar`}/>
@@ -355,7 +353,7 @@ const Users = () => {
                                                 Sectorni tanlang
                                             </option>
                                             {getSectorList.response && getSectorList.response.body?.map((item: any) => (
-                                                <option value={item.id}>{item.name}</option>
+                                                <option value={item.id}>{item.districtName} {item.number}</option>
                                             ))}
                                         </select>
                                     </div>
