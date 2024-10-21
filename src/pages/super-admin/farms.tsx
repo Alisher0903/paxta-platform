@@ -57,29 +57,29 @@ const Farms = () => {
     useEffect(() => {
         if (farmAdd.response && farmAdd.response.success) {
             globalDataFunc()
-            toast.success('Ferma muvaffaqiyatli qushildi')
+            toast.success('Фермер хўжалиги муваффақиятли қўшилди')
             closeModal()
-        }
+        } else if (farmAdd.error?.response?.data?.message) toast.error(farmAdd.error.response.data.message)
         consoleClear()
-    }, [farmAdd.response]);
+    }, [farmAdd.response, farmAdd.error]);
 
     useEffect(() => {
         if (farmEdit.response && farmEdit.response.success) {
             globalDataFunc()
-            toast.success('Ferma muvaffaqiyatli taxrirlandi')
+            toast.success('Фермер хўжалиги муваффақиятли таҳрирланди')
             closeModal()
-        }
+        } else if (farmEdit.error?.response?.data?.message) toast.error(farmEdit.error.response.data.message)
         consoleClear()
-    }, [farmEdit.response]);
+    }, [farmEdit.response, farmEdit.error]);
 
     useEffect(() => {
         if (farmDelete.response && farmDelete.response.success) {
             globalDataFunc()
-            toast.success('Ferma muvaffaqiyatli o\'chirildi')
+            toast.success('Фермер хўжалиги муваффақиятли ўчирилди')
             closeModal()
-        }
+        } else if (farmDelete.error?.response?.data?.message) toast.error(farmDelete.error.response.data.message)
         consoleClear()
-    }, [farmDelete.response]);
+    }, [farmDelete.response, farmDelete.error]);
 
     const handleChange = (name: string, value: string) => setCrudFarm({...crudFarm, [name]: value});
 
@@ -94,12 +94,12 @@ const Farms = () => {
 
     return (
         <>
-            <Breadcrumb pageName={`Fermalar`}/>
+            <Breadcrumb pageName={`Фермер хўжаликлари`}/>
 
             {/*=================SEARCH================*/}
             <div className={`w-full flex justify-between items-center flex-wrap xl:flex-nowrap gap-5 mt-10`}>
                 <ShinyButton
-                    text={`Ferma qo'shish`}
+                    text={`Фермер хўжалиги қўшиш`}
                     icon={<MdOutlineAddCircle size={30}/>}
                     className={`bg-darkGreen`}
                     onClick={() => {
@@ -112,6 +112,7 @@ const Farms = () => {
             {/*======================BODY TABLE======================*/}
             <div className={`mt-6`}>
                 {loading ? <div className={`w-full grid grid-cols-1 gap-3`}>
+                    <Skeleton/>
                     <Skeleton/>
                     <Skeleton/>
                 </div> : (
@@ -174,7 +175,7 @@ const Farms = () => {
                                 className="border-b border-[#eee] p-5 text-black text-center"
                                 colSpan={farmThead.length}
                             >
-                                Ma'lumot topilmadi
+                                Маълумот топилмади
                             </td>
                         </tr>}
                     </Tables>
@@ -193,31 +194,34 @@ const Farms = () => {
                 <div className={`min-w-54 sm:w-64 md:w-96 lg:w-[40rem]`}>
                     {editOrDeleteStatus === 'DELETE' ? (
                         <p className={`text-center text-black text-base lg:text-xl mb-10 mt-7`}>
-                            Haqiqatdan xam bu fermani o'chirib tashlamoqchimisiz?
+                            Ҳақиқатдан хам бу фермер хўжалигини ўчириб ташламоқчимисиз?
                         </p>
                     ) : <div className={`mt-7`}>
+                        <label>Фермер хўжалиги номини киритинг</label>
                         <input
                             value={crudFarm.farmName}
                             onChange={(e) => handleChange('farmName', e.target.value)}
-                            placeholder="Ferma nomini kiriting"
-                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5 mt-7"
+                            placeholder="Фермер хўжалиги номини киритинг"
+                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5 mb-7"
                         />
+                        <label>Фермер хўжалиги инн рақамини киритинг</label>
                         <input
                             value={crudFarm.inn}
                             type={'number'}
                             onChange={(e) => handleChange('inn', e.target.value)}
-                            placeholder="Ferma inn raqamini kiriting"
+                            placeholder="Фермер хўжалиги инн рақамини киритинг"
                             onKeyDown={e => {
                                 if (e.key === '+' || e.key === 'e' || e.key === 'E' || e.key === '-') e.preventDefault()
                             }}
-                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5 mt-7"
+                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5 mb-7"
                         />
+                        <label>Туманни танланг</label>
                         <select
                             value={crudFarm.districtId}
                             onChange={(e) => handleChange(`districtId`, e.target.value)}
-                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5 my-7"
+                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5 mb-7"
                         >
-                            <option disabled selected value={0}>Tumanni tanlang</option>
+                            <option disabled selected value={0}>Туманни танланг</option>
                             {districtLists.response && districtLists.response.body?.map((item: {
                                 id: number
                                 name: string
@@ -225,12 +229,13 @@ const Farms = () => {
                                 <option value={item.id} key={item.id}>{item.name}</option>
                             ))}
                         </select>
+                        <label>Пахта терадиган жойни танланг</label>
                         <select
                             value={crudFarm.cottonPickedId}
                             onChange={(e) => handleChange(`cottonPickedId`, e.target.value)}
-                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5 my-7"
+                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5 mb-7"
                         >
-                            <option disabled selected value={0}>Paxta teradigan joyni tanlang</option>
+                            <option disabled selected value={0}>Пахта терадиган жойни танланг</option>
                             {cottonList.response && cottonList.response.body?.map((item: {
                                 cottonPickedId: number
                                 areaName: string
@@ -245,37 +250,37 @@ const Farms = () => {
                     }
                     <div className={`flex justify-end items-center gap-5 mt-5`}>
                         <ShinyButton
-                            text={`Orqaga`}
+                            text={`Орқага`}
                             className={`bg-darkGreen`}
                             onClick={closeModal}
                         />
                         {editOrDeleteStatus === 'POST' && (
                             <ShinyButton
-                                text={farmAdd.loading ? 'Saqlanmoqda...' : 'Saqlash'}
+                                text={farmAdd.loading ? 'Сақланмоқда...' : 'Сақлаш'}
                                 className={`bg-darkGreen ${farmAdd.loading && 'cursor-not-allowed opacity-60'}`}
                                 onClick={() => {
                                     if (!farmAdd.loading) {
                                         if (crudFarm.farmName && crudFarm.inn && crudFarm.cottonPickedId) farmAdd.globalDataFunc()
-                                        else toast.error('Ma\'lumotlar tuliqligini tekshirib kuring')
+                                        else toast.error('Маълумотлар тўлиқлигини текшириб кўринг')
                                     }
                                 }}
                             />
                         )}
                         {editOrDeleteStatus === 'EDIT' && (
                             <ShinyButton
-                                text={farmEdit.loading ? 'Yuklanmoqda...' : 'Taxrirlash'}
+                                text={farmEdit.loading ? 'Юкланмоқда...' : 'Таҳрирлаш'}
                                 className={`bg-darkGreen ${farmEdit.loading && 'cursor-not-allowed opacity-60'}`}
                                 onClick={() => {
                                     if (!farmEdit.loading) {
                                         if (crudFarm.farmName && crudFarm.inn && crudFarm.cottonPickedId) farmEdit.globalDataFunc()
-                                        else toast.error('Ma\'lumotlar tuliqligini tekshirib kuring')
+                                        else toast.error('Маълумотлар тўлиқлигини текшириб кўринг')
                                     }
                                 }}
                             />
                         )}
                         {editOrDeleteStatus === 'DELETE' && (
                             <ShinyButton
-                                text={farmDelete.loading ? 'O\'chirilmoqda...' : 'Xa'}
+                                text={farmDelete.loading ? 'Ўчирилмоқда...' : 'Ҳа'}
                                 className={`bg-darkGreen ${farmDelete.loading && 'cursor-not-allowed opacity-60'}`}
                                 onClick={() => {
                                     if (!farmDelete.loading) farmDelete.globalDataFunc()

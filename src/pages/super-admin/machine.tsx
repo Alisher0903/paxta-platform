@@ -193,11 +193,7 @@ const Machine = () => {
                                     if (v?.length >= 0 && v?.length <= 12 && !isNaN(+v)) handleChange('phoneNumber', v);
                                 }}
                                 onKeyDown={(e) => {
-                                    if (
-                                        e.key === 'e' || e.key === 'E' ||
-                                        e.key === '-' || e.key === '+' ||
-                                        e.key === '.'
-                                    ) e.preventDefault();
+                                    if (e.key === 'e' || e.key === 'E' || e.key === '-' || e.key === '+' || e.key === '.') e.preventDefault();
                                 }}
                                 className={`bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5`}
                                 placeholder={`Телефон рақамни киритинг...`}
@@ -256,11 +252,7 @@ const Machine = () => {
                                     if (v?.length >= 0 && v?.length <= 12 && !isNaN(+v)) handleChange('ownerPhoneNumber', v);
                                 }}
                                 onKeyDown={(e) => {
-                                    if (
-                                        e.key === 'e' || e.key === 'E' ||
-                                        e.key === '-' || e.key === '+' ||
-                                        e.key === '.'
-                                    ) e.preventDefault();
+                                    if (e.key === 'e' || e.key === 'E' || e.key === '-' || e.key === '+' || e.key === '.') e.preventDefault();
                                 }}
                                 className={`bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5`}
                                 placeholder={`Оператор рақамини киритинг...`}
