@@ -62,27 +62,27 @@ const Cotton = () => {
             globalDataFunc()
             toast.success('Пахта терим ҳудуди муваффақиятли қўшилди')
             closeModal()
-        } else if (cottonAdd.response?.message) toast.error(cottonAdd.response.message)
+        } else if (cottonAdd.error?.response?.data?.message) toast.error(cottonAdd.error.response.data.message)
         consoleClear()
-    }, [cottonAdd.response]);
+    }, [cottonAdd.response, cottonAdd.error]);
 
     useEffect(() => {
         if (cottonEdit.response && cottonEdit.response.success) {
             globalDataFunc()
             toast.success('Пахта терим ҳудуди муваффақиятли таҳрирланди')
             closeModal()
-        } else if (cottonEdit.response?.message) toast.error(cottonEdit.response.message)
+        } else if (cottonEdit.error?.response?.data?.message) toast.error(cottonEdit.error.response.data.message)
         consoleClear()
-    }, [cottonEdit.response]);
+    }, [cottonEdit.response, cottonEdit.error]);
 
     useEffect(() => {
         if (cottonDelete.response && cottonDelete.response.success) {
             globalDataFunc()
             toast.success('Пахта терим ҳудуди муваффақиятли ўчирилди')
             closeModal()
-        } else if (cottonDelete.response?.message) toast.error(cottonDelete.response.message)
+        } else if (cottonDelete.error?.response?.data?.message) toast.error(cottonDelete.error.response.data.message)
         consoleClear()
-    }, [cottonDelete.response]);
+    }, [cottonDelete.response, cottonDelete.error]);
 
     const handleChange = (name: string, value: string) => setCrudFarm({...crudCotton, [name]: value});
 
