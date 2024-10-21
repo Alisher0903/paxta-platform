@@ -35,24 +35,24 @@ const District = () => {
             globalDataFunc()
             closeModal()
             toast.success('Туман муваффақиятли қўшилди')
-        } else if (district.response?.message) toast.error(district.response?.message)
-    }, [district.response]);
+        } else if (district.error?.response?.data?.message) toast.error(district.error.response.data.message)
+    }, [district.response, district.error]);
 
     useEffect(() => {
         if (editDistrict.response?.success) {
             globalDataFunc()
             closeModal()
             toast.success('Туман муваффақиятли таҳрирланди')
-        } else if (editDistrict.response?.message) toast.error(editDistrict.response?.message)
-    }, [editDistrict.response]);
+        } else if (editDistrict.error?.response?.data?.message) toast.error(editDistrict.error.response.data.message)
+    }, [editDistrict.response, editDistrict.error]);
 
     useEffect(() => {
         if (deleteDistrict.response?.success) {
             globalDataFunc()
             closeModal()
             toast.success('Туман муваффақиятли ўчирилди')
-        } else if (deleteDistrict.response?.message) toast.error(deleteDistrict.response?.message)
-    }, [deleteDistrict.response]);
+        } else if (deleteDistrict.error?.response?.data?.message) toast.error(deleteDistrict.error.response.data.message)
+    }, [deleteDistrict.response, deleteDistrict.error]);
 
     const handleChange = (name: string, value: string) => setCrudDistrict({...crudDistrict, [name]: value});
 
