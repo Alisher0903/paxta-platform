@@ -60,27 +60,27 @@ const Cotton = () => {
     useEffect(() => {
         if (cottonAdd.response && cottonAdd.response.success) {
             globalDataFunc()
-            toast.success('Paxta terim hududi muvaffaqiyatli qushildi')
+            toast.success('Пахта терим ҳудуди муваффақиятли қўшилди')
             closeModal()
-        }
+        } else if (cottonAdd.response?.message) toast.error(cottonAdd.response.message)
         consoleClear()
     }, [cottonAdd.response]);
 
     useEffect(() => {
         if (cottonEdit.response && cottonEdit.response.success) {
             globalDataFunc()
-            toast.success('Paxta terim hududi muvaffaqiyatli taxrirlandi')
+            toast.success('Пахта терим ҳудуди муваффақиятли таҳрирланди')
             closeModal()
-        }
+        } else if (cottonEdit.response?.message) toast.error(cottonEdit.response.message)
         consoleClear()
     }, [cottonEdit.response]);
 
     useEffect(() => {
         if (cottonDelete.response && cottonDelete.response.success) {
             globalDataFunc()
-            toast.success('Paxta terim hududi muvaffaqiyatli o\'chirildi')
+            toast.success('Пахта терим ҳудуди муваффақиятли ўчирилди')
             closeModal()
-        }
+        } else if (cottonDelete.response?.message) toast.error(cottonDelete.response.message)
         consoleClear()
     }, [cottonDelete.response]);
 
@@ -97,12 +97,12 @@ const Cotton = () => {
 
     return (
         <>
-            <Breadcrumb pageName={`Paxta teriladigan hududlar`}/>
+            <Breadcrumb pageName={`Пахта териладиган ҳудудлар`}/>
 
             {/*=================SEARCH================*/}
             <div className={`w-full flex justify-between items-center flex-wrap xl:flex-nowrap gap-5 mt-10`}>
                 <ShinyButton
-                    text={`Hudud qo'shish`}
+                    text={`Ҳудуд қўшиш`}
                     icon={<MdOutlineAddCircle size={30}/>}
                     className={`bg-darkGreen`}
                     onClick={() => {
@@ -171,7 +171,7 @@ const Cotton = () => {
                                 className="border-b border-[#eee] p-5 text-black text-center"
                                 colSpan={cottonThead.length}
                             >
-                                Ma'lumot topilmadi
+                                Маълумот топилмади
                             </td>
                         </tr>}
                     </Tables>
@@ -190,21 +190,23 @@ const Cotton = () => {
                 <div className={`min-w-54 sm:w-64 md:w-96 lg:w-[40rem]`}>
                     {editOrDeleteStatus === 'DELETE' ? (
                         <p className={`text-center text-black text-base lg:text-xl mb-10 mt-7`}>
-                            Haqiqatdan xam bu paxta teriladigan hududni o'chirib tashlamoqchimisiz?
+                            Ҳақиқатдан хам бу пахта териладиган ҳудудни ўчириб ташламоқчимисиз?
                         </p>
                     ) : <div className={`mt-7`}>
+                        <label>Ҳудуд номини киритинг</label>
                         <input
                             value={crudCotton.areaName}
                             onChange={(e) => handleChange('areaName', e.target.value)}
-                            placeholder="Area nomini kiriting"
-                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5 mt-7"
+                            placeholder="Ҳудуд номини киритинг"
+                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5 mb-7"
                         />
+                        <label>Туманни танланг</label>
                         <select
                             value={crudCotton.districtId}
                             onChange={(e) => handleChange(`districtId`, e.target.value)}
-                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5 my-7"
+                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5 mb-7"
                         >
-                            <option disabled selected value={0}>Tumanni tanlang</option>
+                            <option disabled selected value={0}>Туманни танланг</option>
                             {districtLists.response && districtLists.response.body?.map((item: {
                                 id: number
                                 name: string
@@ -212,15 +214,16 @@ const Cotton = () => {
                                 <option value={item.id} key={item.id}>{item.name}</option>
                             ))}
                         </select>
+                        <label>Секторни танланг</label>
                         <select
                             value={crudCotton.sectorId}
                             onChange={(e) => handleChange(`sectorId`, e.target.value)}
-                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5 my-7"
+                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5 mb-7"
                         >
-                            <option disabled selected value={0}>Sectorni tanlang</option>
+                            <option disabled selected value={0}>Секторни танланг</option>
                             {sectorLists.response && sectorLists.response.body?.map((item: {
                                 id: number
-                                name: null|string
+                                name: null | string
                                 number: number
                                 districtId: number
                                 districtName: string
@@ -232,37 +235,37 @@ const Cotton = () => {
                     }
                     <div className={`flex justify-end items-center gap-5 mt-5`}>
                         <ShinyButton
-                            text={`Orqaga`}
+                            text={`Орқага`}
                             className={`bg-darkGreen`}
                             onClick={closeModal}
                         />
                         {editOrDeleteStatus === 'POST' && (
                             <ShinyButton
-                                text={cottonAdd.loading ? 'Saqlanmoqda...' : 'Saqlash'}
+                                text={cottonAdd.loading ? 'Сақланмоқда...' : 'Сақлаш'}
                                 className={`bg-darkGreen ${cottonAdd.loading && 'cursor-not-allowed opacity-60'}`}
                                 onClick={() => {
                                     if (!cottonAdd.loading) {
                                         if (crudCotton.areaName && crudCotton.sectorId) cottonAdd.globalDataFunc()
-                                        else toast.error('Ma\'lumotlar tuliqligini tekshirib kuring')
+                                        else toast.error('Маълумотлар тўлиқлигини текшириб кўринг')
                                     }
                                 }}
                             />
                         )}
                         {editOrDeleteStatus === 'EDIT' && (
                             <ShinyButton
-                                text={cottonEdit.loading ? 'Yuklanmoqda...' : 'Taxrirlash'}
+                                text={cottonEdit.loading ? 'Юкланмоқда...' : 'Таҳрирлаш'}
                                 className={`bg-darkGreen ${cottonEdit.loading && 'cursor-not-allowed opacity-60'}`}
                                 onClick={() => {
                                     if (!cottonEdit.loading) {
                                         if (crudCotton.areaName && crudCotton.sectorId) cottonEdit.globalDataFunc()
-                                        else toast.error('Ma\'lumotlar tuliqligini tekshirib kuring')
+                                        else toast.error('Маълумотлар тўлиқлигини текшириб кўринг')
                                     }
                                 }}
                             />
                         )}
                         {editOrDeleteStatus === 'DELETE' && (
                             <ShinyButton
-                                text={cottonDelete.loading ? 'O\'chirilmoqda...' : 'Xa'}
+                                text={cottonDelete.loading ? 'Ўчирилмоқда...' : 'Ҳа'}
                                 className={`bg-darkGreen ${cottonDelete.loading && 'cursor-not-allowed opacity-60'}`}
                                 onClick={() => {
                                     if (!cottonDelete.loading) cottonDelete.globalDataFunc()
