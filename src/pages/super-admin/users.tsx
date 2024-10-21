@@ -273,7 +273,7 @@ const Users = () => {
                 <div className={`w-54 sm:w-64 md:w-96 lg:w-[40rem]`}>
                     <form className={`mt-5`} onSubmit={(e: React.FormEvent<HTMLFormElement>) => e.preventDefault()}>
                         {editOrDeleteStatus !== 'DELETE' ? (<>
-                            {(editOrDeleteStatus === 'ADD' || editOrDeleteStatus === 'EDIT') && (<>
+                            {(editOrDeleteStatus === 'ADD' || editOrDeleteStatus === 'EDIT') && (<div className={'grid grid-cols-1 lg:grid-cols-2 gap-4'}>
                                 <div className="mb-4">
                                     <label>Исм</label>
                                     <input
@@ -323,7 +323,6 @@ const Users = () => {
                                         className={`bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5`}
                                         placeholder={`Фойдаланувчи телефон рақамини кирitish...`}
                                     />
-
                                 </div>
                                 <div>
                                     <label>Фойдаланувчи ролини танланг</label>
@@ -383,7 +382,7 @@ const Users = () => {
                                         placeholder={`Парол...`}
                                     />
                                 </div>
-                            </>)}
+                            </div>)}
                         </>) : <>
                             <p className={`text-center text-black text-base lg:text-xl mb-10`}>
                                 Ҳақиқатдан ҳам бу фойдаланувчини ўчириб ташламоқчимисиз?

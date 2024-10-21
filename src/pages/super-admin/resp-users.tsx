@@ -234,7 +234,7 @@ const ResponsibleUsers = () => {
                                 type={'number'}
                                 onChange={(e) => {
                                     const v = e.target.value
-                                    if (v?.length >= 0 && v.length <= 12) handleChange('phoneNumber', v)
+                                    if (v?.length >= 0 && v.length <= 12 && !isNaN(v)) handleChange('phoneNumber', v)
                                 }}
                                 onKeyDown={e => {
                                     if (e.key === 'e' || e.key === 'E' || e.key === '+' || e.key === '-') e.preventDefault()
