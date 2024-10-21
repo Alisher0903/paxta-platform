@@ -26,7 +26,7 @@ const Notifications = () => {
     const readNotification = useGlobalRequest(notificationRead, 'POST', { ids: [readID] });
     const { response: deleteNotification, globalDataFunc: deleteNotificationFunc } = useGlobalRequest(notificationDelete, 'POST', { list: deleteIDs });
     const { response: ResNotificationConfirmation, globalDataFunc: notificationConfirmationFunc } = useGlobalRequest(
-        `${notificationConfirmation}?id=${selectedNotificationID}&status=${confirmation}`, 
+        `${notificationConfirmation}?id=${selectedNotificationID}&status=${confirmation}`,
         'POST'
     );
 
@@ -137,7 +137,7 @@ const Notifications = () => {
                                     defaultValue="Select status"
                                     onChange={(value) => handleConfirmationChange(value, n.id)} // Pass notification ID
                                 >
-                                    <Option  value="RUXSAT_SURALMOQDA">RUXSAT_SURALMOQDA</Option>
+                                    <Option value="RUXSAT_SURALMOQDA">RUXSAT_SURALMOQDA</Option>
                                     <Option value="RUXSAT_BERILDI">RUXSAT_BERILDI</Option>
                                 </Select>
                             }
@@ -174,8 +174,8 @@ const Notifications = () => {
             <Modal
                 title="Tasdiqlash"
                 visible={isModalVisible}
-                onOk={confirmStatusChange} 
-                onCancel={() => setIsModalVisible(false)} 
+                onOk={confirmStatusChange}
+                onCancel={() => setIsModalVisible(false)}
                 okText="Tasdiqlash"
                 cancelText="Bekor qilish"
             >
