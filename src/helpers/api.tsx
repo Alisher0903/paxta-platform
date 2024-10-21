@@ -5,22 +5,7 @@ export const authLogin: string = `${baseURL}auth/login`
 export const imgUploadPost: string = `${baseURL}file/upload`;
 export const imgUpdate: string = `${baseURL}file/update/`;
 export const imgGet: string = `${baseURL}file/files/`;
-export const userGroupEditUser: string = `${baseURL}user/addStudentGroup/`
-export const userConfirms: string = `${baseURL}user/searchUserAdmin`
 export const userGetMe: string = `${baseURL}user/getMe`
-export const categoryList: string = `${baseURL}category/list?categoryEnum=`
-export const categoryAdd: string = `${baseURL}category/save/category?categoryEnum=`
-export const categoryUpdate: string = `${baseURL}category/update/`
-export const categoryDelete: string = `${baseURL}category/delete/`
-export const categoryGetOne: string = `${baseURL}category/get-one/`
-export const quizCategorySettings: string = `${baseURL}quiz-category/settings`
-export const questionAllGetPage: string = `${baseURL}question/filter`
-export const questionCrud: string = `${baseURL}question`
-export const groupList: string = `${baseURL}group/list`
-export const rateList: string = `${baseURL}rate/studentsRate`
-export const resultSearch: string = `${baseURL}result/search`
-export const moduleOnline: string = `${baseURL}module/searchModuleOnline`
-export const lessonModuleID: string = `${baseURL}lesson/list/edu/`
 
 
 //==============PAXTA==============
@@ -100,3 +85,9 @@ export const notificationCreate: string = `${baseURL}notification/save`
 export const statistic_sectorByDistrict: string = `${baseURL}statistic/sectorBy`
 export const sector_invalid_machine: string = `${baseURL}break-report/invalid-machine/sector`
 export const active_machines_by_sector: string = `${baseURL}statistic/machines/by/sector`
+
+// ===========RESPONSIBLE USER===========
+export const resUserGetAll: string = `${baseURL}responsible-user/all`
+export const resUserPost: string = `${baseURL}responsible-user/create`
+export const resUserEdit: string = `${baseURL}responsible-user/update/`
+export const resUserDelete: string = `${baseURL}responsible-user/delete/`

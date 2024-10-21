@@ -77,8 +77,8 @@ const Users = () => {
         if (userAdd.response && userAdd.response.success) {
             users.globalDataFunc()
             closeModal()
-            toast.success('Foydalanuvchi muvaffaqiyatli qo\'shildi')
-        }
+            toast.success('Фойдаланувчи муваффақиятли қўшилди')
+        } else if (userAdd.response?.message) toast.error(`${userAdd.response.message}`)
         consoleClear()
     }, [userAdd.response]);
 
@@ -86,8 +86,8 @@ const Users = () => {
         if (userEdit.response && userEdit.response.success) {
             users.globalDataFunc()
             closeModal()
-            toast.success('Foydalanuvchi muvaffaqiyatli taxrirlandi')
-        }
+            toast.success('Фойдаланувчи муваффақиятли таҳрирланди')
+        } else if (userEdit.response?.message) toast.error(`${userEdit.response.message}`)
         consoleClear()
     }, [userEdit.response]);
 
@@ -95,16 +95,16 @@ const Users = () => {
         if (userDelete.response && userDelete.response.success) {
             users.globalDataFunc()
             closeModal()
-            toast.success('Foydalanuvchi muvaffaqiyatli o\'chirildi')
-        }
+            toast.success('Фойдаланувчи муваффақиятли ўчирилди')
+        } else if (userDelete.response?.message) toast.error(`${userDelete.response.message}`)
         consoleClear()
     }, [userDelete.response]);
 
     const userRole = (role: string) => {
-        if (role === 'ROLE_MASTER') return 'Biriktirilgan xodim';
-        else if (role === 'ROLE_THOKIM') return 'Tuman hokimi';
-        else if (role === 'ROLE_VHOKIM') return 'Villoyat hokimi';
-        else if (role === 'ROLE_SECTOR') return 'Sector raxbari';
+        if (role === 'ROLE_MASTER') return 'Бириктирилган ходим';
+        else if (role === 'ROLE_THOKIM') return 'Туман ҳокими';
+        else if (role === 'ROLE_VHOKIM') return 'Вилоят ҳокими';
+        else if (role === 'ROLE_SECTOR') return 'Сектор раҳбари';
         else if (role === 'ROLE_ADMIN') return 'Super admin';
     }
 
@@ -112,7 +112,7 @@ const Users = () => {
         {
             label: <div className={`flex items-center gap-3`}>
                 <FaEdit className="text-base text-yellow-300 cursor-pointer duration-300"/>
-                <p>Taxrirlash</p>
+                <p>Таҳрирлаш</p>
             </div>,
             key: '0',
             onClick: () => {
@@ -124,7 +124,7 @@ const Users = () => {
         {
             label: <div className={`flex items-center gap-3`}>
                 <MdDelete className="text-xl text-red-300 cursor-pointer duration-300"/>
-                <p>O'chirish</p>
+                <p>Ўчириш</p>
             </div>,
             key: '1',
             onClick: () => {
@@ -154,16 +154,14 @@ const Users = () => {
         }
     }
 
-    console.log(getSectorList.response)
-
     return (
         <>
-            <Breadcrumb pageName={`Foydalanuvchilar`}/>
+            <Breadcrumb pageName={`Фойдаланувчилар`}/>
 
             {/*===================SEARCH===================*/}
             <div className={`w-full flex justify-between items-center flex-wrap xl:flex-nowrap gap-3 mt-10`}>
                 <Select
-                    placeholder={`Rollari bo'yicha qidirish`}
+                    placeholder={`Роллари бўйича қидириш`}
                     className={`w-full sm:w-1/2 md:w-[35%] bg-transparent h-11 custom-select`}
                     onChange={(e) => setUserRoles(e)}
                     allowClear
@@ -174,7 +172,7 @@ const Users = () => {
                     <Select.Option value={'ROLE_SECTOR'}>{userRole('ROLE_SECTOR')}</Select.Option>
                 </Select>
                 <ShinyButton
-                    text={`Qo'shish`}
+                    text={`Қўшиш`}
                     onClick={() => {
                         openModal()
                         setEditOrDeleteStatus('ADD')
@@ -254,7 +252,7 @@ const Users = () => {
                         )) : <tr>
                             <td className="border-b border-[#eee] p-5" colSpan={userTableHead.length}>
                                 <p className="text-black text-center">
-                                    Foydalanuvchilar topilmadi
+                                    Фойдаланувчилар топилмади
                                 </p>
                             </td>
                         </tr>}
@@ -275,52 +273,66 @@ const Users = () => {
                 <div className={`w-54 sm:w-64 md:w-96 lg:w-[40rem]`}>
                     <form className={`mt-5`} onSubmit={(e: React.FormEvent<HTMLFormElement>) => e.preventDefault()}>
                         {editOrDeleteStatus !== 'DELETE' ? (<>
-                            {(editOrDeleteStatus === 'ADD' || editOrDeleteStatus === 'EDIT') && (<>
+                            {(editOrDeleteStatus === 'ADD' || editOrDeleteStatus === 'EDIT') && (<div className={'grid grid-cols-1 lg:grid-cols-2 gap-4'}>
                                 <div className="mb-4">
+                                    <label>Исм</label>
                                     <input
                                         required
                                         value={crudValue?.firstName}
                                         onChange={e => handleInputChange('firstName', e.target.value)}
                                         className={`bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5`}
-                                        placeholder={`Ism...`}
+                                        placeholder={`Исм...`}
                                     />
                                 </div>
                                 <div className="mb-4">
+                                    <label>Фамилия</label>
                                     <input
                                         required
                                         value={crudValue?.lastName}
                                         onChange={e => handleInputChange('lastName', e.target.value)}
                                         className={`bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5`}
-                                        placeholder={`Familiya...`}
+                                        placeholder={`Фамилия...`}
                                     />
                                 </div>
                                 <div className="mb-4">
+                                    <label>Лавозимини киритинг</label>
                                     <input
                                         required
                                         value={crudValue?.lavozimi}
                                         onChange={e => handleInputChange('lavozimi', e.target.value)}
                                         className={`bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5`}
-                                        placeholder={`Lavozimini kiriting...`}
+                                        placeholder={`Лавозимини киритинг...`}
                                     />
                                 </div>
                                 <div className="mb-4">
+                                    <label>Фойдаланувчи телефон рақамини киритинг (998 99 999 99 99)</label>
                                     <input
                                         required
                                         value={crudValue?.phoneNumber}
-                                        onChange={e => handleInputChange('phoneNumber', e.target.value)}
+                                        onChange={(e) => {
+                                            const v = e.target.value;
+                                            if (v?.length >= 0 && v?.length <= 12 && !isNaN(v)) handleInputChange('phoneNumber', v);
+                                        }}
+                                        onKeyDown={(e) => {
+                                            if (
+                                                e.key === 'e' || e.key === 'E' ||
+                                                e.key === '-' || e.key === '+' ||
+                                                e.key === '.'
+                                            ) e.preventDefault();
+                                        }}
                                         className={`bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5`}
-                                        placeholder={`Foydalanuvchi telefon raqamini kiriting...`}
+                                        placeholder={`Фойдаланувчи телефон рақамини кирitish...`}
                                     />
                                 </div>
                                 <div>
-                                    <label>Foydalanuvchi roli</label>
+                                    <label>Фойдаланувчи ролини танланг</label>
                                     <select
                                         value={crudValue.role}
                                         onChange={(e) => handleInputChange(`role`, e.target.value)}
                                         className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5 mb-4"
                                     >
                                         <option disabled selected value={``}>
-                                            Foydalanuvchi rolini tanlang
+                                            Фойдаланувчи ролини танланг
                                         </option>
                                         <option value={'ROLE_MASTER'}>{userRole('ROLE_MASTER')}</option>
                                         <option value={'ROLE_THOKIM'}>{userRole('ROLE_THOKIM')}</option>
@@ -330,85 +342,86 @@ const Users = () => {
                                 </div>
                                 {!(crudValue.role === 'ROLE_VHOKIM' || crudValue.role === 'ROLE_THOKIM') && <>
                                     <div className="mb-4">
-                                        <label>Tuman</label>
+                                        <label>Туман</label>
                                         <select
                                             value={crudValue.districtId}
                                             onChange={(e) => handleInputChange(`districtId`, e.target.value)}
                                             className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5 mb-4"
                                         >
                                             <option disabled selected value={0}>
-                                                Tumanni tanlang
+                                                Туманни танланг
                                             </option>
-                                            {districtLists.response?.body && districtLists.response?.body.map((item: any) => (
+                                            {districtLists.response?.body && districtLists.response?.body.map((item: {id: number, name: string}) => (
                                                 <option value={item.id} key={item.id}>{item.name}</option>
                                             ))}
                                         </select>
                                     </div>
                                     <div className="mb-4">
-                                        <label>Sector</label>
+                                        <label>Сектор</label>
                                         <select
                                             value={crudValue.sectorId}
                                             onChange={(e) => handleInputChange(`sectorId`, e.target.value)}
                                             className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5 mb-6"
                                         >
                                             <option disabled selected value={0}>
-                                                Sectorni tanlang
+                                                Секторни танланг
                                             </option>
                                             {getSectorList.response && getSectorList.response.body?.map((item: any) => (
-                                                <option value={item.id}>{item.name}</option>
+                                                <option value={item.id}>{item.districtName} {item.number}</option>
                                             ))}
                                         </select>
                                     </div>
                                 </>}
                                 <div className="mb-4">
+                                    <label>Парол</label>
                                     <input
                                         required
                                         value={crudValue?.password}
                                         onChange={e => handleInputChange('password', e.target.value)}
                                         className={`bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5`}
-                                        placeholder={`Parol...`}
+                                        placeholder={`Парол...`}
                                     />
                                 </div>
-                            </>)}
+                            </div>)}
                         </>) : <>
                             <p className={`text-center text-black text-base lg:text-xl mb-10`}>
-                                Haqiqatdan xam bu foydalanuvchini o'chirib tashlamoqchimisiz?
+                                Ҳақиқатдан ҳам бу фойдаланувчини ўчириб ташламоқчимисиз?
                             </p>
                         </>}
 
                         <div className={`flex justify-end items-center gap-5`}>
                             <ShinyButton
-                                text={`Orqaga`}
+                                text={`Орқага`}
                                 className={`bg-darkGreen`}
                                 onClick={closeModal}
                             />
                             {editOrDeleteStatus === 'ADD' && (
                                 <ShinyButton
-                                    text={userAdd.loading ? 'Saqlanmoqda...' : 'Saqlash'}
+                                    text={userAdd.loading ? 'Сақланмоқда...' : 'Сақлаш'}
                                     className={`bg-darkGreen ${userAdd.loading && 'cursor-not-allowed opacity-60'}`}
                                     onClick={() => {
                                         if (!userAdd.loading) {
                                             if (isRegexVal()) userAdd.globalDataFunc()
-                                            else toast.error('Ma\'lumotlar tuliqligini tekshirib kuring')
+                                            else toast.error('Маълумотлар тўлиқлигини текшириб кўринг')
                                         }
                                     }}
                                 />
                             )}
                             {editOrDeleteStatus === 'EDIT' && (
                                 <ShinyButton
-                                    text={userEdit.loading ? 'Yuklanmoqda...' : 'Taxrirlash'}
+                                    text={userEdit.loading ? 'Юкланмоқда...' : 'Таҳрирлаш'}
                                     className={`bg-darkGreen ${userEdit.loading && 'cursor-not-allowed opacity-60'}`}
                                     onClick={() => {
                                         if (!userEdit.loading) {
                                             if (isRegexVal()) userEdit.globalDataFunc()
-                                            else toast.error('Ma\'lumotlar tuliqligini tekshirib kuring')
+                                            else toast.error('Маълумотлар тўлиқлигини текшириб кўринг')
                                         }
                                     }}
                                 />
                             )}
                             {editOrDeleteStatus === 'DELETE' && (
                                 <ShinyButton
-                                    text={userDelete.loading ? 'O\'chirilmoqda...' : 'Xa'}
+                                    text={userDelete.loading ? 'Ўчирилмоқда...' : 'Ҳа'}
                                     className={`bg-darkGreen ${userDelete.loading && 'cursor-not-allowed opacity-60'}`}
                                     onClick={() => {
                                         if (!userDelete.loading) userDelete.globalDataFunc()

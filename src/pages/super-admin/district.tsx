@@ -31,27 +31,27 @@ const District = () => {
     }, []);
 
     useEffect(() => {
-        if (district.response && district.response.success) {
+        if (district.response?.success) {
             globalDataFunc()
             closeModal()
-            toast.success('Tuman muvaffaqiyatli qo\'shildi')
-        }
+            toast.success('Туман муваффақиятли қўшилди')
+        } else if (district.response?.message) toast.error(district.response?.message)
     }, [district.response]);
 
     useEffect(() => {
-        if (editDistrict.response && editDistrict.response.success) {
+        if (editDistrict.response?.success) {
             globalDataFunc()
             closeModal()
-            toast.success('Tuman muvaffaqiyatli taxrirlandi')
-        }
+            toast.success('Туман муваффақиятли таҳрирланди')
+        } else if (editDistrict.response?.message) toast.error(editDistrict.response?.message)
     }, [editDistrict.response]);
 
     useEffect(() => {
-        if (deleteDistrict.response && deleteDistrict.response.success) {
+        if (deleteDistrict.response?.success) {
             globalDataFunc()
             closeModal()
-            toast.success('Tuman muvaffaqiyatli o\'chirildi')
-        }
+            toast.success('Туман муваффақиятли ўчирилди')
+        } else if (deleteDistrict.response?.message) toast.error(deleteDistrict.response?.message)
     }, [deleteDistrict.response]);
 
     const handleChange = (name: string, value: string) => setCrudDistrict({...crudDistrict, [name]: value});
@@ -67,12 +67,12 @@ const District = () => {
 
     return (
         <>
-            <Breadcrumb pageName={`Tumanlar`}/>
+            <Breadcrumb pageName={`Туманлар`}/>
 
             {/*=================SEARCH================*/}
             <div className={`w-full flex justify-between items-center flex-wrap xl:flex-nowrap gap-5 mt-10`}>
                 <ShinyButton
-                    text={`Tuman qo'shish`}
+                    text={`Туман қўшиш`}
                     icon={<MdOutlineAddCircle size={30}/>}
                     className={`bg-darkGreen`}
                     onClick={() => {
@@ -85,6 +85,7 @@ const District = () => {
             {/*======================BODY TABLE======================*/}
             <div className={`mt-6`}>
                 {loading ? <div className={`w-full grid grid-cols-1 gap-3`}>
+                    <Skeleton/>
                     <Skeleton/>
                     <Skeleton/>
                 </div> : (
@@ -124,7 +125,8 @@ const District = () => {
                             <td
                                 className="border-b border-[#eee] p-5 text-black text-center"
                                 colSpan={districtsThead.length}
-                            >Tumanlar topilmadi
+                            >
+                                Туманлар топилмади
                             </td>
                         </tr>}
                     </Tables>
@@ -135,50 +137,50 @@ const District = () => {
                 <div className={`min-w-54 sm:w-64 md:w-96 lg:w-[40rem]`}>
                     {editOrDeleteStatus === 'DELETE' ? (
                         <p className={`text-center text-black text-base lg:text-xl mb-10 mt-7`}>
-                            Haqiqatdan xam bu tumanni o'chirib tashlamoqchimisiz?
+                            Ҳақиқатдан хам бу туманни ўчириб ташламоқчимисиз?
                         </p>
                     ) : (<div className={`mt-5`}>
-                        <label className={`mb-2`}>Tuman nomi</label>
+                        <label className={`mb-2`}>Туман номи</label>
                         <Input
                             value={crudDistrict.name}
                             onChange={(e) => handleChange('name', e.target.value)}
-                            placeholder="Tuman nomini kiriting"
+                            placeholder="Туман номини киритинг"
                             className="w-full bg-transparent h-11 custom-input mb-5"
                         />
                     </div>)}
                     <div className={`flex justify-end items-center gap-5`}>
                         <ShinyButton
-                            text={`Orqaga`}
+                            text={`Орқага`}
                             className={`bg-darkGreen`}
                             onClick={closeModal}
                         />
                         {editOrDeleteStatus === 'POST' && (
                             <ShinyButton
-                                text={district.loading ? 'Saqlanmoqda...' : 'Saqlash'}
+                                text={district.loading ? 'Сақланмоқда...' : 'Сақлаш'}
                                 className={`bg-darkGreen ${district.loading && 'cursor-not-allowed opacity-60'}`}
                                 onClick={() => {
                                     if (!district.loading) {
                                         if (crudDistrict.name) district.globalDataFunc()
-                                        else toast.error('Ma\'lumotlar tuliqligini tekshirib kuring')
+                                        else toast.error('Маълумотлар тўлиқлигини текшириб кўринг')
                                     }
                                 }}
                             />
                         )}
                         {editOrDeleteStatus === 'EDIT' && (
                             <ShinyButton
-                                text={editDistrict.loading ? 'Saqlanmoqda...' : 'Taxrirlash'}
+                                text={editDistrict.loading ? 'Сақланмоқда...' : 'Таҳрирлаш'}
                                 className={`bg-darkGreen ${editDistrict.loading && 'cursor-not-allowed opacity-60'}`}
                                 onClick={() => {
                                     if (!editDistrict.loading) {
                                         if (crudDistrict.name) editDistrict.globalDataFunc()
-                                        else toast.error('Ma\'lumotlar tuliqligini tekshirib kuring')
+                                        else toast.error('Маълумотлар тўлиқлигини текшириб кўринг')
                                     }
                                 }}
                             />
                         )}
                         {editOrDeleteStatus === 'DELETE' && (
                             <ShinyButton
-                                text={deleteDistrict.loading ? 'Saqlanmoqda...' : 'O\'chirish'}
+                                text={deleteDistrict.loading ? 'Сақланмоқда...' : 'Ўчириш'}
                                 className={`bg-darkGreen ${deleteDistrict.loading && 'cursor-not-allowed opacity-60'}`}
                                 onClick={() => {
                                     if (!deleteDistrict.loading) deleteDistrict.globalDataFunc()
