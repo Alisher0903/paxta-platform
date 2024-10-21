@@ -74,16 +74,16 @@ export default function T_hokim_hisobot() {
                                         <span>{report.minute}</span>
                                     </p>
                                     <p className='flex border-b border-[#9a1e1e] justify-between'>
-                                        <span className='font-semibold'>Ishga tushgan vaqti: </span>
+                                        <span className='font-semibold'>{status === 'deActive' ? 'Buzilgan vaqti' : 'Ishga tushgan vaqti'}: </span>
                                         <span>{report.startTime}</span>
                                     </p>
                                     <p className='flex border-b border-[#9a1e1e] justify-between'>
-                                        <span className='font-semibold'>End Time: </span>
+                                        <span className='font-semibold'>{status === 'deActive' ? 'Tuzatilgan vaqti' : 'Ishni tugatish vaqti'}: </span>
                                         <span>{report.endTime === 'null' ? 'Mashina ishlamagan' : report.endTime}</span>
                                     </p>
                                 </div>
                             ))
-                        ) : status === 'active' && responseActive && responseActive.body !== null ? (
+                        ) : status === 'active' && responseActive && responseActive.body.length > 0 ? (
                             responseActive?.body.map((report: {
                                 farmName: string,
                                 id: number,

@@ -100,7 +100,7 @@ export default function Sector_dashboard() {
                                             <FaTractor size={20} color={active === '' ? 'white' : '#9a1e1e'} />ishlayotgan Mashinalar soni
                                         </div>
                                         <div>
-                                            {item.sectorNumber || '0'}
+                                            {item.machineCount || '0'}
                                         </div>
                                     </div>
                                     <div className='flex pt-5 mb-8 justify-between border-b uppercase'>
