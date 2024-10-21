@@ -24,29 +24,29 @@ function Login() {
             if (response.body === 'ROLE_ADMIN') {
                 sessionStorage.setItem('token', response.message)
                 sessionStorage.setItem('admin_roles', response.body)
-                toast.success('Tizimga muvaffaqiyatli kirdingiz')
+                toast.success('Тизимга муваффақиятли кирдингиз')
                 navigate('/super-admin/dashboard')
             } else if (response.body === 'ROLE_MASTER') {
                 sessionStorage.setItem('token', response.message)
                 sessionStorage.setItem('admin_roles', response.body)
-                toast.success('Tizimga muvaffaqiyatli kirdingiz')
+                toast.success('Тизимга муваффақиятли кирдингиз')
                 navigate('/user/report')
             } else if (response.body === 'ROLE_THOKIM') {
                 sessionStorage.setItem('token', response.message)
                 sessionStorage.setItem('admin_roles', response.body)
-                toast.success('Tizimga muvaffaqiyatli kirdingiz')
+                toast.success('Тизимга муваффақиятли кирдингиз')
                 navigate('/t-hokim/dashboard')
             } else if (response.body === 'ROLE_VHOKIM') {
                 sessionStorage.setItem('token', response.message)
                 sessionStorage.setItem('admin_roles', response.body)
-                toast.success('Tizimga muvaffaqiyatli kirdingiz')
+                toast.success('Тизимга муваффақиятли кирдингиз')
                 navigate('/v-hokim/dashboard')
             } else if (response.body === 'ROLE_SECTOR') {
                 sessionStorage.setItem('token', response.message)
                 sessionStorage.setItem('admin_roles', response.body)
-                toast.success('Tizimga muvaffaqiyatli kirdingiz')
+                toast.success('Тизимга муваффақиятли кирдингиз')
                 navigate('/sector/dashboard')
-            } else toast.error('Tizimga kirish uchun sizga ruxsat berilmagan')
+            } else toast.error('Тизимга кириш учун сизга рухсат берилмаган')
             consoleClear()
         }
     }, [response]);
@@ -54,7 +54,7 @@ function Login() {
     const handleSubmit = () => {
         if (password && phoneNumber) {
             if (!loading) globalDataFunc()
-        } else toast.error('Ma\'lumotlar tuliqligini tekshiring')
+        } else toast.error('Маълумотлар тўлиқлигини текширинг')
     }
 
     return (
@@ -76,11 +76,11 @@ function Login() {
                         <Meteors number={50}/>
                         <div className="p-2 space-y-4 md:space-y-6 sm:p-8 relative z-999">
                             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
-                                Hisobingizga kiring
+                                Ҳисобингизга киринг
                             </h1>
                             <div className="space-y-4 md:space-y-6">
                                 <div>
-                                    <p className="block mb-2 text-sm font-medium text-gray-900">Login</p>
+                                    <p className="block mb-2 text-sm font-medium text-gray-900">Логин</p>
                                     <input
                                         type="tel"
                                         value={phoneNumber}
@@ -89,11 +89,11 @@ function Login() {
                                             if (e.key === 'Enter') handleSubmit()
                                         }}
                                         className="bg-white border border-[#087E43] text-gray-900 rounded-lg focus:ring-[#087E43] focus:border-[#087E43] block w-full p-2.5"
-                                        placeholder="Loginni kiriting..."
+                                        placeholder="Логинни киритинг..."
                                     />
                                 </div>
                                 <div className='mb-5'>
-                                    <p className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Parol</p>
+                                    <p className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Парол</p>
                                     <input
                                         type="password"
                                         name="password"
@@ -102,12 +102,12 @@ function Login() {
                                         onKeyDown={e => {
                                             if (e.key === 'Enter') handleSubmit()
                                         }}
-                                        placeholder="Parolni kiriting..."
+                                        placeholder="Паролни киритинг..."
                                         className="bg-white border border-[#087E43] text-gray-900 rounded-lg focus:ring-[#087E43] focus:border-[#087E43] block w-full p-2.5"
                                     />
                                 </div>
                                 <ShinyButton
-                                    text={loading ? 'Yuklanmoqda...' : 'Tizimga kirish'}
+                                    text={loading ? 'Юкланмоқда...' : 'Тизимга кириш'}
                                     className={`bg-lighterGreen w-full ${loading && 'cursor-not-allowed opacity-50'}`}
                                     onClick={() => handleSubmit()}
                                 />
