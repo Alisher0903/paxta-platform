@@ -65,38 +65,38 @@ const Machine = () => {
     }, [page]);
 
     useEffect(() => {
-        if (machineAdd.response && machineAdd.response.success) {
+        if (machineAdd.response?.success) {
             globalDataFunc()
-            toast.success('Mashina malumoti muvaffaqiyatli qushildi')
+            toast.success('Машина маълумоти муваффақиятли қўшилди')
             closeModal()
-        }
+        } else if (machineAdd.response?.message) toast.error(machineAdd.response?.message)
         consoleClear()
     }, [machineAdd.response]);
 
     useEffect(() => {
         if (machineEdit.response && machineEdit.response.success) {
             globalDataFunc()
-            toast.success('Mashina malumoti muvaffaqiyatli taxrirlandi')
+            toast.success('Машина маълумоти муваффақиятли таҳрирланди')
             closeModal()
-        }
+        } else if (machineEdit.response?.message) toast.error(machineEdit.response?.message)
         consoleClear()
     }, [machineEdit.response]);
 
     useEffect(() => {
         if (machineDelete.response && machineDelete.response.success) {
             globalDataFunc()
-            toast.success('Mashina malumoti muvaffaqiyatli o\'chirildi')
+            toast.success('Машина маълумоти муваффақиятли ўчирилди')
             closeModal()
-        }
+        } else if (machineDelete.response?.message) toast.error(machineDelete.response?.message)
         consoleClear()
     }, [machineDelete.response]);
 
     useEffect(() => {
         if (machineEditUser.response && machineEditUser.response.success) {
             globalDataFunc()
-            toast.success('Mashina foydalanuvchisini muvaffaqiyatli uzgartirdingiz')
+            toast.success('Машина фойдаланувчисини муваффақиятли ўзгартирдингиз')
             closeModal()
-        }
+        } else if (machineEditUser.response?.message) toast.error(machineEditUser.response?.message)
         consoleClear()
     }, [machineEditUser.response]);
 
@@ -147,116 +147,164 @@ const Machine = () => {
             case 'EDIT':
                 return (
                     <div className={`mt-7 grid grid-cols-1 lg:grid-cols-2 gap-5`}>
-                        <select
-                            value={crudMachine.districtId}
-                            onChange={(e) => handleChange(`districtId`, +e.target.value)}
-                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5"
-                        >
-                            <option disabled selected value={0}>
-                                Tumanni tanlang
-                            </option>
-                            {districtLists.response && districtLists.response.body?.map((item: {
-                                id: number
-                                name: string
-                            }) => (
-                                <option value={item.id} key={item.id}>{item.name}</option>
-                            ))}
-                        </select>
-                        <input
-                            value={crudMachine.firstName}
-                            onChange={(e) => handleChange('firstName', e.target.value)}
-                            placeholder="Ismni kiriting"
-                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
-                        />
-                        <input
-                            value={crudMachine.lastName}
-                            onChange={(e) => handleChange('lastName', e.target.value)}
-                            placeholder="Familiyani kiriting"
-                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
-                        />
-                        <input
-                            value={crudMachine.phoneNumber}
-                            onChange={(e) => handleChange('phoneNumber', e.target.value)}
-                            placeholder="Telefon raqamni kiriting"
-                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
-                        />
-                        <input
-                            value={crudMachine.year}
-                            type={'number'}
-                            onChange={(e) => {
-                                const v = e.target.value;
-                                if (+v >= 0 && +v <= 9999) handleChange('year', v)
-                            }}
-                            onKeyDown={e => {
-                                if (e.key === "-" || e.key === "e" || e.key === 'E' || e.key === '+') e.preventDefault();
-                            }}
-                            placeholder="Yilini kiriting"
-                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
-                        />
-                        <input
-                            value={crudMachine.lavozimi}
-                            onChange={(e) => handleChange('lavozimi', e.target.value)}
-                            placeholder="Lavozimni kiriting"
-                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
-                        />
-                        <input
-                            value={crudMachine.farmName}
-                            onChange={(e) => handleChange('farmName', e.target.value)}
-                            placeholder="Fermer xujaligi nomini kiriting"
-                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
-                        />
-                        <input
-                            value={crudMachine.ownerFullName}
-                            onChange={(e) => handleChange('ownerFullName', e.target.value)}
-                            placeholder="Operator tuliq ismini kiriting"
-                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
-                        />
-                        <input
-                            value={crudMachine.ownerPhoneNumber}
-                            onChange={(e) => handleChange('ownerPhoneNumber', e.target.value)}
-                            placeholder="Operator raqamini kiriting"
-                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
-                        />
-                        <input
-                            value={crudMachine.machineId}
-                            onChange={(e) => handleChange('machineId', e.target.value)}
-                            placeholder="Mashina idsini kiriting"
-                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
-                        />
-                        <select
-                            value={crudMachine.machineModel}
-                            onChange={(e) => handleChange(`machineModel`, e.target.value)}
-                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5"
-                        >
-                            <option disabled selected value={''}>
-                                Mashina modelini kiriting
-                            </option>
-                            <option value={'CE_220'}>CE_220</option>
-                            <option value={'JOHN_DEERE'}>JOHN_DEERE</option>
-                            <option value={'BOSHIRAN'}>BOSHIRAN</option>
-                            <option value={'FM_WORLD'}>FM_WORLD</option>
-                            <option value={'DONG_FENG'}>DONG_FENG</option>
-                        </select>
-                        <input
-                            value={crudMachine.password}
-                            onChange={(e) => handleChange('password', e.target.value)}
-                            placeholder="Parolni kiriting"
-                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
-                        />
+                        <div>
+                            <label>Туманни танланг</label>
+                            <select
+                                value={crudMachine.districtId}
+                                onChange={(e) => handleChange(`districtId`, +e.target.value)}
+                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5"
+                            >
+                                <option disabled selected value={0}>
+                                    Туманни танланг
+                                </option>
+                                {districtLists.response && districtLists.response.body?.map((item: {
+                                    id: number
+                                    name: string
+                                }) => (
+                                    <option value={item.id} key={item.id}>{item.name}</option>
+                                ))}
+                            </select>
+                        </div>
+                        <div>
+                            <label>Исмни киритинг</label>
+                            <input
+                                value={crudMachine.firstName}
+                                onChange={(e) => handleChange('firstName', e.target.value)}
+                                placeholder="Исмни киритинг"
+                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
+                            />
+                        </div>
+                        <div>
+                            <label>Фамилияни киритинг</label>
+                            <input
+                                value={crudMachine.lastName}
+                                onChange={(e) => handleChange('lastName', e.target.value)}
+                                placeholder="Фамилияни киритинг"
+                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
+                            />
+                        </div>
+                        <div>
+                            <label>Телефон рақамни киритинг</label>
+                            <input
+                                value={crudMachine.phoneNumber}
+                                onChange={(e) => handleChange('phoneNumber', e.target.value)}
+                                placeholder="Телефон рақамни киритинг"
+                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
+                            />
+                        </div>
+                        <div>
+                            <label>Йилини киритинг</label>
+                            <input
+                                value={crudMachine.year}
+                                type={'number'}
+                                onChange={(e) => {
+                                    const v = e.target.value;
+                                    if (+v >= 0 && +v <= 9999) handleChange('year', v)
+                                }}
+                                onKeyDown={e => {
+                                    if (e.key === "-" || e.key === "e" || e.key === 'E' || e.key === '+') e.preventDefault();
+                                }}
+                                placeholder="Йилини киритинг"
+                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
+                            />
+                        </div>
+                        <div>
+                            <label>Лавозимни киритинг</label>
+                            <input
+                                value={crudMachine.lavozimi}
+                                onChange={(e) => handleChange('lavozimi', e.target.value)}
+                                placeholder="Лавозимни киритинг"
+                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
+                            />
+                        </div>
+                        <div>
+                            <label>Фермер хўжалиги номини киритинг</label>
+                            <input
+                                value={crudMachine.farmName}
+                                onChange={(e) => handleChange('farmName', e.target.value)}
+                                placeholder="Фермер хўжалиги номини киритинг"
+                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
+                            />
+                        </div>
+                        <div>
+                            <label>Оператор тўлиқ исмини киритинг</label>
+                            <input
+                                value={crudMachine.ownerFullName}
+                                onChange={(e) => handleChange('ownerFullName', e.target.value)}
+                                placeholder="Оператор тўлиқ исмини киритинг"
+                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
+                            />
+                        </div>
+                        <div>
+                            <label>Оператор рақамини киритинг (998 99 999 99 99)</label>
+                            <input
+                                required
+                                value={crudMachine.ownerPhoneNumber}
+                                onChange={(e) => {
+                                    const v = e.target.value;
+                                    if (v?.length >= 0 && v?.length <= 12 && !isNaN(+v)) handleChange('ownerPhoneNumber', v);
+                                }}
+                                onKeyDown={(e) => {
+                                    if (
+                                        e.key === 'e' || e.key === 'E' ||
+                                        e.key === '-' || e.key === '+' ||
+                                        e.key === '.'
+                                    ) e.preventDefault();
+                                }}
+                                className={`bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5`}
+                                placeholder={`Оператор рақамини киритинг...`}
+                            />
+                        </div>
+                        <div>
+                            <label>Машина ид сини киритинг</label>
+                            <input
+                                value={crudMachine.machineId}
+                                onChange={(e) => handleChange('machineId', e.target.value)}
+                                placeholder="Машина ид сини киритинг"
+                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
+                            />
+                        </div>
+                        <div>
+                            <label>Машина моделини киритинг</label>
+                            <select
+                                value={crudMachine.machineModel}
+                                onChange={(e) => handleChange(`machineModel`, e.target.value)}
+                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5"
+                            >
+                                <option disabled selected value={''}>
+                                    Машина моделини киритинг
+                                </option>
+                                <option value={'CE_220'}>CE_220</option>
+                                <option value={'JOHN_DEERE'}>JOHN_DEERE</option>
+                                <option value={'BOSHIRAN'}>BOSHIRAN</option>
+                                <option value={'FM_WORLD'}>FM_WORLD</option>
+                                <option value={'DONG_FENG'}>DONG_FENG</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Паролни киритинг</label>
+                            <input
+                                value={crudMachine.password}
+                                onChange={(e) => handleChange('password', e.target.value)}
+                                placeholder="Паролни киритинг"
+                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
+                            />
+                        </div>
                     </div>
                 )
             case 'DELETE':
                 return (
                     <p className={`text-center text-black text-base lg:text-xl mb-10 mt-7`}>
-                        Haqiqatdan xam bu mashinani o'chirib tashlamoqchimisiz?
+                        Ҳақиқатдан хам бу машинани ўчириб ташламоқчимисиз?
                     </p>
                 )
             case 'EDIT_USER':
                 return (<>
+                    <label>Бириктирмоқчи бўлган фойдаланувчингизни киритинг</label>
                     <input
                         value={search}
                         onChange={(e) => setSearch(e.target.value)}
-                        placeholder="Foydalanuvchini qidiring..."
+                        placeholder="Фойдаланувчини қидиринг..."
                         className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
                     />
                     {(machineEditUserSearch.response?.body?.length > 0 && search) && (
@@ -277,7 +325,7 @@ const Machine = () => {
             case 'DELETE_USER':
                 return (
                     <p className={`text-center text-black text-base lg:text-xl mb-10 mt-7`}>
-                        Haqiqatdan xam biriktirilgan odamni olib tashlamoqchimisiz?
+                        Ҳақиқатдан хам бириктирилган одамни олиб ташламоқчимисиз?
                     </p>
                 )
             default:
@@ -287,12 +335,12 @@ const Machine = () => {
 
     return (
         <>
-            <Breadcrumb pageName={`Mashinalar`}/>
+            <Breadcrumb pageName={`Машиналар`}/>
 
             {/*===================ADD OR SEARCH==================*/}
             <div className={`w-full flex justify-between items-center flex-wrap xl:flex-nowrap gap-5 mt-10`}>
                 <ShinyButton
-                    text={`Mashina qo'shish`}
+                    text={`Машина қўшиш`}
                     icon={<MdOutlineAddCircle size={30}/>}
                     className={`bg-darkGreen`}
                     onClick={() => {
@@ -305,6 +353,7 @@ const Machine = () => {
             {/*========================BODY===================*/}
             <div className={`mt-6`}>
                 {loading ? <div className={`grid grid-cols-1 gap-3`}>
+                        <Skeleton/>
                         <Skeleton/>
                         <Skeleton/>
                     </div> :
@@ -370,7 +419,7 @@ const Machine = () => {
                                     <td className="border-b border-[#eee] p-5">
                                         <p className="text-black flex items-center justify-start gap-5 text-xl">
                                             <Popover
-                                                title={`Mashinaga yangi foydalanuvchi biriktirish`}
+                                                title={`Машинага янги фойдаланувчи бириктириш`}
                                                 overlayStyle={{textAlign: 'center'}}
                                             >
                                                 <FaUserEdit
@@ -383,7 +432,7 @@ const Machine = () => {
                                                 />
                                             </Popover>
                                             <Popover
-                                                title={`Biriktirilgan foydalanuvchini olib tashlash`}
+                                                title={`Бириктирилган фойдаланувчини олиб ташлаш`}
                                                 overlayStyle={{textAlign: 'center'}}
                                             >
                                                 <FaUserLock
@@ -396,7 +445,7 @@ const Machine = () => {
                                                 />
                                             </Popover>
                                             <Popover
-                                                title={`Mashina malumotlarini taxrirlash`}
+                                                title={`Машина маълумотларини таҳрирлаш`}
                                                 overlayStyle={{textAlign: 'center'}}
                                             >
                                                 <FaEdit
@@ -409,7 +458,7 @@ const Machine = () => {
                                                 />
                                             </Popover>
                                             <Popover
-                                                title={`Mashinani o'chirib tashlash`}
+                                                title={`Машинани ўчириб ташлаш`}
                                                 overlayStyle={{textAlign: 'center'}}
                                             >
                                                 <RiDeleteBin7Fill
@@ -428,7 +477,7 @@ const Machine = () => {
                                 <tr className={`hover:bg-whiteGreen duration-100`}>
                                     <td className="border-b border-[#eee] p-5" colSpan={machineThead.length}>
                                         <p className="text-black text-center">
-                                            Mashinalar topilmadi
+                                            Машиналар топилмади
                                         </p>
                                     </td>
                                 </tr>
@@ -436,7 +485,7 @@ const Machine = () => {
                             <tr className={`hover:bg-whiteGreen duration-100`}>
                                 <td className="border-b border-[#eee] p-5" colSpan={machineThead.length}>
                                     <p className="text-black text-center">
-                                        Mashinalar topilmadi
+                                        Машиналар топилмади
                                     </p>
                                 </td>
                             </tr>
@@ -463,37 +512,37 @@ const Machine = () => {
 
                     <div className={`flex justify-end items-center gap-5 mt-5`}>
                         <ShinyButton
-                            text={`Orqaga`}
+                            text={`Орқага`}
                             className={`bg-darkGreen`}
                             onClick={closeModal}
                         />
                         {editOrDeleteStatus === 'POST' && (
                             <ShinyButton
-                                text={machineAdd.loading ? 'Saqlanmoqda...' : 'Saqlash'}
+                                text={machineAdd.loading ? 'Сақланмоқда...' : 'Сақлаш'}
                                 className={`bg-darkGreen ${machineAdd.loading && 'cursor-not-allowed opacity-60'}`}
                                 onClick={() => {
                                     if (!machineAdd.loading) {
                                         if (changeRegex()) machineAdd.globalDataFunc()
-                                        else toast.error('Ma\'lumotlar tuliqligini tekshirib kuring')
+                                        else toast.error('Маълумотлар тўлиқлигини текшириб кўринг')
                                     }
                                 }}
                             />
                         )}
                         {editOrDeleteStatus === 'EDIT' && (
                             <ShinyButton
-                                text={machineEdit.loading ? 'Yuklanmoqda...' : 'Taxrirlash'}
+                                text={machineEdit.loading ? 'Юкланмоқда...' : 'Таҳрирлаш'}
                                 className={`bg-darkGreen ${machineEdit.loading && 'cursor-not-allowed opacity-60'}`}
                                 onClick={() => {
                                     if (!machineEdit.loading) {
                                         if (changeRegex()) machineEdit.globalDataFunc()
-                                        else toast.error('Ma\'lumotlar tuliqligini tekshirib kuring')
+                                        else toast.error('Маълумотлар тўлиқлигини текшириб кўринг')
                                     }
                                 }}
                             />
                         )}
                         {editOrDeleteStatus === 'DELETE' && (
                             <ShinyButton
-                                text={machineDelete.loading ? 'O\'chirilmoqda...' : 'Xa'}
+                                text={machineDelete.loading ? 'Ўчирилмоқда...' : 'Ҳа'}
                                 className={`bg-darkGreen ${machineDelete.loading && 'cursor-not-allowed opacity-60'}`}
                                 onClick={() => {
                                     if (!machineDelete.loading) machineDelete.globalDataFunc()
@@ -502,7 +551,7 @@ const Machine = () => {
                         )}
                         {editOrDeleteStatus === 'EDIT_USER' && (
                             <ShinyButton
-                                text={machineEditUser.loading ? 'Saqlanmoqda...' : 'Biriktirish'}
+                                text={machineEditUser.loading ? 'Сақланмоқда...' : 'Бириктириш'}
                                 className={`bg-darkGreen ${machineEditUser.loading && 'cursor-not-allowed opacity-60'}`}
                                 onClick={() => {
                                     if (!machineEditUser.loading) machineEditUser.globalDataFunc()
@@ -511,7 +560,7 @@ const Machine = () => {
                         )}
                         {editOrDeleteStatus === 'DELETE_USER' && (
                             <ShinyButton
-                                text={machineDeleteUser.loading ? 'Saqlanmoqda...' : 'Olib tashlash'}
+                                text={machineDeleteUser.loading ? 'Сақланмоқда...' : 'Олиб ташлаш'}
                                 className={`bg-darkGreen ${machineDeleteUser.loading && 'cursor-not-allowed opacity-60'}`}
                                 onClick={() => {
                                     if (!machineDeleteUser.loading) machineDeleteUser.globalDataFunc()

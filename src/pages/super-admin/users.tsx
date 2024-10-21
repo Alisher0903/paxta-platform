@@ -311,7 +311,7 @@ const Users = () => {
                                         value={crudValue?.phoneNumber}
                                         onChange={(e) => {
                                             const v = e.target.value;
-                                            if (v?.length >= 0 && v?.length <= 12 && !isNaN(v)) handleInputChange('phoneNumber', v);
+                                            if (v?.length >= 0 && v?.length <= 12 && !isNaN(+v)) handleInputChange('phoneNumber', v);
                                         }}
                                         onKeyDown={(e) => {
                                             if (
@@ -321,7 +321,7 @@ const Users = () => {
                                             ) e.preventDefault();
                                         }}
                                         className={`bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5`}
-                                        placeholder={`Фойдаланувчи телефон рақамини кирitish...`}
+                                        placeholder={`Фойдаланувчи телефон рақамини киритиш...`}
                                     />
                                 </div>
                                 <div>

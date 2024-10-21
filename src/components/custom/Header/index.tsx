@@ -60,7 +60,7 @@ const Header = (props: {
                 <div className="hidden sm:block"></div>
                 <div className="flex items-center gap-6">
                     <div className={'relative'}>
-                        <Popover title="Bildirishnomalar" overlayStyle={{textAlign: 'center'}}>
+                        <Popover title="Билдиришномалар" overlayStyle={{textAlign: 'center'}}>
                             <IoNotifications
                                 size={26}
                                 className={`text-whiten hover:opacity-70 duration-300 hover:cursor-pointer`}
