@@ -17,7 +17,7 @@ const NotificationMaster = () => {
 
     return (
         <>
-            <Breadcrumb pageName={'Bildirishnomalar'}/>
+            <Breadcrumb pageName={'Билдиришномалар'}/>
 
             {loading ?
                 <div className={'grid grid-cols-1 gap-5'}>
@@ -35,13 +35,13 @@ const NotificationMaster = () => {
                         read: boolean
                     }, idx: number) => (
                         <HoverEffect
-                            title={`Yuborilgan: ${item.userFullName}`}
-                            description={`Holati: ${item.status}. Sarlavha: ${item.title}`}
+                            title={`Юборилган: ${item.userFullName}`}
+                            description={`Ҳолати: ${item.status}. Сарлавҳа: ${item.title}`}
                             idx={idx}
                             date={moment(item.createdAt?.slice(0, 9)).format('DD.MM.YYYY')}
                         />
-                    )) : <p className={'text-center font-bold'}>Malumot topilmadi</p>
-                    : <p className={'text-center font-bold'}>Malumot topilmadi</p>
+                    )) : <p className={'text-center font-bold'}>Маълумот топилмади</p>
+                    : <p className={'text-center font-bold'}>Маълумот топилмади</p>
             }
 
             <Pagination

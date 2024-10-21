@@ -3,7 +3,7 @@ import Breadcrumb from "@/components/custom/breadcrumb/Breadcrumb.tsx";
 import { Card, CardTitle, HoverEffect } from "@/components/ui/card-hover-effect.tsx";
 import Skeleton from "@/components/custom/skeleton/skeleton-cards.tsx";
 import { MdNote } from "react-icons/md";
-import {  Pagination, Modal, Select } from "antd"; // Select import qilindi
+import {  Pagination, Modal, Select } from "antd";
 import toast from "react-hot-toast";
 import { useGlobalRequest } from "@/helpers/functions/restApi-function.tsx";
 import { notificationConfirmation, notificationDelete, notificationGet, notificationRead } from "@/helpers/api.tsx";
@@ -49,10 +49,10 @@ const Notifications = () => {
             if (deleteNotification.success) {
                 setIsDeleteModalVisible(false);
                 globalDataFunc();
-                toast.success('Barcha bildirishnomalar o\'chirildi');
+                toast.success('Барча билдиришномалар ўчирилди');
             }
         } catch {
-            toast.error('Bildirishnomalarni o\'chirishda xatolik yuz berdi');
+            toast.error('Билдиришномаларни ўчиришда хатолик юз берди');
         }
     };
 
@@ -60,7 +60,7 @@ const Notifications = () => {
         if (readNotification.response) {
             globalDataFunc();
             setReadID(null);
-            toast.success('Bildirishnomani o\'qilgan qilib belgiladingiz');
+            toast.success('Билдиришномани ўқилган қилиб белгиладингиз');
         }
         consoleClear();
     }, [readNotification.response]);
@@ -81,25 +81,25 @@ const Notifications = () => {
         try {
             await notificationConfirmationFunc();
             if (ResNotificationConfirmation.success) {
-                toast.success('Bildirishnoma muvaffaqiyatli yangilandi');
+                toast.success('Билдиришнома муваффақиятли янгиланди');
                 globalDataFunc();
             }
         } catch {
-            toast.error('Bildirishnomani yangilashda xatolik yuz berdi');
+            toast.error('Билдиришномани янгилашда хатолик юз берди');
         }
         setIsConfirmationModalVisible(false); 
     };
 
     return (
         <>
-            <Breadcrumb pageName="Bildirishnomalar" />
+            <Breadcrumb pageName="Билдиришномалар" />
 
             <Card className="mb-10">
                 <CardTitle className="text-center">
-                    Admin uchun bildirishnomalar
+                    Админ учун билдиришномалар
                 </CardTitle>
             </Card>
-            <ShinyButton text="Barcha bildirishnomalarni o'chirish" className=" py-3 px-8 mb-5  bg-[#9a1e1e] text-white" onClick={handleDeleteAll} />
+            <ShinyButton text="Барча билдиришномаларни ўчириш" className=" py-3 px-8 mb-5  bg-[#9a1e1e] text-white" onClick={handleDeleteAll} />
 
             {loading ? (
                 <div className="w-full grid grid-cols-1 gap-3">
@@ -121,8 +121,8 @@ const Notifications = () => {
                             title={n.title}
                             description={
                                 <>
-                                    <p>Tavsif: {n.status}</p>
-                                    <p>Foydalanuvchi: {n.userFullName}</p>
+                                    <p>Тавсиф: {n.status}</p>
+                                    <p>Фойдаланувчи: {n.userFullName}</p>
                                 </>
                             }
                             date={n.createdAt}
@@ -130,7 +130,6 @@ const Notifications = () => {
                             children={
                                 <Select
                                     className="w-full bg-[#9a1e1e] text-white custom-select"
-
                                     defaultValue="Select status"
                                     onChange={(value) => handleConfirmationChange(value, n.id)} // Pass notification ID
                                 >
@@ -146,14 +145,14 @@ const Notifications = () => {
                 ) : (
                     <Card className="mt-10">
                         <CardTitle className="flex items-center justify-center gap-3">
-                            Ma'lumot topilmadi <MdNote className="text-darkGreen text-3xl" />
+                            Маълумот топилмади <MdNote className="text-darkGreen text-3xl" />
                         </CardTitle>
                     </Card>
                 )
             ) : (
                 <Card className="mt-10">
                     <CardTitle className="flex items-center justify-center gap-3">
-                        Ma'lumot topilmadi <MdNote className="text-darkGreen text-3xl" />
+                        Маълумот топилмади <MdNote className="text-darkGreen text-3xl" />
                     </CardTitle>
                 </Card>
             )}
@@ -169,26 +168,26 @@ const Notifications = () => {
 
             {/* Delete all notifications modal */}
             <Modal
-                title="Tasdiqlash"
+                title="Тасдиқлаш"
                 visible={isDeleteModalVisible}
                 onOk={deleteNotificationEffect}
                 onCancel={() => setIsDeleteModalVisible(false)}
                 okText="Tasdiqlash"
-                cancelText="Bekor qilish"
+                cancelText="Бекор қилиш"
             >
-                Barcha bildirishnomalarni o'chirishni tasdiqlaysizmi?
+                Барча билдиришномаларни ўчиришни тасдиқлайсизми?
             </Modal>
 
             {/* Status change confirmation modal */}
             <Modal
-                title="Tasdiqlash"
+                title="Тасдиқлаш"
                 visible={isConfirmationModalVisible}
                 onOk={confirmStatusChange}
                 onCancel={() => setIsConfirmationModalVisible(false)}
-                okText="Tasdiqlash"
-                cancelText="Bekor qilish"
+                okText="Тасдиқлаш"
+                cancelText="Бекор қилиш"
             >
-                Bildirishnoma holatini o'zgartirishni tasdiqlaysizmi?
+                Билдиришнома ҳолатини ўзгартиришни тасдиқлайсизми?
             </Modal>
         </>
     );
