@@ -127,7 +127,13 @@ export const routes = [
             <V_hokim_getOne/>
         </>
     },
-
+    {
+        path: '/v-hokim/hisobot/:status/:date/:id',
+        element: <>
+            <PageTitle title="V-Hokim | Hisobot"/>
+            <V_hokim_hisobot/>
+        </>
+    },
     // ====================T-HOKIM ROUTE===================
     {
         path: '/t-hokim/hisobot/:status/:date/:id',

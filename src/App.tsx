@@ -13,7 +13,7 @@ function App() {
 
     useEffect(() => {
         setConfig()
-        siteSecurity()
+        // siteSecurity()
         window.scrollTo(0, 0);
         const refresh = sessionStorage.getItem('refreshes');
 

@@ -24,7 +24,7 @@ const Notifications = () => {
     );
 
     const readNotification = useGlobalRequest(notificationRead, 'POST', { ids: [readID] });
-    const { response: deleteNotification, globalDataFunc: deleteNotificationFunc } = useGlobalRequest(notificationDelete, 'POST', { list: deleteIDs });
+    const { response: deleteNotification, globalDataFunc: deleteNotificationFunc } = useGlobalRequest(notificationDelete, 'POST', { list: [deleteIDs] });
     const { response: ResNotificationConfirmation, globalDataFunc: notificationConfirmationFunc } = useGlobalRequest(
         `${notificationConfirmation}?id=${selectedNotificationID}&status=${confirmation}`,
         'POST'
@@ -64,19 +64,16 @@ const Notifications = () => {
     }, [readNotification.response]);
 
     const handleDeleteAll = () => {
-        const idsToDelete = response?.body?.object?.map((n: { id: number }) => n.id) || [];
+        const idsToDelete = response && response.body?.object?.map((n: { id: number }) => n.id) || [];
         setDeleteIDs(idsToDelete);
         setIsModalVisible(true);
     };
-
-    // When the user selects a status
     const handleConfirmationChange = (value: string, id: number) => {
         setConfirmation(value);
         setSelectedNotificationID(id);
-        setIsModalVisible(true); // Show confirmation modal
+        setIsModalVisible(true); 
     };
 
-    // Confirm and send the request
     const confirmStatusChange = async () => {
         try {
             await notificationConfirmationFunc();
@@ -87,7 +84,7 @@ const Notifications = () => {
         } catch {
             toast.error('Bildirishnomani yangilashda xatolik yuz berdi');
         }
-        setIsModalVisible(false); // Hide modal
+        setIsModalVisible(false); 
     };
 
     return (
@@ -169,8 +166,16 @@ const Notifications = () => {
                 onChange={(page: number) => setPage(page - 1)}
                 rootClassName="mt-8 mb-5"
             />
-
-            {/* Modal for status confirmation */}
+            <Modal
+                title="Tasdiqlash"
+                visible={isModalVisible}
+                onOk={deleteNotificationEffect}
+                onCancel={() => setIsModalVisible(false)}
+                okText="Tasdiqlash"
+                cancelText="Bekor qilish"
+            >
+                Barcha bildirishnomalarni o'chirishni tasdiqlaysizmi?
+            </Modal>
             <Modal
                 title="Tasdiqlash"
                 visible={isModalVisible}
