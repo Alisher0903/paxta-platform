@@ -1,7 +1,7 @@
 import { district_getOne_report, district_getOne_report_active } from '@/helpers/api';
 import { useGlobalRequest } from '@/helpers/functions/restApi-function';
 import { Spin } from 'antd';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 export default function T_hokim_hisobot() {
