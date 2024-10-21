@@ -50,27 +50,27 @@ const Sectors = () => {
     useEffect(() => {
         if (sectorAdd.response && sectorAdd.response.success) {
             globalDataFunc()
-            toast.success('Sector muvaffaqiyatli qushildi')
+            toast.success('Сектор муваффақиятли қўшилди')
             closeModal()
-        }
+        } else if (sectorAdd.response?.message) toast.error(`${sectorAdd.response.message}`)
         consoleClear()
     }, [sectorAdd.response]);
 
     useEffect(() => {
         if (sectorEdits.response && sectorEdits.response.success) {
             globalDataFunc()
-            toast.success('Sector muvaffaqiyatli taxrirlandi')
+            toast.success('Сектор муваффақиятли таҳрирланди')
             closeModal()
-        }
+        } else if (sectorEdits.response?.message) toast.error(`${sectorEdits.response.message}`)
         consoleClear()
     }, [sectorEdits.response]);
 
     useEffect(() => {
         if (sectorDeletes.response && sectorDeletes.response.success) {
             globalDataFunc()
-            toast.success('Sector muvaffaqiyatli o\'chirildi')
+            toast.success('Сектор муваффақиятли ўчирилди')
             closeModal()
-        }
+        } else if (sectorEdits.response?.message) toast.error(`${sectorDeletes.response.message}`)
         consoleClear()
     }, [sectorDeletes.response]);
 
@@ -87,12 +87,12 @@ const Sectors = () => {
 
     return (
         <>
-            <Breadcrumb pageName={`Sectorlar`}/>
+            <Breadcrumb pageName={`Секторлар`}/>
 
             {/*=================SEARCH================*/}
             <div className={`w-full flex justify-between items-center flex-wrap xl:flex-nowrap gap-5 mt-10`}>
                 <ShinyButton
-                    text={`Sector qo'shish`}
+                    text={`Сектор қўшиш`}
                     icon={<MdOutlineAddCircle size={30}/>}
                     className={`bg-darkGreen`}
                     onClick={() => {
@@ -155,7 +155,7 @@ const Sectors = () => {
                                 className="border-b border-[#eee] p-5 text-black text-center"
                                 colSpan={sectorThead.length}
                             >
-                                Ma'lumot topilmadi
+                                Маълумот топилмади
                             </td>
                         </tr>}
                     </Tables>
@@ -174,28 +174,31 @@ const Sectors = () => {
                 <div className={`min-w-54 sm:w-64 md:w-96 lg:w-[40rem]`}>
                     {editOrDeleteStatus === 'DELETE' ? (
                         <p className={`text-center text-black text-base lg:text-xl mb-10 mt-7`}>
-                            Haqiqatdan xam bu sectorni o'chirib tashlamoqchimisiz?
+                            Ҳақиқатдан хам бу секторни ўчириб ташламоқчимисиз?
                         </p>
                     ) : <div className={`mt-7`}>
+                        <label>Сектор номини киритинг</label>
                         <input
                             value={crudSector.name}
                             onChange={(e) => handleChange('name', e.target.value)}
-                            placeholder="Sector nomini kiriting"
-                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5 mt-7"
+                            placeholder="Сектор номини киритинг"
+                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5 mb-7"
                         />
+                        <label>Сектор рақамини киритинг</label>
                         <input
                             value={crudSector.number}
                             type={'number'}
                             onChange={(e) => handleChange('number', e.target.value)}
-                            placeholder="Sector raqamini kiriting"
-                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5 mt-7"
+                            placeholder="Сектор рақамини киритинг"
+                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5 mb-7"
                         />
+                        <label>Туманни танланг</label>
                         <select
                             value={crudSector.districtId}
                             onChange={(e) => handleChange(`districtId`, e.target.value)}
-                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5 my-7"
+                            className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5 mb-7"
                         >
-                            <option disabled selected value={0}>Tumanni tanlang</option>
+                            <option disabled selected value={0}>Туманни танланг</option>
                             {districtLists.response && districtLists.response.body?.map((item: {
                                 id: number
                                 name: string
@@ -207,37 +210,37 @@ const Sectors = () => {
                     }
                     <div className={`flex justify-end items-center gap-5 mt-5`}>
                         <ShinyButton
-                            text={`Orqaga`}
+                            text={`Орқага`}
                             className={`bg-darkGreen`}
                             onClick={closeModal}
                         />
                         {editOrDeleteStatus === 'POST' && (
                             <ShinyButton
-                                text={sectorAdd.loading ? 'Saqlanmoqda...' : 'Saqlash'}
+                                text={sectorAdd.loading ? 'Сақланмоқда...' : 'Сақлаш'}
                                 className={`bg-darkGreen ${sectorAdd.loading && 'cursor-not-allowed opacity-60'}`}
                                 onClick={() => {
                                     if (!sectorAdd.loading) {
                                         if (crudSector.name && crudSector.districtId && crudSector.number) sectorAdd.globalDataFunc()
-                                        else toast.error('Ma\'lumotlar tuliqligini tekshirib kuring')
+                                        else toast.error('Маълумотлар тўлиқлигини текшириб кўринг')
                                     }
                                 }}
                             />
                         )}
                         {editOrDeleteStatus === 'EDIT' && (
                             <ShinyButton
-                                text={sectorEdits.loading ? 'Yuklanmoqda...' : 'Taxrirlash'}
+                                text={sectorEdits.loading ? 'Юкланмоқда...' : 'Таҳрирлаш'}
                                 className={`bg-darkGreen ${sectorEdits.loading && 'cursor-not-allowed opacity-60'}`}
                                 onClick={() => {
                                     if (!sectorEdits.loading) {
                                         if (crudSector.name && crudSector.districtId && crudSector.number) sectorEdits.globalDataFunc()
-                                        else toast.error('Ma\'lumotlar tuliqligini tekshirib kuring')
+                                        else toast.error('Маълумотлар тўлиқлигини текшириб кўринг')
                                     }
                                 }}
                             />
                         )}
                         {editOrDeleteStatus === 'DELETE' && (
                             <ShinyButton
-                                text={sectorDeletes.loading ? 'O\'chirilmoqda...' : 'Xa'}
+                                text={sectorDeletes.loading ? 'Ўчирилмоқда...' : 'Ҳа'}
                                 className={`bg-darkGreen ${sectorDeletes.loading && 'cursor-not-allowed opacity-60'}`}
                                 onClick={() => {
                                     if (!sectorDeletes.loading) sectorDeletes.globalDataFunc()

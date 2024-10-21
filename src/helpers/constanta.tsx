@@ -6,6 +6,7 @@ import {FaUsers} from "react-icons/fa";
 import {PiFarmFill} from "react-icons/pi";
 import {TbReportSearch} from "react-icons/tb";
 import {FcStatistics} from "react-icons/fc";
+import {IoPeople} from "react-icons/io5";
 
 // ===============SIDEBAR DATA================
 export const sideData = {
@@ -17,7 +18,7 @@ export const sideData = {
         {title: 'Машиналар', icon: <FaTractor size={20}/>, path: '/super-admin/machine'},
         {title: 'Пахта териладиган ҳудудлар', icon: <FaLocationCrosshairs size={20}/>, path: '/super-admin/cotton'},
         {title: 'Фермер хўжалиги', icon: <PiFarmFill size={20}/>, path: '/super-admin/farm'},
-        {title: 'Масъул ходимлар', icon: <PiFarmFill size={20}/>, path: '/super-admin/resp-user'},
+        {title: 'Масъул ходимлар', icon: <IoPeople size={20}/>, path: '/super-admin/resp-user'},
         {title: 'Ҳисоботлар', icon: <TbReportSearch size={20}/>, path: '/super-admin/report'},
         {title: 'Статистика', icon: <FcStatistics size={20}/>, path: '/super-admin/statistics'},
     ],

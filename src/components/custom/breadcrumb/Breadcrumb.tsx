@@ -17,7 +17,7 @@ const Breadcrumb = ({pageName, subPage}: BreadcrumbProps) => {
                 <ol className="flex items-center gap-2">
                     <li>
                         <Link className="font-medium text-darkGreen" to={'/'}>
-                            Boshqaruv paneli /
+                            Бошқарув панели /
                         </Link>
                     </li>
                     <li className="font-medium text-lighterGreen">
