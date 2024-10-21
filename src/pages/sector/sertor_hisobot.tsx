@@ -29,7 +29,7 @@ export default function Sector_hisobot() {
             <h1 className='lg:text-3xl text-2xl font-semibold text-center uppercase'>
                 {status === 'deActive' ? 'Mashinaga nega ishlamaganligi tugrisida barcha hisobotlar' : 'Mashinaga ish jarayoni tugrisida hisobotlar'}
             </h1>
-            <div className='py-8'>
+            <div className='py-8 my-5'>
                 {loading || loadingActive ? (
                     <div><Spin tip="Yuklanmoqda..." /></div>
                 ) : (
@@ -47,7 +47,7 @@ export default function Sector_hisobot() {
                                 districtName: string,
                                 sectorNumber: number,
                             }) => (
-                                <div key={report.id} className='border-2 border-[#9a1e1e] bg-[#fefafa] rounded-lg p-4 my-2'>
+                                <div key={report.id} className='border-2 mb-10 flex flex-col gap-2 border-[#9a1e1e] bg-[#fefafa] rounded-lg p-4 my-2'>
                                     <h2 className='font-semibold'>{report.farmName}</h2>
                                     <p className='flex border-b border-[#9a1e1e] justify-between'>
                                         <span className='font-semibold'>Ishdan chiqgan maydon: </span>
@@ -99,7 +99,7 @@ export default function Sector_hisobot() {
                                 fullName: string,
                                 time: string,
                             }) => (
-                                <div key={report.id} className='border-2 flex flex-col gap-2 border-[#6A9C89] bg-[#f9fffc] rounded-lg p-4 my-2'>
+                                <div key={report.id} className='border-2 mb-10 flex flex-col gap-2 border-[#6A9C89] bg-[#f9fffc] rounded-lg p-4 my-2'>
                                     <h2 className='font-semibold text-2xl mb-3'>{report.farmName}</h2>
                                     <p className='flex border-b border-[#6A9C89] justify-between'>
                                         <span className='font-semibold'>Ishdan chiqgan maydon: </span>

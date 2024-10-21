@@ -12,8 +12,8 @@ export const toastMessage = (code: string | number, message: string) => {
     else return toast.error(message);
 };
 
-export const consoleClear = () => console.clear();
-// export const consoleClear = () => {}
+// export const consoleClear = () => console.clear();
+export const consoleClear = () => {}
 
 export const siteSecurity = () => {
     document.addEventListener('contextmenu', function(e) {
