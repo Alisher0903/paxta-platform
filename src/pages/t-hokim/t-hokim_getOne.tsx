@@ -57,8 +57,8 @@ export default function T_hokim_getOne() {
                                     </Card>
                                 </div>
                             ))
-                        ) : (
-                            <div>Bu san'ada hech qanday mashina ishlamayapti</div>
+                            ) : (
+                                <div>Ma'lumotlar topilmadi</div>
                         )}
                     </div>
                 ) : (
@@ -88,7 +88,7 @@ export default function T_hokim_getOne() {
                                 </div>
                             ))
                         ) : (
-                            <div>Bu san'ada hech qanday mashina ishlamayapti</div>
+                            <div>Ma'lumotlar topilmadi</div>
                         )}
                         {status === 'invalid' && <Pagination
                             showSizeChanger={false}

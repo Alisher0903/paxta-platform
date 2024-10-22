@@ -115,7 +115,7 @@ export default function Sector_dashboard() {
                             </div>
                         ))
                     ) : (
-                        <div>Tumanlar mavjud emas</div>
+                        <div>Ma'lumotlar topilmadi</div>
                     )}
                 </div>
             )}

@@ -150,7 +150,7 @@ export default function T_hokim_hisobot() {
                             ))
                         ) : (
                             <div className='text-center text-red-900 text-2xl font-semibold'>
-                                Bu sanada hech qanday hisobot topilmadi
+                                Ma'lumotlar topilmadi
                             </div>
                         )}
                     </>

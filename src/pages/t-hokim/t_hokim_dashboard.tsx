@@ -106,7 +106,7 @@ export default function T_hokim_dashboard() {
                             </div>
                         ))
                     ) : (
-                        <div>Tumanlar mavjud emas</div>
+                        <div>Ma'lumotlar topilmadi</div>
                     )}
                 </div>
             )}
