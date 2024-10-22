@@ -3,11 +3,7 @@ import Breadcrumb from "@/components/custom/breadcrumb/Breadcrumb.tsx";
 import { Card, CardTitle, HoverEffect } from "@/components/ui/card-hover-effect.tsx";
 import Skeleton from "@/components/custom/skeleton/skeleton-cards.tsx";
 import { MdNote } from "react-icons/md";
-<<<<<<< HEAD
-import { Pagination, Modal, Select } from "antd"; // Select import qilindi
-=======
-import {  Pagination, Modal, Select } from "antd";
->>>>>>> 6cec7d0a6b53fbd4f61ee92df92f2a696c7ce190
+import { Pagination, Modal, Select } from "antd";
 import toast from "react-hot-toast";
 import { useGlobalRequest } from "@/helpers/functions/restApi-function.tsx";
 import { notificationConfirmation, notificationDelete, notificationGet, notificationRead } from "@/helpers/api.tsx";
