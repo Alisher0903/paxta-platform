@@ -75,7 +75,7 @@ const Sidebar = ({sidebarOpen, setSidebarOpen, toggleModal}: SidebarProps) => {
                         <ul className="flex flex-col">
                             <li>
                                 {admin_role === 'ROLE_ADMIN' && superAdmin.map((side, idx) => (
-                                    <BlurFade duration={idx / 10 + .3} delay={idx / 9}>
+                                    <BlurFade duration={idx / 10 + .3} delay={idx / 9} key={idx}>
                                         <MenuItem
                                             title={side.title}
                                             icon={side.icon}
@@ -85,7 +85,7 @@ const Sidebar = ({sidebarOpen, setSidebarOpen, toggleModal}: SidebarProps) => {
                                     </BlurFade>
                                 ))}
                                 {admin_role === 'ROLE_MASTER' && user.map((side, idx) => (
-                                    <BlurFade duration={idx / 10 + .3} delay={idx / 9}>
+                                    <BlurFade duration={idx / 10 + .3} delay={idx / 9} key={idx}>
                                         <MenuItem
                                             title={side.title}
                                             icon={side.icon}
@@ -95,7 +95,7 @@ const Sidebar = ({sidebarOpen, setSidebarOpen, toggleModal}: SidebarProps) => {
                                     </BlurFade>
                                 ))}
                                 {admin_role === 'ROLE_SECTOR' && user.map((side, idx) => (
-                                    <BlurFade duration={idx / 10 + .3} delay={idx / 9}>
+                                    <BlurFade duration={idx / 10 + .3} delay={idx / 9} key={idx}>
                                         <MenuItem
                                             title={side.title}
                                             icon={side.icon}
@@ -110,7 +110,7 @@ const Sidebar = ({sidebarOpen, setSidebarOpen, toggleModal}: SidebarProps) => {
                             <ShinyButton
                                 onClick={() => toggleModal()}
                                 icon={<IoIosLogOut size={25}/>}
-                                text='Chiqish'
+                                text='Чиқиш'
                                 className='bg-red-500 w-full'
                             />
                         </div>

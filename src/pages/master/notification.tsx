@@ -16,7 +16,7 @@ const NotificationMaster = () => {
     }, []);
 
     return (
-        <>
+        <section>
             <Breadcrumb pageName={'Билдиришномалар'}/>
 
             {loading ?
@@ -39,6 +39,7 @@ const NotificationMaster = () => {
                             description={`Ҳолати: ${item.status}. Сарлавҳа: ${item.title}`}
                             idx={idx}
                             date={moment(item.createdAt?.slice(0, 9)).format('DD.MM.YYYY')}
+                            key={idx}
                         />
                     )) : <p className={'text-center font-bold'}>Маълумот топилмади</p>
                     : <p className={'text-center font-bold'}>Маълумот топилмади</p>
@@ -52,7 +53,7 @@ const NotificationMaster = () => {
                 onChange={(page: number) => setPage(page - 1)}
                 rootClassName={`mt-8 mb-5`}
             />
-        </>
+        </section>
     );
 };
 

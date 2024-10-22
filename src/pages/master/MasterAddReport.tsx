@@ -72,9 +72,9 @@ const MasterAddReport = () => {
     useEffect(() => {
         if (reportAdd.response?.success) {
             globalDataFunc();
-            toast.success('Hisobot muvaffaqiyatli qushildi');
+            toast.success('Ҳисобот муваффақиятли қўшилди');
             closeModal();
-        }
+        } else if (reportAdd.error?.response?.data?.message) toast.error(reportAdd.error.response.data.message)
         consoleClear();
     }, [reportAdd.response]);
 
@@ -83,12 +83,21 @@ const MasterAddReport = () => {
             if (reportEdit.response.body && reportEdit.response.body === 'UPDATE_REPORT') setEditOrDeleteStatus('NOTIFICATION_CREATE')
             else {
                 globalDataFunc();
-                toast.success('Hisobot muvaffaqiyatli taxrirlandi');
+                toast.success('Ҳисобот муваффақиятли таҳрирланди');
                 closeModal();
             }
-        }
+        } else if (reportEdit.error?.response?.data?.message) toast.error(reportEdit.error.response.data.message)
         consoleClear();
     }, [reportEdit.response]);
+
+    useEffect(() => {
+        if (notificationAdd.response?.success) {
+            globalDataFunc();
+            toast.success('Хабарни муваффақиятли юбордингиз');
+            closeModal();
+        } else if (notificationAdd.error?.response?.data?.message) toast.error(notificationAdd.error.response.data.message)
+        consoleClear();
+    }, [notificationAdd.response]);
 
     useEffect(() => {
         crudReport.cottonId = 0
@@ -113,12 +122,12 @@ const MasterAddReport = () => {
 
     return (
         <>
-            <Breadcrumb pageName={`Hisobotlar`}/>
+            <Breadcrumb pageName={`Ҳисоботлар`}/>
 
             {/*=================SEARCH================*/}
             <div className={`w-full flex justify-between items-center flex-wrap xl:flex-nowrap gap-5 mt-10`}>
                 <ShinyButton
-                    text={`Hisobot qo'shish`}
+                    text={`Ҳисобот қўшиш`}
                     icon={<MdOutlineAddCircle size={30}/>}
                     className={`bg-darkGreen`}
                     onClick={() => {
@@ -141,7 +150,7 @@ const MasterAddReport = () => {
                                 <tr key={rep.id} className={`hover:bg-whiteGreen duration-100`}>
                                     <td className="border-b border-[#eee] p-5">
                                         <p className="text-black">
-                                            {idx + 1}
+                                            {(page * 10) + idx + 1}
                                         </p>
                                     </td>
                                     <td className="border-b border-[#eee] p-5">
@@ -171,17 +180,17 @@ const MasterAddReport = () => {
                                     </td>
                                     <td className="border-b border-[#eee] p-5">
                                         <p className="text-black">
-                                            {rep.dialField} (gektar)
+                                            {rep.dialField} (гектар)
                                         </p>
                                     </td>
                                     <td className="border-b border-[#eee] p-5">
                                         <p className="text-black">
-                                            {rep.cottonSize} (tonna)
+                                            {rep.cottonSize} (тонна)
                                         </p>
                                     </td>
                                     <td className="border-b border-[#eee] p-5">
                                         <p className="text-black">
-                                            {rep.machineActive ? 'active' : 'activ emas'}
+                                            {rep.machineActive ? 'актив' : 'актив эмас'}
                                         </p>
                                     </td>
                                     <td className="border-b border-[#eee] p-5">
@@ -206,7 +215,7 @@ const MasterAddReport = () => {
                                     </td>
                                     <td className="border-b border-[#eee] p-5">
                                         <p className="text-black">
-                                            {rep.date}
+                                            {moment(rep.date).format('DD.MM.YYYY')}
                                         </p>
                                     </td>
                                     <td className="border-b border-[#eee] p-5">
@@ -232,7 +241,7 @@ const MasterAddReport = () => {
                                     className="border-b border-[#eee] p-5 text-black text-center"
                                     colSpan={machineReportThead.length}
                                 >
-                                    Ma'lumot topilmadi
+                                    Маълумот топилмади
                                 </td>
                             </tr>
                         ) : (
@@ -241,7 +250,7 @@ const MasterAddReport = () => {
                                     className="border-b border-[#eee] p-5 text-black text-center"
                                     colSpan={machineReportThead.length}
                                 >
-                                    Ma'lumot topilmadi
+                                    Маълумот топилмади
                                 </td>
                             </tr>
                         )}
@@ -262,30 +271,30 @@ const MasterAddReport = () => {
                 <div className={`min-w-54 sm:w-64 md:w-96 lg:w-[40rem]`}>
                     <h2 className="font-bold text-2xl">
                         {
-                            editOrDeleteStatus === 'POST' ? 'Hisobot qo\'shish'
-                                : editOrDeleteStatus === 'NOTIFICATION_CREATE' ? 'Hisobotni taxrirlash uchun admindan ruxsat oling'
-                                    : 'Hisobotni taxrirlash'
+                            editOrDeleteStatus === 'POST' ? 'Ҳисобот қўшиш'
+                                : editOrDeleteStatus === 'NOTIFICATION_CREATE' ? 'Ҳисоботни таҳрирлаш учун админдан рухсат олинг'
+                                    : 'Ҳисоботни таҳрирлаш'
                         }
                     </h2>
                     {editOrDeleteStatus === 'NOTIFICATION_CREATE' ?
                         <div className={`mt-7`}>
-                            <label>Taxrirlash sababini kiriting</label>
+                            <label>Таҳрирлаш сабабини киритинг</label>
                             <input
                                 value={crudReport.title}
                                 onChange={(e) => handleChange('title', e.target.value)}
-                                placeholder="Taxrirlash sababini kiriting"
+                                placeholder="Таҳрирлаш сабабини киритинг"
                                 className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
                             />
                         </div> :
                         <div className={`mt-7 grid grid-cols-1 lg:grid-cols-2 gap-5`}>
                             <div>
-                                <label>Tumanni tanlang</label>
+                                <label>Туманни танланг</label>
                                 <select
                                     value={crudReport.districtId}
                                     onChange={(e) => handleChange('districtId', e.target.value)}
                                     className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
                                 >
-                                    <option value={0} disabled>Tumanni tanlang</option>
+                                    <option value={0} disabled>Туманни танланг</option>
                                     {districtLists.response?.success && districtLists.response.body?.length > 0 && districtLists.response.body.map((item: {
                                         id: number
                                         name: string
@@ -295,13 +304,13 @@ const MasterAddReport = () => {
                                 </select>
                             </div>
                             <div>
-                                <label>Terim hududini tanlang</label>
+                                <label>Терим ҳудудини танланг</label>
                                 <select
                                     value={crudReport.cottonId}
                                     onChange={(e) => handleChange('cottonId', e.target.value)}
                                     className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
                                 >
-                                    <option value={0} disabled>Terim hududini tanlang</option>
+                                    <option value={0} disabled>Терим ҳудудини танланг</option>
                                     {cottonLists.response?.success && cottonLists.response.body?.length > 0 && cottonLists.response.body.map((item: {
                                         cottonPickedId: number
                                         areaName: string
@@ -313,13 +322,13 @@ const MasterAddReport = () => {
                                 </select>
                             </div>
                             <div>
-                                <label>Fermer xo'jaligini tanlang</label>
+                                <label>Фермер хўжалигини танланг</label>
                                 <select
                                     value={crudReport.farmId}
                                     onChange={(e) => handleChange('farmId', e.target.value)}
                                     className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
                                 >
-                                    <option value={0} disabled>Fermer xo'jaligini tanlang</option>
+                                    <option value={0} disabled>Фермер хўжалигини танланг</option>
                                     {farmLists.response?.success && farmLists.response.body?.length > 0 && farmLists.response.body.map((item: {
                                         farmId: number
                                         farmName: string
@@ -329,75 +338,77 @@ const MasterAddReport = () => {
                                 </select>
                             </div>
                             <div>
-                                <label>Yer maydonini kiriting (gektar)</label>
+                                <label>Ер майдонини киритинг (гектар)</label>
                                 <input
+                                    type={'number'}
                                     value={crudReport.dialField}
                                     onChange={(e) => handleChange('dialField', e.target.value)}
-                                    placeholder="Yer maydonini kiriting"
+                                    placeholder="Ер майдонини киритинг"
                                     className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
                                 />
                             </div>
                             <div>
-                                <label>Paxta hajmini kiriting</label>
+                                <label>Пахта ҳажмини киритинг (тонна)</label>
                                 <input
+                                    type={'number'}
                                     value={crudReport.cottonSize}
                                     onChange={(e) => handleChange('cottonSize', e.target.value)}
-                                    placeholder="Paxta hajmini kiriting"
+                                    placeholder="Пахта ҳажмини киритинг"
                                     className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
                                 />
                             </div>
                             <div>
-                                <label>Mashina holatingi kiriting</label>
+                                <label>Машина ҳолатини киритинг</label>
                                 <select
                                     value={crudReport.machineActive}
                                     onChange={(e) => handleChange('machineActive', e.target.value)}
                                     className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
                                 >
-                                    <option value={`true`}>Aktiv</option>
-                                    <option value={`false`}>Aktiv emas</option>
+                                    <option value={`true`}>Актив</option>
+                                    <option value={`false`}>Актив эмас</option>
                                 </select>
                             </div>
                             {crudReport.machineActive === 'false' && <>
                                 <div>
-                                    <label>Buzilgan soatini kiriting</label>
+                                    <label>Бузилган соатини киритинг</label>
                                     <input
                                         type={'number'}
                                         value={crudReport.downHour}
                                         onChange={(e) => {
                                             const v = e.target.value
-                                            if (+v >= 0 && +v <= 24) handleChange('downHour', e.target.value)
+                                            if (+v >= 0 && +v <= 23 && !v.startsWith('0')) handleChange('downHour', e.target.value)
                                         }}
                                         onKeyDown={e => {
                                             if (e.keyCode === 69 || e.key === '+' || e.key === '-' || e.key === '.') e.preventDefault();
                                         }}
-                                        placeholder="Buzilgan soatini kiriting"
+                                        placeholder="Бузилган соатини киритинг"
                                         className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
                                     />
                                 </div>
                                 <div>
-                                    <label>Buzilgan minutini kiriting</label>
+                                    <label>Бузилган дақиқасини киритинг</label>
                                     <input
                                         type={'number'}
                                         value={crudReport.downMinute}
                                         onChange={(e) => {
                                             const v = e.target.value
-                                            if (+v >= 0 && +v < 60) handleChange('downMinute', e.target.value)
+                                            if (+v >= 0 && +v < 60 && !v.startsWith('0')) handleChange('downMinute', e.target.value)
                                         }}
                                         onKeyDown={e => {
                                             if (e.keyCode === 69 || e.key === '+' || e.key === '-' || e.key === '.') e.preventDefault();
                                         }}
-                                        placeholder="Buzilgan minutini kiriting"
+                                        placeholder="Бузилган дақиқасини киритинг"
                                         className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
                                     />
                                 </div>
                                 <div>
-                                    <label>Buzilganlik sababini kiriting</label>
+                                    <label>Бузилганлик сабабини танланг</label>
                                     <select
                                         value={crudReport.machineStatus}
                                         onChange={(e) => handleChange('machineStatus', e.target.value)}
                                         className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
                                     >
-                                        <option value={'null'}>Buzilganlik sababini kiriting</option>
+                                        <option value={'null'}>Бузилганлик сабабини танланг</option>
                                         <option
                                             value={'ROSTLASH_ISHLARI_OLIB_BORILMOQDA'}>ROSTLASH_ISHLARI_OLIB_BORILMOQDA
                                         </option>
@@ -410,13 +421,13 @@ const MasterAddReport = () => {
                                 </div>
                             </>}
                             <div>
-                                <label>Hisobot topshirish vaqtini kiriting</label>
+                                <label>Ҳисобот топшириш вақтини киритинг</label>
                                 <select
                                     value={crudReport.hour}
                                     onChange={(e) => handleChange('hour', e.target.value)}
                                     className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
                                 >
-                                    <option value={0}>Hisobot topshirish vaqtini kiriting</option>
+                                    <option value={0}>Ҳисобот топшириш вақтини киритинг</option>
                                     <option value={'09:00'}>09:00</option>
                                     <option value={'13:00'}>13:00</option>
                                     <option value={'19:00'}>19:00</option>
@@ -428,24 +439,24 @@ const MasterAddReport = () => {
 
                     <div className={`flex justify-end items-center gap-5 mt-7`}>
                         <ShinyButton
-                            text={`Bekor qilish`}
+                            text={`Бекор қилиш`}
                             className={`bg-darkGreen`}
                             onClick={closeModal}
                         />
                         <ShinyButton
                             className={`${(reportAdd.loading || reportEdit.loading || notificationAdd.loading) && 'cursor-not-allowed opacity-70'} bg-darkGreen`}
                             text={
-                                editOrDeleteStatus === 'POST' ? `${reportAdd.loading ? 'Saqlanmoqda...' : 'Saqlash'}`
-                                    : editOrDeleteStatus === 'EDIT' ? `${reportEdit.loading ? 'Taxrirlanmoqda...' : 'Taxrirlash'}`
-                                        : editOrDeleteStatus === '' ? `${notificationAdd.loading ? 'Yuborilmoqda...' : 'Yuborish'}` : ''
+                                editOrDeleteStatus === 'POST' ? `${reportAdd.loading ? 'Сақланмоқда...' : 'Сақлаш'}`
+                                    : editOrDeleteStatus === 'EDIT' ? `${reportEdit.loading ? 'Таҳрирланмоқда...' : 'Таҳрирлаш'}`
+                                        : editOrDeleteStatus === '' ? `${notificationAdd.loading ? 'Юборилмоқда...' : 'Юбориш'}` : ''
                             }
                             onClick={() => {
                                 if (editOrDeleteStatus === 'POST' && !reportAdd.loading) {
                                     if (crudReport.farmId && crudReport.dialField && crudReport.cottonSize && crudReport.hour) reportAdd.globalDataFunc()
-                                    else toast.error('Malumotlar tuliqligini tekshirib ko\'ring')
+                                    else toast.error('Маълумотлар тўлиқлигини текшириб кўринг')
                                 } else if (editOrDeleteStatus === 'EDIT' && !reportEdit.loading) {
                                     if (crudReport.farmId && crudReport.dialField && crudReport.cottonSize && crudReport.hour) reportEdit.globalDataFunc()
-                                    else toast.error('Malumotlar tuliqligini tekshirib ko\'ring')
+                                    else toast.error('Маълумотлар тўлиқлигини текшириб кўринг')
                                 } else if (editOrDeleteStatus === 'NOTIFICATION_CREATE' && !notificationAdd.loading) {
                                     if (crudReport.title) notificationAdd.globalDataFunc()
                                 }

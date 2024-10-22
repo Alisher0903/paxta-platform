@@ -34,9 +34,8 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children, mt }) => {
 
   return (
     <div
-      className={`fixed inset-0 z-9999 flex items-center justify-center overflow-auto bg-slate-900 bg-opacity-70 py-10 mx-3 sm:mx-0 
+      className={`fixed inset-0 z-9999 flex items-center justify-center overflow-auto bg-slate-900 bg-opacity-70 py-10 sm:mx-0 
         transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'} ${isOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}
-      // onClick={handleBackdropClick}
     >
       <div
         className={`bg-white  z-999 relative rounded-lg shadow-lg transform transition-transform duration-300 ${mt}
