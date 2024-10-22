@@ -3,7 +3,7 @@ import Breadcrumb from "@/components/custom/breadcrumb/Breadcrumb.tsx";
 import { Card, CardTitle, HoverEffect } from "@/components/ui/card-hover-effect.tsx";
 import Skeleton from "@/components/custom/skeleton/skeleton-cards.tsx";
 import { MdNote } from "react-icons/md";
-import {  Pagination, Modal, Select } from "antd"; // Select import qilindi
+import { Pagination, Modal, Select } from "antd"; // Select import qilindi
 import toast from "react-hot-toast";
 import { useGlobalRequest } from "@/helpers/functions/restApi-function.tsx";
 import { notificationConfirmation, notificationDelete, notificationGet, notificationRead } from "@/helpers/api.tsx";
@@ -87,7 +87,7 @@ const Notifications = () => {
         } catch {
             toast.error('Bildirishnomani yangilashda xatolik yuz berdi');
         }
-        setIsConfirmationModalVisible(false); 
+        setIsConfirmationModalVisible(false);
     };
 
     return (
@@ -99,8 +99,7 @@ const Notifications = () => {
                     Admin uchun bildirishnomalar
                 </CardTitle>
             </Card>
-            <ShinyButton text="Barcha bildirishnomalarni o'chirish" className=" py-3 px-8 mb-5  bg-[#9a1e1e] text-white" onClick={handleDeleteAll} />
-
+            {response?.body?.object?.length > 0 && <ShinyButton text="Barcha bildirishnomalarni o'chirish" className=" py-3 px-8 mb-5  bg-[#9a1e1e] text-white" onClick={handleDeleteAll} />}
             {loading ? (
                 <div className="w-full grid grid-cols-1 gap-3">
                     {[...Array(4)].map((_, index) => <Skeleton key={index} />)}
@@ -158,14 +157,14 @@ const Notifications = () => {
                 </Card>
             )}
 
-            <Pagination
+            {response?.body?.object?.length > 0 && <Pagination
                 showSizeChanger={false}
                 responsive={true}
                 defaultCurrent={1}
                 total={response?.success ? response.body?.totalElements : 0}
                 onChange={(page: number) => setPage(page - 1)}
                 rootClassName="mt-8 mb-5"
-            />
+            />}
 
             {/* Delete all notifications modal */}
             <Modal

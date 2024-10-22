@@ -50,7 +50,7 @@ export default function T_hokim_hisobot() {
                                 <div key={report.id} className='border-2 mb-10 flex flex-col gap-2 border-[#9a1e1e] bg-[#fefafa] rounded-lg p-4 my-2'>
                                     <h2 className='font-semibold'>{report.farmName}</h2>
                                     <p className='flex border-b border-[#9a1e1e] justify-between'>
-                                        <span className='font-semibold'>Ishdan chiqgan maydon: </span>
+                                        <span className='font-semibold'>Ishlangan maydon: </span>
                                         <span>{report.areaName}</span>
                                     </p>
                                     <p className='flex border-b border-[#9a1e1e] justify-between'>
@@ -102,7 +102,7 @@ export default function T_hokim_hisobot() {
                                 <div key={report.id} className='border-2 mb-10 flex flex-col gap-2 border-[#6A9C89] bg-[#f9fffc] rounded-lg p-4 my-2'>
                                     <h2 className='font-semibold text-2xl mb-3'>{report.farmName}</h2>
                                     <p className='flex border-b border-[#6A9C89] justify-between'>
-                                        <span className='font-semibold'>Ishdan chiqgan maydon: </span>
+                                        <span className='font-semibold'>Ishlangan maydon: </span>
                                         <span>{report.areaName}</span>
                                     </p>
                                     <p className='flex border-b border-[#6A9C89] justify-between'>
