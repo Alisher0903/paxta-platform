@@ -18,6 +18,7 @@ import toast from "react-hot-toast";
 import courseStore from "@/helpers/state-management/coursesStore.tsx";
 import {consoleClear} from "@/helpers/functions/toastMessage.tsx";
 import {dateGenerate} from "@/helpers/functions/common-functions.tsx";
+import {Pagination} from "antd";
 
 const defVal = {
     farmId: 0,
@@ -31,6 +32,8 @@ const defVal = {
 const MasterMachine = () => {
     const [isModal, setIsModal] = useState(false);
     const [crudBreakRep, setCrudBreakRep] = useState<any>(defVal);
+    const [page, setPage] = useState<number>(0);
+    const [nowDate, setNowDate] = useState<string>('');
     const {editOrDeleteStatus, setEditOrDeleteStatus} = courseStore()
     const requestData = {
         farmId: crudBreakRep.farmId,
@@ -39,7 +42,7 @@ const MasterMachine = () => {
         minute: crudBreakRep.minute
     }
 
-    const machineReportGet = useGlobalRequest(`${breakReportGetMasterList}?date=${dateGenerate()}`, 'GET')
+    const machineReportGet = useGlobalRequest(`${breakReportGetMasterList}?size=10&page=${page}&date=${nowDate ? nowDate : dateGenerate()}`, 'GET')
     const breakRepAdd = useGlobalRequest(breakReportAddMaster, 'POST', requestData)
     const breakRepEdit = useGlobalRequest(`${breakReportEditMaster}${crudBreakRep.id}`, 'PUT', requestData)
     const districtLists = useGlobalRequest(districtList, 'GET');
@@ -52,22 +55,26 @@ const MasterMachine = () => {
     }, []);
 
     useEffect(() => {
+        machineReportGet.globalDataFunc()
+    }, [page, nowDate]);
+
+    useEffect(() => {
         if (breakRepAdd.response?.success) {
             machineReportGet.globalDataFunc()
-            toast.success('Mashina holati muvaffaqiyatli qo\'shildi')
+            toast.success('Машина ҳолати муваффақиятли қўшилди')
             closeModal()
-        }
+        } else if (breakRepAdd?.error?.response?.data?.message) toast.error(breakRepAdd.error.response.data.message)
         consoleClear()
-    }, [breakRepAdd.response]);
+    }, [breakRepAdd.response, breakRepAdd.error]);
 
     useEffect(() => {
         if (breakRepEdit.response?.success) {
             machineReportGet.globalDataFunc()
-            toast.success('Mashina holati muvaffaqiyatli taxrirlandi')
+            toast.success('Машина ҳолати муваффақиятли таҳрирланди')
             closeModal()
-        }
+        } else if (breakRepEdit?.error?.response?.data?.message) toast.error(breakRepEdit.error.response.data.message)
         consoleClear()
-    }, [breakRepEdit.response]);
+    }, [breakRepEdit.response, breakRepEdit.error]);
 
     useEffect(() => {
         crudBreakRep.cottonId = 0
@@ -92,18 +99,27 @@ const MasterMachine = () => {
 
     return (
         <>
-            <Breadcrumb pageName={`Mashinalar holati`}/>
+            <Breadcrumb pageName={`Машиналар ҳолати`}/>
 
             {/*=================SEARCH================*/}
             <div className={`w-full flex justify-between items-center flex-wrap xl:flex-nowrap gap-5 mt-10`}>
                 <ShinyButton
-                    text={`Mashina holatini kiritish`}
-                    className={`bg-darkGreen`}
+                    text={`Машина ҳолатини киритиш`}
+                    className={`bg-darkGreen py-4`}
                     onClick={() => {
                         openModal()
                         setEditOrDeleteStatus('POST')
                     }}
                 />
+
+                <div className="custom-date-input w-full sm:w-auto md:w-[30%]">
+                    <input
+                        defaultValue={dateGenerate()}
+                        type="date"
+                        onChange={(e) => setNowDate(e.target.value)}
+                        className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
+                    />
+                </div>
             </div>
 
             {/*======================BODY TABLE======================*/}
@@ -114,12 +130,12 @@ const MasterMachine = () => {
                     <Skeleton/>
                 </div> : (
                     <Tables thead={machineReportList}>
-                        {machineReportGet?.response ? machineReportGet?.response?.body?.length > 0 ? (
-                            machineReportGet?.response?.body.map((item: any, idx: number) => (
+                        {machineReportGet?.response ? machineReportGet?.response?.body?.object?.length > 0 ? (
+                            machineReportGet?.response?.body.object.map((item: any, idx: number) => (
                                 <tr key={item.id} className={`hover:bg-whiteGreen duration-100`}>
                                     <td className="border-b border-[#eee] p-5">
                                         <p className="text-black">
-                                            {idx + 1}
+                                            {(page * 10) + idx + 1}
                                         </p>
                                     </td>
                                     <td className="border-b border-[#eee] p-5">
@@ -175,7 +191,7 @@ const MasterMachine = () => {
                                     className="border-b border-[#eee] p-5 text-black text-center"
                                     colSpan={machineReportList.length}
                                 >
-                                    Ma'lumot topilmadi
+                                    Маълумот топилмади
                                 </td>
                             </tr>
                         ) : (
@@ -184,25 +200,33 @@ const MasterMachine = () => {
                                     className="border-b border-[#eee] p-5 text-black text-center"
                                     colSpan={machineReportList.length}
                                 >
-                                    Ma'lumot topilmadi
+                                    Маълумот топилмади
                                 </td>
                             </tr>
                         )}
                     </Tables>
                 )}
+                <Pagination
+                    showSizeChanger={false}
+                    responsive={true}
+                    defaultCurrent={1}
+                    total={machineReportGet ? machineReportGet.response?.body?.totalElements : 0}
+                    onChange={(page: number) => setPage(page - 1)}
+                    rootClassName={`mt-8 mb-5`}
+                />
             </div>
 
             <Modal onClose={closeModal} isOpen={isModal}>
                 <div className={`min-w-54 sm:w-64 md:w-96 lg:w-[40rem]`}>
                     <div className={`mt-7 grid grid-cols-1 gap-4`}>
                         <div>
-                            <label>Tumanni tanlang</label>
+                            <label>Туманни танланг</label>
                             <select
                                 value={crudBreakRep.districtId}
                                 onChange={(e) => handleChange('districtId', e.target.value)}
                                 className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
                             >
-                                <option value={0} disabled>Tumanni tanlang</option>
+                                <option value={0} disabled selected>Туманни танланг</option>
                                 {districtLists.response?.success && districtLists.response.body?.length > 0 && districtLists.response.body.map((item: {
                                     id: number
                                     name: string
@@ -212,13 +236,13 @@ const MasterMachine = () => {
                             </select>
                         </div>
                         <div>
-                            <label>Terim hududini tanlang</label>
+                            <label>Терим ҳудудини танланг</label>
                             <select
                                 value={crudBreakRep.cottonId}
                                 onChange={(e) => handleChange('cottonId', e.target.value)}
                                 className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
                             >
-                                <option value={0} disabled>Terim hududini tanlang</option>
+                                <option value={0} disabled selected>Терим ҳудудини танланг</option>
                                 {cottonLists.response?.success && cottonLists.response.body?.length > 0 && cottonLists.response.body.map((item: {
                                     cottonPickedId: number
                                     areaName: string
@@ -230,13 +254,13 @@ const MasterMachine = () => {
                             </select>
                         </div>
                         <div>
-                            <label>Fermer xo'jaligini tanlang</label>
+                            <label>Фермер хўжалигини танланг</label>
                             <select
                                 value={crudBreakRep.farmId}
                                 onChange={(e) => handleChange('farmId', e.target.value)}
                                 className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
                             >
-                                <option value={0} disabled>Fermer xo'jaligini tanlang</option>
+                                <option value={0} disabled selected>Фермер хўжалигини танланг</option>
                                 {farmLists.response?.success && farmLists.response.body?.length > 0 && farmLists.response.body.map((item: {
                                     farmId: number
                                     farmName: string
@@ -247,13 +271,13 @@ const MasterMachine = () => {
                         </div>
                         {editOrDeleteStatus !== 'EDIT' && <>
                             <div>
-                                <label>Buzilganlik sababini kiriting</label>
+                                <label>Бузилганлик сабабини киритинг</label>
                                 <select
                                     value={crudBreakRep.machineStatus}
                                     onChange={(e) => handleChange('machineStatus', e.target.value)}
                                     className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
                                 >
-                                    <option value={'null'}>Buzilganlik sababini kiriting</option>
+                                    <option value={'null'}>Бузилганлик сабабини киритинг</option>
                                     <option value={'ROSTLASH_ISHLARI_OLIB_BORILMOQDA'}>
                                         ROSTLASH_ISHLARI_OLIB_BORILMOQDA
                                     </option>
@@ -267,34 +291,34 @@ const MasterMachine = () => {
                             </div>
                         </>}
                         <div>
-                            <label>{editOrDeleteStatus === 'EDIT' ? 'Sozlangan' : 'Buzilgan'} soatini kiriting</label>
+                            <label>{editOrDeleteStatus === 'EDIT' ? 'Созланган' : 'Бузилган'} соатини киритинг</label>
                             <input
                                 type={'number'}
                                 value={crudBreakRep.hour}
                                 onChange={(e) => {
                                     const v = e.target.value
-                                    if (+v >= 0 && +v <= 24) handleChange('hour', e.target.value)
+                                    if (+v >= 0 && +v <= 23 && !v.startsWith('0')) handleChange('hour', e.target.value)
                                 }}
                                 onKeyDown={e => {
                                     if (e.keyCode === 69 || e.key === '+' || e.key === '-' || e.key === '.') e.preventDefault();
                                 }}
-                                placeholder="Buzilgan soatini kiriting"
+                                placeholder={`${editOrDeleteStatus === 'EDIT' ? 'Созланган' : 'Бузилган'} соатини киритинг`}
                                 className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
                             />
                         </div>
                         <div>
-                            <label>{editOrDeleteStatus === 'EDIT' ? 'Sozlangan' : 'Buzilgan'} minutini kiriting</label>
+                            <label>{editOrDeleteStatus === 'EDIT' ? 'Созланган' : 'Бузилган'} дақиқасини киритинг</label>
                             <input
                                 type={'number'}
                                 value={crudBreakRep.minute}
                                 onChange={(e) => {
                                     const v = e.target.value
-                                    if (+v >= 0 && +v < 60) handleChange('minute', e.target.value)
+                                    if (+v >= 0 && +v < 60 && !v.startsWith('0')) handleChange('minute', e.target.value)
                                 }}
                                 onKeyDown={e => {
                                     if (e.keyCode === 69 || e.key === '+' || e.key === '-' || e.key === '.') e.preventDefault();
                                 }}
-                                placeholder="Buzilgan minutini kiriting"
+                                placeholder={`${editOrDeleteStatus === 'EDIT' ? 'Созланган' : 'Бузилган'} дақиқасини киритинг`}
                                 className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
                             />
                         </div>
@@ -302,30 +326,30 @@ const MasterMachine = () => {
 
                     <div className={`flex justify-end items-center gap-5 mt-5`}>
                         <ShinyButton
-                            text={`Orqaga`}
+                            text={`Орқага`}
                             className={`bg-darkGreen`}
                             onClick={closeModal}
                         />
                         {editOrDeleteStatus === 'POST' && (
                             <ShinyButton
-                                text={breakRepAdd.loading ? 'Saqlanmoqda...' : 'Saqlash'}
+                                text={breakRepAdd.loading ? 'Сақланмоқда...' : 'Сақлаш'}
                                 className={`bg-darkGreen ${breakRepAdd.loading && 'cursor-not-allowed opacity-60'}`}
                                 onClick={() => {
                                     if (!breakRepAdd.loading) {
                                         if (crudBreakRep.farmId && crudBreakRep.machineStatus && crudBreakRep.hour && crudBreakRep.minute) breakRepAdd.globalDataFunc()
-                                        else toast.error('Ma\'lumotlar tuliqligini tekshirib kuring')
+                                        else toast.error('Маълумотлар тўлиқлигини текшириб кўринг')
                                     }
                                 }}
                             />
                         )}
                         {editOrDeleteStatus === 'EDIT' && (
                             <ShinyButton
-                                text={breakRepEdit.loading ? 'Yuklanmoqda...' : 'Taxrirlash'}
+                                text={breakRepEdit.loading ? 'Юкланмоқда...' : 'Таҳрирлаш'}
                                 className={`bg-darkGreen ${breakRepEdit.loading && 'cursor-not-allowed opacity-60'}`}
                                 onClick={() => {
                                     if (!breakRepEdit.loading) {
                                         if (crudBreakRep.farmId && crudBreakRep.machineStatus && crudBreakRep.hour && crudBreakRep.minute) breakRepEdit.globalDataFunc()
-                                        else toast.error('Ma\'lumotlar tuliqligini tekshirib kuring')
+                                        else toast.error('Маълумотлар тўлиқлигини текшириб кўринг')
                                     }
                                 }}
                             />

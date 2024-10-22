@@ -76,7 +76,7 @@ const MasterAddReport = () => {
             closeModal();
         } else if (reportAdd.error?.response?.data?.message) toast.error(reportAdd.error.response.data.message)
         consoleClear();
-    }, [reportAdd.response]);
+    }, [reportAdd.response, reportAdd.error]);
 
     useEffect(() => {
         if (reportEdit.response?.success) {
@@ -88,7 +88,7 @@ const MasterAddReport = () => {
             }
         } else if (reportEdit.error?.response?.data?.message) toast.error(reportEdit.error.response.data.message)
         consoleClear();
-    }, [reportEdit.response]);
+    }, [reportEdit.response, reportEdit.error]);
 
     useEffect(() => {
         if (notificationAdd.response?.success) {
@@ -97,7 +97,7 @@ const MasterAddReport = () => {
             closeModal();
         } else if (notificationAdd.error?.response?.data?.message) toast.error(notificationAdd.error.response.data.message)
         consoleClear();
-    }, [notificationAdd.response]);
+    }, [notificationAdd.response, notificationAdd.error]);
 
     useEffect(() => {
         crudReport.cottonId = 0
