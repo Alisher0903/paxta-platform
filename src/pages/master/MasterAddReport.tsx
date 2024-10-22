@@ -40,6 +40,7 @@ const MasterAddReport = () => {
     const [isModal, setIsModal] = useState(false);
     const [crudReport, setCrudReport] = useState<any>(defVal);
     const [page, setPage] = useState<number>(0);
+    const [newDate, setNewDate] = useState<string>('');
     const {editOrDeleteStatus, setEditOrDeleteStatus} = courseStore();
     const requestData = {
         farmId: crudReport.farmId,
@@ -53,7 +54,7 @@ const MasterAddReport = () => {
         minute: 0
     };
 
-    const {loading, response, globalDataFunc} = useGlobalRequest(`${reportGetMaster}?page=${page}&size=10`, 'GET');
+    const {loading, response, globalDataFunc} = useGlobalRequest(`${reportGetMaster}?page=${page}&size=10${newDate ? `&date=${newDate}` : ''}`, 'GET');
     const reportAdd = useGlobalRequest(reportAddMaster, 'POST', requestData);
     const reportEdit = useGlobalRequest(`${reportEditMaster}${crudReport.id}`, 'PUT', requestData);
     const districtLists = useGlobalRequest(districtList, 'GET');
@@ -68,6 +69,10 @@ const MasterAddReport = () => {
         globalDataFunc();
         districtLists.globalDataFunc()
     }, []);
+
+    useEffect(() => {
+        globalDataFunc();
+    }, [page, newDate]);
 
     useEffect(() => {
         if (reportAdd.response?.success) {
@@ -135,6 +140,13 @@ const MasterAddReport = () => {
                         setEditOrDeleteStatus('POST');
                     }}
                 />
+                <div className="custom-date-input w-full sm:w-auto md:w-[30%]">
+                    <input
+                        type="date"
+                        onChange={(e) => setNewDate(e.target.value)}
+                        className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
+                    />
+                </div>
             </div>
 
             {/*======================BODY TABLE======================*/}

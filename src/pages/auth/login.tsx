@@ -13,7 +13,7 @@ function Login() {
     const navigate = useNavigate();
     const [phoneNumber, setPhoneNumber] = useState('')
     const [password, setPassword] = useState('')
-    const {loading, response, globalDataFunc} = useGlobalRequest(
+    const {loading, response, error, globalDataFunc} = useGlobalRequest(
         authLogin,
         'POST',
         {phoneNumber: phoneNumber, password: password}
@@ -48,8 +48,8 @@ function Login() {
                 navigate('/sector/dashboard')
             } else toast.error('Тизимга кириш учун сизга рухсат берилмаган')
             consoleClear()
-        }
-    }, [response]);
+        } else if (error?.response?.data?.message) toast.error(error?.response?.data?.message)
+    }, [response, error]);
 
     const handleSubmit = () => {
         if (password && phoneNumber) {
