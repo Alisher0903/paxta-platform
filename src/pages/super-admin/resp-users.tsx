@@ -1,5 +1,5 @@
 import Breadcrumb from "@/components/custom/breadcrumb/Breadcrumb.tsx";
-import {MdDelete, MdOutlineGroupAdd} from "react-icons/md";
+import {MdDelete} from "react-icons/md";
 import Tables from "@/components/custom/tables/table.tsx";
 import {confirmUserTHead} from "@/helpers/constanta.tsx";
 import {useGlobalRequest} from "@/helpers/functions/restApi-function.tsx";
@@ -13,6 +13,7 @@ import Modal from "@/components/custom/modal/modal.tsx";
 import courseStore from "@/helpers/state-management/coursesStore.tsx";
 import toast from "react-hot-toast";
 import {consoleClear} from "@/helpers/functions/toastMessage.tsx";
+import {FaEdit} from "react-icons/fa";
 
 const crudValueDef = {
     fullName: '',
@@ -53,34 +54,34 @@ const ResponsibleUsers = () => {
         if (userAdd.response?.success) {
             users.globalDataFunc()
             closeModal()
-            toast.success('Foydalanuvchi muvaffaqiyatli qo\'shildi')
-        }
+            toast.success('Фойдаланувчи муваффақиятли қўшилди')
+        } else if (userAdd.error?.response?.data?.message) toast.error(userAdd.error.response.data.message)
         consoleClear()
-    }, [userAdd.response]);
+    }, [userAdd.response, userAdd.error]);
 
     useEffect(() => {
         if (userEdit.response?.success) {
             users.globalDataFunc()
             closeModal()
-            toast.success('Foydalanuvchi muvaffaqiyatli taxrirlandi')
-        }
+            toast.success('Фойдаланувчи муваффақиятли таҳрирланди')
+        } else if (userEdit.error?.response?.data?.message) toast.error(userEdit.error.response.data.message)
         consoleClear()
-    }, [userEdit.response]);
+    }, [userEdit.response, userEdit.error]);
 
     useEffect(() => {
         if (userDelete.response?.success) {
             users.globalDataFunc()
             closeModal()
-            toast.success('Foydalanuvchi muvaffaqiyatli o\'chirildi')
-        }
+            toast.success('Фойдаланувчи муваффақиятли ўчирилди')
+        } else if (userDelete.error?.response?.data?.message) toast.error(userDelete.error.response.data.message);
         consoleClear()
-    }, [userDelete.response]);
+    }, [userDelete.response, userDelete.error]);
 
     const getItems = (user: any): MenuProps['items'] => [
         {
             label: <div className={`flex items-center gap-3`}>
-                <MdOutlineGroupAdd className="text-xl text-blue-300 cursor-pointer duration-300"/>
-                <p>Taxrirlash</p>
+                <FaEdit className="text-xl text-blue-300 cursor-pointer duration-300"/>
+                <p>Таҳрирлаш</p>
             </div>,
             key: '1',
             onClick: () => {
@@ -92,7 +93,7 @@ const ResponsibleUsers = () => {
         {
             label: <div className={`flex items-center gap-3`}>
                 <MdDelete className="text-xl text-red-300 cursor-pointer duration-300"/>
-                <p>O'chirish</p>
+                <p>Ўчириш</p>
             </div>,
             key: '0',
             onClick: () => {
@@ -205,14 +206,14 @@ const ResponsibleUsers = () => {
                 <div className={`w-54 sm:w-64 md:w-96 lg:w-[40rem]`}>
                     <form className={`mt-5`} onSubmit={(e: React.FormEvent<HTMLFormElement>) => e.preventDefault()}>
                         {editOrDeleteStatus !== 'DELETE' ? (<>
-                            <label>Tumanni kiriting</label>
+                            <label>Туманни киритинг</label>
                             <select
                                 value={crudValue.districtId}
                                 onChange={(e) => handleChange('districtId', e.target.value)}
                                 className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5 mb-4"
                             >
                                 <option disabled selected value={0}>
-                                    Tumanni tanlang
+                                    Туманни киритинг
                                 </option>
                                 {(districtLists.response?.success && districtLists.response.body?.length > 0) && districtLists.response.body.map((item: {
                                     id: number,
@@ -221,35 +222,34 @@ const ResponsibleUsers = () => {
                                     <option value={item.id} key={item.id}>{item.name}</option>
                                 ))}
                             </select>
-                            <label>Tuliq F.I.O kiriting</label>
+                            <label>Тўлиқ Ф.И.О киритинг</label>
                             <input
                                 value={crudValue.fullName}
                                 onChange={(e) => handleChange('fullName', e.target.value)}
-                                placeholder="Tuliq F.I.O kiriting"
+                                placeholder="Тўлиқ Ф.И.О киритинг"
                                 className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5 mb-4"
                             />
-                            <label>Telefon raqami kiriting (998 99 999 99 99)</label>
+                            <label>Телефон рақами киритинг (998 99 999 99 99)</label>
                             <input
                                 value={crudValue.phoneNumber}
-                                type={'number'}
                                 onChange={(e) => {
                                     const v = e.target.value
                                     if (v?.length >= 0 && v.length <= 12 && !isNaN(+v)) handleChange('phoneNumber', v)
                                 }}
                                 onKeyDown={e => {
-                                    if (e.key === 'e' || e.key === 'E' || e.key === '+' || e.key === '-') e.preventDefault()
+                                    if (e.key === 'e' || e.key === 'E' || e.key === '+' || e.key === '-' || e.key === '.') e.preventDefault()
                                 }}
-                                placeholder="Telefon raqami kiriting"
+                                placeholder="Телефон рақами киритинг"
                                 className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5 mb-4"
                             />
-                            <label>Mashina holatini tanlang</label>
+                            <label>Машина ҳолатини танланг</label>
                             <select
                                 value={crudValue.machineStatus}
                                 onChange={(e) => handleChange('machineStatus', e.target.value)}
                                 className="bg-white border border-lighterGreen text-gray-900 rounded-lg block w-full p-2.5 mb-4"
                             >
                                 <option disabled selected value={''}>
-                                    Mashina holatini tanlang
+                                    Машина ҳолатини танланг
                                 </option>
                                 <option value={'ROSTLASH_ISHLARI_OLIB_BORILMOQDA'}>
                                     ROSTLASH_ISHLARI_OLIB_BORILMOQDA
@@ -263,19 +263,19 @@ const ResponsibleUsers = () => {
                             </select>
                         </>) : <>
                             <p className={`text-center text-black text-base lg:text-xl mb-10`}>
-                                Haqiqatdan xam bu foydalanuvchini o'chirib tashlamoqchimisiz?
+                                Ҳақиқатдан хам бу фойдаланувчини ўчириб ташламоқчимисиз?
                             </p>
                         </>}
 
                         <div className={`flex justify-end items-center gap-5 mt-7`}>
                             <ShinyButton
-                                text={`Orqaga`}
+                                text={`Орқага`}
                                 className={`bg-darkGreen`}
                                 onClick={closeModal}
                             />
                             {editOrDeleteStatus === 'DELETE' && (
                                 <ShinyButton
-                                    text={userDelete.loading ? 'O\'chirilmoqda...' : 'Xa'}
+                                    text={userDelete.loading ? 'Ўчирилмоқда...' : 'Ҳа'}
                                     className={`bg-darkGreen ${userDelete.loading && 'cursor-not-allowed opacity-60'}`}
                                     onClick={() => {
                                         if (!userDelete.loading) userDelete.globalDataFunc()
@@ -284,23 +284,23 @@ const ResponsibleUsers = () => {
                             )}
                             {editOrDeleteStatus === 'EDIT' && (
                                 <ShinyButton
-                                    text={userEdit.loading ? 'Yuklanmoqda...' : 'Taxrirlash'}
+                                    text={userEdit.loading ? 'Юкланмоқда...' : 'Таҳрирлаш'}
                                     className={`bg-darkGreen ${userEdit.loading && 'cursor-not-allowed opacity-60'}`}
                                     onClick={() => {
                                         if (crudValue.fullName && crudValue.districtId && crudValue.phoneNumber && crudValue.machineStatus) {
                                             if (!userEdit.loading) userEdit.globalDataFunc()
-                                        } else toast.error('Malumotlar tuliqligini tekshirib kuring')
+                                        } else toast.error('Маълумотлар тўлиқлигини текшириб кўринг')
                                     }}
                                 />
                             )}
                             {editOrDeleteStatus === 'POST' && (
                                 <ShinyButton
-                                    text={userAdd.loading ? 'Saqlanmoqda...' : 'Saqlash'}
+                                    text={userAdd.loading ? 'Сақланмоқда...' : 'Сақлаш'}
                                     className={`bg-darkGreen ${userAdd.loading && 'cursor-not-allowed opacity-60'}`}
                                     onClick={() => {
                                         if (crudValue.fullName && crudValue.districtId && crudValue.phoneNumber && crudValue.machineStatus) {
                                             if (!userAdd.loading) userAdd.globalDataFunc()
-                                        } else toast.error('Malumotlar tuliqligini tekshirib kuring')
+                                        } else toast.error('Маълумотлар тўлиқлигини текшириб кўринг')
                                     }}
                                 />
                             )}

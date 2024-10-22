@@ -69,36 +69,36 @@ const Machine = () => {
             globalDataFunc()
             toast.success('Машина маълумоти муваффақиятли қўшилди')
             closeModal()
-        } else if (machineAdd.response?.message) toast.error(machineAdd.response?.message)
+        } else if (machineAdd.error?.response?.data?.message) toast.error(machineAdd.error.response.data.message)
         consoleClear()
-    }, [machineAdd.response]);
+    }, [machineAdd.response, machineAdd.error]);
 
     useEffect(() => {
         if (machineEdit.response && machineEdit.response.success) {
             globalDataFunc()
             toast.success('Машина маълумоти муваффақиятли таҳрирланди')
             closeModal()
-        } else if (machineEdit.response?.message) toast.error(machineEdit.response?.message)
+        } else if (machineEdit.error?.response?.data?.message) toast.error(machineEdit.error.response.data.message)
         consoleClear()
-    }, [machineEdit.response]);
+    }, [machineEdit.response, machineEdit.error]);
 
     useEffect(() => {
         if (machineDelete.response && machineDelete.response.success) {
             globalDataFunc()
             toast.success('Машина маълумоти муваффақиятли ўчирилди')
             closeModal()
-        } else if (machineDelete.response?.message) toast.error(machineDelete.response?.message)
+        } else if (machineDelete.error?.response?.data?.message) toast.error(machineDelete.error.response.data.message)
         consoleClear()
-    }, [machineDelete.response]);
+    }, [machineDelete.response, machineDelete.error]);
 
     useEffect(() => {
         if (machineEditUser.response && machineEditUser.response.success) {
             globalDataFunc()
             toast.success('Машина фойдаланувчисини муваффақиятли ўзгартирдингиз')
             closeModal()
-        } else if (machineEditUser.response?.message) toast.error(machineEditUser.response?.message)
+        } else if (machineEditUser.error?.response?.data?.message) toast.error(machineEditUser.error.response.data.message)
         consoleClear()
-    }, [machineEditUser.response]);
+    }, [machineEditUser.response, machineEditUser.error]);
 
     useEffect(() => {
         if (search) machineEditUserSearch.globalDataFunc()
@@ -184,12 +184,19 @@ const Machine = () => {
                             />
                         </div>
                         <div>
-                            <label>Телефон рақамни киритинг</label>
+                            <label>Телефон рақамни киритинг (998 99 999 99 99)</label>
                             <input
+                                required
                                 value={crudMachine.phoneNumber}
-                                onChange={(e) => handleChange('phoneNumber', e.target.value)}
-                                placeholder="Телефон рақамни киритинг"
-                                className="bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5"
+                                onChange={(e) => {
+                                    const v = e.target.value;
+                                    if (v?.length >= 0 && v?.length <= 12 && !isNaN(+v)) handleChange('phoneNumber', v);
+                                }}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'e' || e.key === 'E' || e.key === '-' || e.key === '+' || e.key === '.') e.preventDefault();
+                                }}
+                                className={`bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5`}
+                                placeholder={`Телефон рақамни киритинг...`}
                             />
                         </div>
                         <div>
@@ -245,11 +252,7 @@ const Machine = () => {
                                     if (v?.length >= 0 && v?.length <= 12 && !isNaN(+v)) handleChange('ownerPhoneNumber', v);
                                 }}
                                 onKeyDown={(e) => {
-                                    if (
-                                        e.key === 'e' || e.key === 'E' ||
-                                        e.key === '-' || e.key === '+' ||
-                                        e.key === '.'
-                                    ) e.preventDefault();
+                                    if (e.key === 'e' || e.key === 'E' || e.key === '-' || e.key === '+' || e.key === '.') e.preventDefault();
                                 }}
                                 className={`bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5`}
                                 placeholder={`Оператор рақамини киритинг...`}

@@ -57,7 +57,7 @@ const Statistics = () => {
 
     return (
         <>
-            <Breadcrumb pageName={`Statistikalar`}/>
+            <Breadcrumb pageName={`Статистикалар`}/>
 
             <div className={`w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-end gap-5 mt-10`}>
                 <div className="custom-date-input">
@@ -69,7 +69,7 @@ const Statistics = () => {
                 </div>
                 <div>
                     <Select
-                        placeholder={`Soatni tanlang`}
+                        placeholder={`Соатни танланг`}
                         className={`w-full bg-transparent h-11 custom-select`}
                         onChange={(e) => setHour(e)}
                         allowClear
@@ -83,7 +83,7 @@ const Statistics = () => {
                 {(date && hour) && (
                     <div className={'flex lg:justify-end items-center'}>
                         <ShinyButton
-                            text={`${isLoading ? 'Yuklanmoqda...' : 'Statistikani yuklab olish'}`}
+                            text={`${isLoading ? 'Юкланмоқда...' : 'Статистикани юклаб олиш'}`}
                             onClick={() => {
                                 if (!isLoading) downloadFile(`${excelDownload}?date=${date}&hour=${hour.slice(0, 2)}&minute=0`)
                             }}
@@ -100,7 +100,7 @@ const Statistics = () => {
                     <Skeleton/>
                 </div> : (
                     (response?.success && response?.body?.length > 0) ? <StatisticTables data={response.body}/> : <>
-                        <h2 className={'text-center mt-10 font-bold text-xl sm:2xl lg:5xl'}>Malumot topilmadi</h2>
+                        <h2 className={'text-center mt-10 font-bold text-xl sm:2xl lg:5xl'}>Маълумот топилмади</h2>
                     </>
                 )}
             </div>

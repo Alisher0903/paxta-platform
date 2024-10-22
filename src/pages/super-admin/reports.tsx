@@ -36,7 +36,7 @@ const Reports = () => {
 
     return (
         <>
-            <Breadcrumb pageName={`Hisobotlar`}/>
+            <Breadcrumb pageName={`Ҳисоботлар`}/>
 
             {/*=================SEARCH================*/}
             <div className={`w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 justify-end gap-5 mt-10`}>
@@ -49,7 +49,7 @@ const Reports = () => {
                 </div>
                 <div>
                     <Select
-                        placeholder={`Soatni tanlang`}
+                        placeholder={`Соатни танланг`}
                         className={`w-full bg-transparent h-11 custom-select`}
                         onChange={(e) => setHour(e)}
                         allowClear
@@ -113,24 +113,24 @@ const Reports = () => {
                                         {rep.areaName ? rep.areaName : '-'}
                                     </p>
                                 </td>
-                                <td className="border-b border-[#eee] p-5">
+                                <td className="border-b border-[#eee] min-w-[400px] p-5">
                                     <p className="text-black">
                                         {rep.farmName ? rep.farmName : '-'}
                                     </p>
                                 </td>
                                 <td className="border-b border-[#eee] p-5">
                                     <p className="text-black">
-                                        {rep.dialField ? `${rep.dialField} (gektar)` : '-'}
+                                        {rep.dialField ? `${rep.dialField} (гектар)` : '-'}
                                     </p>
                                 </td>
                                 <td className="border-b border-[#eee] p-5">
                                     <p className="text-black">
-                                        {rep.cottonSize ? `${rep.cottonSize} (tonna)` : '-'}
+                                        {rep.cottonSize ? `${rep.cottonSize} (тонна)` : '-'}
                                     </p>
                                 </td>
                                 <td className="border-b border-[#eee] p-5">
                                     <p className={`${rep.machineActive ? 'bg-green-300' : 'bg-red-300'} rounded-xl px-3 py-1 border-none text-center text-black`}>
-                                        {rep.machineActive ? 'Activ' : 'Buzilgan'}
+                                        {rep.machineActive ? 'Актив' : 'Бузилган'}
                                     </p>
                                 </td>
                                 <td className="border-b border-[#eee] p-5">
@@ -170,7 +170,7 @@ const Reports = () => {
                                     className="border-b border-[#eee] p-5 text-black text-center"
                                     colSpan={reportThead.length}
                                 >
-                                    Ma'lumot topilmadi
+                                    Маълумот топилмади
                                 </td>
                             </tr>
                         ) : (
@@ -179,7 +179,7 @@ const Reports = () => {
                                     className="border-b border-[#eee] p-5 text-black text-center"
                                     colSpan={reportThead.length}
                                 >
-                                    Ma'lumot topilmadi
+                                    Маълумот топилмади
                                 </td>
                             </tr>
                         )}

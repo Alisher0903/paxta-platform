@@ -52,27 +52,27 @@ const Sectors = () => {
             globalDataFunc()
             toast.success('Сектор муваффақиятли қўшилди')
             closeModal()
-        } else if (sectorAdd.response?.message) toast.error(`${sectorAdd.response.message}`)
+        } else if (sectorAdd.error?.response?.data?.message) toast.error(sectorAdd.error.response.data.message)
         consoleClear()
-    }, [sectorAdd.response]);
+    }, [sectorAdd.response, sectorAdd.error]);
 
     useEffect(() => {
         if (sectorEdits.response && sectorEdits.response.success) {
             globalDataFunc()
             toast.success('Сектор муваффақиятли таҳрирланди')
             closeModal()
-        } else if (sectorEdits.response?.message) toast.error(`${sectorEdits.response.message}`)
+        } else if (sectorEdits.error?.response?.data?.message) toast.error(sectorEdits.error.response.data.message)
         consoleClear()
-    }, [sectorEdits.response]);
+    }, [sectorEdits.response, sectorEdits.error]);
 
     useEffect(() => {
         if (sectorDeletes.response && sectorDeletes.response.success) {
             globalDataFunc()
             toast.success('Сектор муваффақиятли ўчирилди')
             closeModal()
-        } else if (sectorEdits.response?.message) toast.error(`${sectorDeletes.response.message}`)
+        } else if (sectorDeletes.error?.response?.data?.message) toast.error(sectorDeletes.error.response.data.message)
         consoleClear()
-    }, [sectorDeletes.response]);
+    }, [sectorDeletes.response, sectorDeletes.error]);
 
     const handleChange = (name: string, value: string) => setCrudSector({...crudSector, [name]: value});
 

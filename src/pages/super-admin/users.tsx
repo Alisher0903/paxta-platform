@@ -78,27 +78,27 @@ const Users = () => {
             users.globalDataFunc()
             closeModal()
             toast.success('Фойдаланувчи муваффақиятли қўшилди')
-        } else if (userAdd.response?.message) toast.error(`${userAdd.response.message}`)
+        } else if (userAdd.error?.response?.data?.message) toast.error(userAdd.error.response.data.message)
         consoleClear()
-    }, [userAdd.response]);
+    }, [userAdd.response, userAdd.error]);
 
     useEffect(() => {
         if (userEdit.response && userEdit.response.success) {
             users.globalDataFunc()
             closeModal()
             toast.success('Фойдаланувчи муваффақиятли таҳрирланди')
-        } else if (userEdit.response?.message) toast.error(`${userEdit.response.message}`)
+        } else if (userEdit.error?.response?.data?.message) toast.error(userEdit.error.response.data.message)
         consoleClear()
-    }, [userEdit.response]);
+    }, [userEdit.response, userEdit.error]);
 
     useEffect(() => {
         if (userDelete.response && userDelete.response.success) {
             users.globalDataFunc()
             closeModal()
             toast.success('Фойдаланувчи муваффақиятли ўчирилди')
-        } else if (userDelete.response?.message) toast.error(`${userDelete.response.message}`)
+        } else if (userDelete.error?.response?.data?.message) toast.error(userDelete.error.response.data.message)
         consoleClear()
-    }, [userDelete.response]);
+    }, [userDelete.response, userDelete.error]);
 
     const userRole = (role: string) => {
         if (role === 'ROLE_MASTER') return 'Бириктирилган ходим';
@@ -314,11 +314,7 @@ const Users = () => {
                                             if (v?.length >= 0 && v?.length <= 12 && !isNaN(+v)) handleInputChange('phoneNumber', v);
                                         }}
                                         onKeyDown={(e) => {
-                                            if (
-                                                e.key === 'e' || e.key === 'E' ||
-                                                e.key === '-' || e.key === '+' ||
-                                                e.key === '.'
-                                            ) e.preventDefault();
+                                            if (e.key === 'e' || e.key === 'E' || e.key === '-' || e.key === '+' || e.key === '.') e.preventDefault();
                                         }}
                                         className={`bg-white border border-lighterGreen text-gray-900 rounded-lg focus:border-darkGreen block w-full p-2.5`}
                                         placeholder={`Фойдаланувчи телефон рақамини киритиш...`}
